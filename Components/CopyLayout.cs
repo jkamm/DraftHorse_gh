@@ -1,11 +1,9 @@
-﻿using System;
+﻿using DraftHorse.Helper;
+using Grasshopper.Kernel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
 using static DraftHorse.Helper.ValList;
-using DraftHorse.Helper;
 
 namespace DraftHorse.Component
 {
@@ -81,7 +79,7 @@ namespace DraftHorse.Component
 
                 //if no newName is defined, then set newName to template + PageNumber
                 if (!DA.GetData("NewName", ref newName)) newName = template.PageName + "." + dup.PageNumber.ToString();
-                
+
                 //rename duplicate
                 dup.PageName = newName;
                 newIndex = dup.PageNumber;
@@ -182,7 +180,7 @@ namespace DraftHorse.Component
                 try
                 {
                     UpdateValueList(this, 1, "Layouts", "Pick Template: ", pageViewNames, layoutIndices);
-                    ExpireSolution(true); 
+                    ExpireSolution(true);
                 }
                 //if it's not a value list, ignore
                 catch (Exception) { };

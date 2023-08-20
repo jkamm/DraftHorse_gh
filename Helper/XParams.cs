@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Grasshopper.GUI;
-using Grasshopper.GUI.Canvas;
-
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Attributes;
+﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
-using Grasshopper.Kernel.Types;
-
 using Rhino.Geometry;
+using System;
+using System.Collections.Generic;
 
 namespace DraftHorse.Helper
 {

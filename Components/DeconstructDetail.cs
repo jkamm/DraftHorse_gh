@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
+﻿using Grasshopper.Kernel;
 using Rhino.Geometry;
+using System;
 
 namespace DraftHorse.Component
 {
@@ -26,7 +24,7 @@ namespace DraftHorse.Component
         {
             var guidParam = new Grasshopper.Kernel.Parameters.Param_Guid();
             pManager.AddParameter(guidParam, "Detail GUID", "D", "GUID for Detail Object", GH_ParamAccess.item);
-           
+
         }
 
         /// <summary>
@@ -51,17 +49,17 @@ namespace DraftHorse.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            Guid detailGUID = Guid.Empty; 
+            Guid detailGUID = Guid.Empty;
             DA.GetData("Detail GUID", ref detailGUID);
             Rhino.DocObjects.DetailViewObject detail = Rhino.RhinoDoc.ActiveDoc.Objects.FindId(detailGUID) as Rhino.DocObjects.DetailViewObject; ;
 
             if (detail == null) return;
 
             Curve detailGeo = detail.Geometry as Curve;
-            
+
             Rhino.Display.RhinoViewport viewport = detail.Viewport;
             string viewName = viewport.Name;
-            
+
             System.Drawing.Rectangle bounds = viewport.Bounds;
             Rectangle3d rhinoBounds = new Rectangle3d(Plane.WorldXY, new Point3d(bounds.Left, bounds.Bottom, 0),
                 new Point3d(bounds.Right, bounds.Top, 0));
@@ -100,7 +98,7 @@ namespace DraftHorse.Component
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.Dec_Detail;
-        
+
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

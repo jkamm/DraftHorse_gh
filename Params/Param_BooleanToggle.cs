@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
-using Grasshopper.Kernel.Parameters;
+﻿using Grasshopper.Kernel;
+using System;
 
 
 namespace DraftHorse.Params
@@ -22,7 +16,7 @@ namespace DraftHorse.Params
         private void Menu_DoClick(object sender, EventArgs e)
         {
             var bToggle = new Grasshopper.Kernel.Special.GH_BooleanToggle();
-            bToggle.Name = this.Name;  
+            bToggle.Name = this.Name;
             bToggle.NickName = this.Name;
 
             bToggle.CreateAttributes();
@@ -41,7 +35,7 @@ namespace DraftHorse.Params
             this.AddSource(bToggle);
             bToggle.ExpireSolution(true);
 
-            
+
         }
     }
 }

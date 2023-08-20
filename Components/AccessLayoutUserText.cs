@@ -1,7 +1,6 @@
-﻿using System;
-
+﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
-using DraftHorse.Helper;
+using System;
 
 namespace DraftHorse.Component
 {
@@ -24,7 +23,7 @@ namespace DraftHorse.Component
         {
             pManager.AddIntegerParameter("Index", "Li", "Indices for Layouts. \nGet using 'Get Layout Index'", GH_ParamAccess.item);
             pManager.AddTextParameter("Keys", "K", "Key(s) to return Value for.", GH_ParamAccess.item);
-           
+
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace DraftHorse.Component
 
             Rhino.Display.RhinoPageView pageView = Layout.GetPage(index);
 
-            if(pageView != null)
+            if (pageView != null)
             {
                 var userText = pageView.MainViewport.GetUserStrings();
 
@@ -64,7 +63,7 @@ namespace DraftHorse.Component
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.AccessLayoutVal;
-       
+
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

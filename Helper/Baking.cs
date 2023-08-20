@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-
-using Rhino;
+﻿using Rhino;
 using Rhino.Geometry;
-
-using Grasshopper;
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Data;
-using Grasshopper.Kernel.Types;
+using System;
+using System.Collections;
+using System.Reflection;
 
 namespace DraftHorse.Helper
 {
@@ -21,7 +10,7 @@ namespace DraftHorse.Helper
     {
         public static void Bake(object obj, Rhino.DocObjects.ObjectAttributes att, int groupIndex)
         {
-            RhinoDoc doc = RhinoDoc.ActiveDoc; 
+            RhinoDoc doc = RhinoDoc.ActiveDoc;
 
             if (obj == null)
                 return;
@@ -35,8 +24,8 @@ namespace DraftHorse.Helper
             // otherwise set the view to a standard view
             else if (!doc.Views.ModelSpaceIsActive)
             {
-               var standardViews = doc.Views.GetStandardRhinoViews();
-               doc.Views.ActiveView = standardViews[0];
+                var standardViews = doc.Views.GetStandardRhinoViews();
+                doc.Views.ActiveView = standardViews[0];
             }
 
             //variables
@@ -201,7 +190,7 @@ namespace DraftHorse.Helper
                     //Print("Added " + obj.GetType().Name + " to group number " + groupIndex);
                 }
                 //else
-                   //Print("Added " + obj.GetType().Name);
+                //Print("Added " + obj.GetType().Name);
             }
 
         }

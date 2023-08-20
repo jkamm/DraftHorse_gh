@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Linq;
-
+﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
-using DraftHorse.Helper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
@@ -42,7 +41,7 @@ namespace DraftHorse.Component
             pManager.AddBooleanParameter("Done", "Done", "action completed", GH_ParamAccess.item);
             //pManager.AddTextParameter("Deleted", "Del", "Layouts deleted", GH_ParamAccess.list);
         }
-        
+
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -71,7 +70,7 @@ namespace DraftHorse.Component
             DA.GetDataTree("Layout Index", out index);
 
             //goal: Always flatten inputs - add flatten to node
-            
+
             var indexList = index.FlattenData();
             int thisInt = new int();
 
@@ -107,7 +106,7 @@ namespace DraftHorse.Component
                         Rhino.Display.RhinoPageView pageView = Layout.GetPage(uniqIndexList[j]);
                         pageView.Close();
                     }
-                    
+
                     Done = true;
                 }
                 DA.SetData(0, Done);
@@ -262,4 +261,3 @@ namespace DraftHorse.Component
         #endregion AutoValueList
     }
 }
- 

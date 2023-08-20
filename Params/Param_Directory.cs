@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
-using Grasshopper.Kernel.Parameters;
-
-
-namespace DraftHorse.Params
+﻿namespace DraftHorse.Params
 {
-    class Param_Directory: Grasshopper.Kernel.Parameters.Param_FilePath
+    class Param_Directory : Grasshopper.Kernel.Parameters.Param_FilePath
     {
         public override void AppendAdditionalMenuItems(System.Windows.Forms.ToolStripDropDown menu)
         {

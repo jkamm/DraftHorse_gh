@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using DraftHorse.Helper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DraftHorse.Component
 {
     public class ModifyDetail : Base.LO_ButtonComponent
     {
-        
-       
+
+
         /// <summary>
         /// Initializes a new instance of the ReplaceDetails class.
         /// </summary>
@@ -54,8 +53,8 @@ namespace DraftHorse.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-          
-                #region EscapeBehavior
+
+            #region EscapeBehavior
             //Esc behavior code snippet from 
             // http://james-ramsden.com/you-should-be-implementing-esc-behaviour-in-your-grasshopper-development/
             if (GH_Document.IsEscapeKeyDown())
@@ -77,7 +76,7 @@ namespace DraftHorse.Component
             Guid detailGUID = Guid.Empty;
             DA.GetData("Detail GUID", ref detailGUID);
             Rhino.DocObjects.DetailViewObject detail = Rhino.RhinoDoc.ActiveDoc.Objects.FindId(detailGUID) as Rhino.DocObjects.DetailViewObject; ;
-            
+
             Point3d target = new Point3d();
             DA.GetData("Target", ref target);
 
@@ -102,6 +101,25 @@ namespace DraftHorse.Component
             }
         }
 
+        /*
+          bool run = Run;
+
+    double scale = Scale; // goal: set default scale to 1 or limit scale settings
+    Point3d target = Target; //goal: set default behavior for target? Do not change if no input?
+    Rhino.DocObjects.DetailViewObject detail = Detail as Rhino.DocObjects.DetailViewObject; //goal: add message if detail is not a valid detail?
+
+    // get the layout viewport containing the detail
+    RhinoPageView[] page_views = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews();
+    IEnumerable<RhinoPageView> query = from page in page_views
+        where page.MainViewport.Id == detail.Attributes.ViewportId
+        select page;
+    RhinoPageView pageview = query.ElementAt(0);
+
+    if (Run)
+    {
+      Result = ModifyLayout(detail, pageview, scale, target, doc);
+    }
+         */
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -182,7 +200,7 @@ namespace DraftHorse.Component
                 List<string> projNames = pNames.Select(v => v.ToString()).ToList();
                 List<int> pVals = ((Rhino.Display.DefinedViewportProjection[])Enum.GetValues(typeof(Rhino.Display.DefinedViewportProjection))).Select(c => (int)c).ToList();
                 List<string> projVals = pVals.ConvertAll<string>(v => v.ToString());
-                                
+
                 //try to modify input as a valuelist
                 try
                 {

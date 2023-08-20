@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Grasshopper.Kernel;
+﻿using GH_IO.Serialization;
 using Grasshopper.Kernel.Types;
-using Grasshopper.Kernel.Parameters;
-using GH_IO.Serialization;
+using System;
 
 namespace DraftHorse.Params
 {

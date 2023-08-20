@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Rhino;
-using Rhino.Geometry;
-
-using Grasshopper;
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Data;
-using Grasshopper.Kernel.Types;
+﻿using System.Collections.Generic;
 
 namespace DraftHorse.Params
 {
@@ -22,7 +10,7 @@ namespace DraftHorse.Params
     {
         private Rhino.DocObjects.ObjectAttributes att { get; set; }
         //note: have to validate Layers when you store a Layer name.  
-        
+
         //name
         public string Name { get; set; }
         //layer
@@ -40,13 +28,13 @@ namespace DraftHorse.Params
         //color?
         //group?
 
-        public GH_LOBakeAtts() {}
+        public GH_LOBakeAtts() { }
 
         public GH_LOBakeAtts(string name, string layer)
         {
             this.Name = name;
             this.Layer = layer;
-            
+
         }
     }
 }

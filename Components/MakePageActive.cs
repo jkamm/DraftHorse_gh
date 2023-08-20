@@ -1,43 +1,26 @@
 ﻿using Grasshopper.Kernel;
 using System;
 
-namespace DraftHorse.Component.Base
+namespace DraftHorse.Components
 {
-    public abstract class LO_ButtonComponent : GH_Component
+    public class MakePageActive : GH_Component
     {
-        //Should this be an abstract class so that it can't be called directly?  That would avoid the exposure issue.
-
-        //This class should be a base implementation with an added parameter that allows it to be triggered from a button
-        //To trigger, it needs an execute property or method that runs the solution even when "run" is set to false.
-
-
         /// <summary>
-        /// Initializes a new instance of the LO_ButtonComponent class.
+        /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public LO_ButtonComponent()
-          : base("LO_ButtonComponent", "Nickname",
-              "Description",
-              "Category", "Subcategory")
+        public MakePageActive()
+          : base("Make Page Active", "Active Page",
+              "Make a page active (primarily for Baking)",
+              "DraftHorse", "Layouts")
         {
         }
-        public LO_ButtonComponent(string name, string nickname, string description, string category, string subcategory)
-          : base(name, nickname,
-              description,
-              category, subcategory)
-        {
-            Execute = false;
-            ButtonName = "Execute";
-        }
-
-        public bool Execute { get; set; }
-        public string ButtonName { get; set; }
-        //public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+
         }
 
         /// <summary>
@@ -53,6 +36,30 @@ namespace DraftHorse.Component.Base
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            /*
+             *  if (Component.Params.Input[Component.Params.IndexOfInputParam("LayoutIndex")].DataType.ToString() != "void")
+    {
+      bool run = Run;
+
+      //int LayoutIndex = TemplateIndex;
+
+      #region EscapeBehavior
+      //Esc behavior code snippet from
+      // http://james-ramsden.com/you-should-be-implementing-esc-behaviour-in-your-grasshopper-development/
+      if (GH_Document.IsEscapeKeyDown())
+      {
+        GrasshopperDocument.RequestAbortSolution();
+      }
+      #endregion EscapeBehavior
+
+      if (run)
+      {
+        RhinoPageView activePage = GetPage(LayoutIndex, Component);
+        RhinoDocument.Views.ActiveView = activePage;
+        Result = true;
+      }
+    }
+             */
         }
 
         /// <summary>
@@ -73,12 +80,7 @@ namespace DraftHorse.Component.Base
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("3428a44b-6368-49f0-8408-5f33a87580c3"); }
-        }
-
-        public override void CreateAttributes()
-        {
-            base.m_attributes = new LO_ButtonComponentAttributes(this);
+            get { return new Guid("BB2E2A26-F6E8-45A3-A31A-F20AF37A727B"); }
         }
     }
 }

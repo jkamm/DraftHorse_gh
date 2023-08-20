@@ -1,8 +1,5 @@
-﻿using System;
-
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
-using Grasshopper.Kernel.Parameters;
+﻿using Grasshopper.Kernel;
+using System;
 
 
 namespace DraftHorse.Params

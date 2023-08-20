@@ -1,6 +1,5 @@
-﻿using System;
-
-using Grasshopper.Kernel;
+﻿using Grasshopper.Kernel;
+using System;
 
 namespace DraftHorse.Component
 {

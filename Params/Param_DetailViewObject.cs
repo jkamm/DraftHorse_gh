@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
-using Grasshopper.Kernel.Parameters;
-
-namespace DraftHorse.Params
+﻿namespace DraftHorse.Params
 {
     /*public class Param_DetailViewObject : GH_Param<GH_DetailView>
     {

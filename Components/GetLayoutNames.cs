@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
+﻿using Grasshopper.Kernel;
 using Rhino.Display;
-
-using Grasshopper;
-using Grasshopper.GUI;
-using Grasshopper.GUI.Canvas;
-using Grasshopper.Kernel.Attributes;
-using Grasshopper.Kernel.Parameters;
-using Grasshopper.Kernel.Types;
-using Grasshopper.Kernel.Special;
-using Grasshopper.Kernel.Data;
+using System;
+using System.Collections.Generic;
 
 namespace DraftHorse.Component
 {
@@ -28,8 +17,8 @@ namespace DraftHorse.Component
         {
         }
 
-       
-        
+
+
         protected override void AppendAdditionalComponentMenuItems(System.Windows.Forms.ToolStripDropDown menu)
         {
             base.AppendAdditionalComponentMenuItems(menu);
@@ -41,7 +30,7 @@ namespace DraftHorse.Component
         {
             this.ExpireSolution(true);
         }
-        
+
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -97,7 +86,7 @@ namespace DraftHorse.Component
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, "Default with no input: get all Layout Names");
                 List<string> allNames = new List<string>();
-            
+
                 for (int i = 0; i < page_views.Length; i++)
                 {
                     allNames.Add(page_views[i].PageName);

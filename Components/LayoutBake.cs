@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
+﻿using Grasshopper.Kernel;
+using System;
 
 namespace DraftHorse.Component
 {
@@ -19,7 +16,7 @@ namespace DraftHorse.Component
             ButtonName = "Bake";
         }
 
-//while in testing, set component to Hidden    
+        //while in testing, set component to Hidden    
         public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         /// <summary>

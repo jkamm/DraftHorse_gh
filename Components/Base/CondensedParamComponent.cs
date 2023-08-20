@@ -1,17 +1,7 @@
-﻿    using System;
-    using System.Collections.Generic;
-    using System.Windows.Forms;
-
-    using Grasshopper.GUI;
-    using Grasshopper.GUI.Canvas;
-
-    using Grasshopper.Kernel;
-    using Grasshopper.Kernel.Attributes;
-    using Grasshopper.Kernel.Parameters;
-    using Grasshopper.Kernel.Types;
-
-    using Rhino.Geometry;
-    using static DraftHorse.Helper.XParams;
+﻿using Grasshopper.Kernel;
+using System;
+using System.Collections.Generic;
+using static DraftHorse.Helper.XParams;
 
 
 
@@ -19,7 +9,7 @@ namespace DraftHorse.Component.Base
 {
 
     public abstract class CondensedParamComponent : GH_Component, IGH_VariableParameterComponent
-        //make this an abstract class so it is not instantiated?
+    //make this an abstract class so it is not instantiated?
     {
         public int MinInputs { get; set; }
         public int MinOutputs { get; set; }
@@ -44,7 +34,7 @@ namespace DraftHorse.Component.Base
         {
             MinInputs = 2;  //Drive this off the list of inputs in the RegisterInputs command?
             MinOutputs = 1;
-            
+
             XParamInputs = new List<object[]>  //this could be a method of the interface for the condensedParamsComponent
             {
                 GenerateNumberParam("Number", "N", "generated number parameter", GH_ParamAccess.item),
@@ -91,7 +81,7 @@ namespace DraftHorse.Component.Base
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddIntegerParameter("FirstOut", "1o", "First output (static)", GH_ParamAccess.item);
-            
+
         }
 
         /// <summary>
@@ -137,8 +127,8 @@ namespace DraftHorse.Component.Base
         #region Condensed Input Methods
 
 
-        
-     
+
+
         #endregion Condensed Input Methods
 
         #region Methods of IGH_VariableParameterComponent interface
@@ -177,10 +167,10 @@ namespace DraftHorse.Component.Base
                 else
                     return false;
             }
-            
-            
+
+
         }
-        
+
         //goal:
         //Automatically populate the list of conditions in the Create Parameter class - use a list of lists or something like it
         //If the list is of objects, does it destroy the properties of the object?  I don't think so.
@@ -195,7 +185,7 @@ namespace DraftHorse.Component.Base
             if (side == GH_ParameterSide.Input) return ReturnParam(XParamInputs[index - MinInputs]);
             else return ReturnParam(XParamOutputs[index - MinOutputs]);
         }
-         
+
         bool IGH_VariableParameterComponent.DestroyParameter(GH_ParameterSide side, int index)
         {
             //Nothing to do here at the moment
@@ -233,6 +223,6 @@ namespace DraftHorse.Component.Base
 
 
 
-    
+
 
 }

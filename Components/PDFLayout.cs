@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
 using Rhino.Display;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static DraftHorse.Helper.ValList;
-using DraftHorse.Helper;
 
 
 namespace DraftHorse.Component
@@ -31,19 +31,19 @@ namespace DraftHorse.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-           //need to add default behavior for no indices - print all
+            //need to add default behavior for no indices - print all
             Params.Input[pManager.AddIntegerParameter("LayoutIndex", "Li[]", "List of Indices for Layouts to Print to PDF \nAttach Value List for list of Layouts", GH_ParamAccess.list)].Optional = true;
             Grasshopper.Kernel.Parameters.Param_FilePath filePath = new Grasshopper.Kernel.Parameters.Param_FilePath();
             pManager.AddParameter(filePath, "Folder", "F", "Target Folder to Save PDFs \nWill create if it does not exist", GH_ParamAccess.item);
             pManager.AddTextParameter("Filename", "N", "Filename", GH_ParamAccess.item, "Layout");
             Params.Input[pManager.AddIntegerParameter("DPI", "DPI", "Print Resolution (72-1200) Default is 100", GH_ParamAccess.item, 100)].Optional = true;
-            Params.Input[pManager.AddIntegerParameter("ColorMode", "C", "[0]Black&White, [1]Display Color, [2]Print Color", GH_ParamAccess.item,0)].Optional = true;
+            Params.Input[pManager.AddIntegerParameter("ColorMode", "C", "[0]Black&White, [1]Display Color, [2]Print Color", GH_ParamAccess.item, 0)].Optional = true;
             Params.Input[pManager.AddBooleanParameter("UsePrintWidths", "U", "Use defined print widths (False prints Display values) ", GH_ParamAccess.item, true)].Optional = true;
             Params.Input[pManager.AddNumberParameter("DefaultWidth", "D", "Set default print width for undefined", GH_ParamAccess.item, 0.1)].Optional = true;
             Params.Input[pManager.AddNumberParameter("WireScale", "W", "Scale width of curves in print", GH_ParamAccess.item, 1)].Optional = true;
             var bToggleParam = new DraftHorse.Params.Param_BooleanToggle();
             Params.Input[pManager.AddParameter(bToggleParam, "Run", "R", "Set to true to Print \nUse Toggle only (not Button)", GH_ParamAccess.item)].Optional = true;
-                        
+
         }
 
         //public bool execute = false;
@@ -78,7 +78,7 @@ namespace DraftHorse.Component
             string filename = String.Empty;
             if (!DA.GetData("Filename", ref filename)) return;
             //Default filename?
-            
+
             int dpi = 100;
             if (!DA.GetData("DPI", ref dpi)) dpi = 100;
             if (dpi > 1200)
@@ -104,14 +104,14 @@ namespace DraftHorse.Component
 
             bool usePrintWidths = true;
             if (!DA.GetData("UsePrintWidths", ref usePrintWidths)) usePrintWidths = true;
-           
+
             double defaultPrintWidth = 0.1;
             if (!DA.GetData("DefaultWidth", ref defaultPrintWidth)) defaultPrintWidth = 0.1;
 
             double wireScale = 1.0;
             if (!DA.GetData("WireScale", ref wireScale)) wireScale = 1.0;
 
-            
+
             //Main
             if (run || Execute)
             {
@@ -130,14 +130,14 @@ namespace DraftHorse.Component
                 if (!System.IO.Directory.Exists(folder))
                     System.IO.Directory.CreateDirectory(folder);
 
-                
+
                 Rhino.FileIO.FilePdf pdf = Rhino.FileIO.FilePdf.Create();
-                                                
+
                 //initialize settings variable
                 ViewCaptureSettings settings = new ViewCaptureSettings(); //not necessary to initialize if no settings are done globally
 
                 //get pages based on indices
-                RhinoPageView[] pages; 
+                RhinoPageView[] pages;
                 RhinoPageView[] page_views = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews();
 
 
@@ -186,7 +186,7 @@ namespace DraftHorse.Component
 
                 DA.SetDataList("Result", Results);
 
-                                
+
                 //return the filepath of the new PDF in the output, as well as an indicator of whether it succeeded.
             }
         }
@@ -195,7 +195,7 @@ namespace DraftHorse.Component
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.LayoutPDF;
-        
+
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

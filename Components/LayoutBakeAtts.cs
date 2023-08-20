@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Grasshopper.Kernel;
+using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
 using static DraftHorse.Helper.XParams;
 
 namespace DraftHorse.Component
@@ -26,7 +24,7 @@ namespace DraftHorse.Component
                 GenerateNumberParam("Number", "N2", "generated Next number parameter", GH_ParamAccess.item),
                 GenerateIntegerParam("Integer", "I", "generated integer", GH_ParamAccess.item)
             };
-            }
+        }
 
         //while in testing, set component to Hidden    
         public override GH_Exposure Exposure => GH_Exposure.hidden;

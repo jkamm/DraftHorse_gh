@@ -1,11 +1,10 @@
-﻿using System;
+﻿using DraftHorse.Helper;
+using Grasshopper.Kernel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Grasshopper.Kernel;
-using static DraftHorse.Helper.ValList;
 using static DraftHorse.Helper.Layout;
-using DraftHorse.Helper;
+using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
 {
@@ -40,7 +39,7 @@ namespace DraftHorse.Component
             pManager.AddTextParameter("Name", "Na", "PageName", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Number", "No", "PageNumber", GH_ParamAccess.item);
             var guidParam = new Grasshopper.Kernel.Parameters.Param_Guid();
-            
+
             pManager.AddNumberParameter("Width", "W", "PageWidth", GH_ParamAccess.item);
             pManager.AddNumberParameter("Height", "H", "PageHeight", GH_ParamAccess.item);
             pManager.AddTextParameter("Paper", "P", "Returns the name of the layout's media, or paper (e.g. Letter, Legal, A1, etc.)," +
@@ -68,12 +67,12 @@ namespace DraftHorse.Component
             double pageWidth = target.PageWidth;
             double pageHeight = target.PageHeight;
             string paperName = target.PaperName;
-            List<Guid> detailGUIDs = target.GetDetailViews().Select(v=>v.Id).ToList();
-            
+            List<Guid> detailGUIDs = target.GetDetailViews().Select(v => v.Id).ToList();
+
             //search object table for object with viewportID matching this Layout.  
             //List<Guid> guids = GetPageGeoGuids(target);
             List<Grasshopper.Kernel.Types.IGH_GeometricGoo> gooList = GetPageGeoGoos(target);
-            
+
 
             DA.SetData("Name", name);
             DA.SetData("Number", pageNumber);
@@ -89,7 +88,7 @@ namespace DraftHorse.Component
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.Dec_Layout;
-       
+
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.

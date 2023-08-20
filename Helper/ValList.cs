@@ -1,14 +1,8 @@
-﻿using System;
+﻿using Grasshopper.Kernel;
+using Rhino.Display;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
-using Rhino;
-using Rhino.Display;
 
 
 namespace DraftHorse.Helper
@@ -35,16 +29,17 @@ namespace DraftHorse.Helper
         private List<string> keys;
         private List<string> values;
         private string nickname;
-        
+
         public int Input { get => input; }
         public List<string> Keys { get => keys; }
-        public List<string> Values {
+        public List<string> Values
+        {
             get
             {
                 if (keys.Count != values.Count) return keys;
                 else return values;
             }
-            }
+        }
         public string Name { get; set; }
         public string Nickname
         {
@@ -97,7 +92,7 @@ namespace DraftHorse.Helper
         }
 
         public void SetValsAsKeys()
-        {   
+        {
             values = keys;
         }
 
@@ -129,7 +124,7 @@ namespace DraftHorse.Helper
             values = new List<string>();
             Nickname = nickname;
             SetInput(owner, input);
-            SetKeys(keys); 
+            SetKeys(keys);
             SetVals(keys);
         }
 
@@ -360,11 +355,11 @@ namespace DraftHorse.Helper
         public static List<string> GetLayoutList()
         {
             var pageViews = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews();
-            
+
             HashSet<string> pageNames = new HashSet<string>();
-            
+
             foreach (RhinoPageView page in pageViews) pageNames.Add(page.PageName);
-                    
+
             return pageNames.ToList();
 
             //Goal: add/throw exception for when PageViewList is empty.
@@ -375,7 +370,7 @@ namespace DraftHorse.Helper
             return Rhino.RhinoDoc.ActiveDoc.Views.GetStandardRhinoViews().ToDictionary(v => v.ActiveViewport.Name, v => v).Keys.ToList();
         }
 
-        
+
         #endregion Special Value Lists
 
         #region Add boolean instantiator
@@ -388,4 +383,4 @@ namespace DraftHorse.Helper
 
 
 }
-   
+

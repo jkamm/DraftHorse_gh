@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Grasshopper.Kernel;
+using System;
 using System.Collections.Generic;
-
-using Grasshopper.Kernel;
 
 namespace DraftHorse.Component
 {
@@ -18,11 +17,11 @@ namespace DraftHorse.Component
               "DraftHorse", "Layouts")
         {
         }
-               
+
 
         //This hides the component from view!  is it callable?  Don't know.
         public override GH_Exposure Exposure => GH_Exposure.hidden;
-        
+
 
         /// <summary>
         /// Registers all the input parameters for this component.

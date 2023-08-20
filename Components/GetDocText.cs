@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Grasshopper.Kernel;
+using System;
 using System.Linq;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 namespace DraftHorse.Component
 {
@@ -18,7 +15,7 @@ namespace DraftHorse.Component
               "Drafthorse", "Layouts")
         {
         }
-     
+
         public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
 

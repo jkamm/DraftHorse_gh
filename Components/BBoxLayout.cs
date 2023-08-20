@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-
+﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using DraftHorse.Helper;
+using System;
+using System.Windows.Forms;
 
 namespace DraftHorse.Component
 {
@@ -41,15 +40,15 @@ namespace DraftHorse.Component
             pManager.AddTextParameter("Layout Name", "N", "Name of new Layout(s)", GH_ParamAccess.item);
         }
 
-       
+
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            Rhino.UnitSystem pageUnits = unitsAreInches ? Rhino.UnitSystem.Inches: Rhino.UnitSystem.Millimeters;
-            
+            Rhino.UnitSystem pageUnits = unitsAreInches ? Rhino.UnitSystem.Inches : Rhino.UnitSystem.Millimeters;
+
             //goal: add pageUnits to input options (default == inches)
 
             bool run = false;
@@ -57,13 +56,13 @@ namespace DraftHorse.Component
 
             string pageName = string.Empty;
             DA.GetData("Name", ref pageName);
-            
+
             string detailName = "mainDetail";
 
             Rectangle3d detailRec = new Rectangle3d();
             if (!DA.GetData("BBox", ref detailRec)) return;
 
-            
+
             double width = detailRec.X.Length;
             double height = detailRec.Y.Length;
 
@@ -109,7 +108,7 @@ namespace DraftHorse.Component
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.Layout_bitmap;
-        
+
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
@@ -145,7 +144,7 @@ namespace DraftHorse.Component
         {
             base.AppendAdditionalComponentMenuItems(menu);
             Menu_AppendSeparator(menu);
-            ToolStripMenuItem item = Menu_AppendItem(menu, "layout units", Menu_UnitsClicked,true);
+            ToolStripMenuItem item = Menu_AppendItem(menu, "layout units", Menu_UnitsClicked, true);
             item.ToolTipText = "Switch layout page units between inch & millimeter.";
         }
         private void Menu_UnitsClicked(object sender, EventArgs e)

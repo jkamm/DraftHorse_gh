@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
+﻿using Grasshopper.Kernel;
+using System;
 
 namespace DraftHorse.Component
 {
@@ -46,7 +43,7 @@ namespace DraftHorse.Component
             DA.GetData("Key", ref key);
 
             var docText = Rhino.RhinoDoc.ActiveDoc.Strings;
-         
+
             string value = docText.GetValue(key);
             //Add message if key is not found in Document Text
             if (value == null) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Key not found in Document Text");
@@ -58,7 +55,7 @@ namespace DraftHorse.Component
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.AccessDocText;
-        
+
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

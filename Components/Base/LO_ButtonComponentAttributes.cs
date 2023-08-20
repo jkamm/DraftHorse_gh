@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
-using Rhino.Display;
-
-using Grasshopper;
-using Grasshopper.GUI;
+﻿using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
-using Grasshopper.Kernel.Attributes;
-using Grasshopper.Kernel.Parameters;
-using Grasshopper.Kernel.Types;
-using Grasshopper.Kernel.Special;
-using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel;
 
 namespace DraftHorse.Component.Base
 {
@@ -24,7 +9,7 @@ namespace DraftHorse.Component.Base
         GH_Component thisowner = null;
 
         public LO_ButtonComponentAttributes(GH_Component owner) : base(owner) { thisowner = owner; }
-        
+
         public Grasshopper.GUI.Canvas.GH_Capsule button = null;
 
         protected override void Layout()
@@ -66,7 +51,7 @@ namespace DraftHorse.Component.Base
                 {
                     //Set Execute to true
                     (base.Owner as LO_ButtonComponent).Execute = true;
-                    
+
                     //Run component
                     Owner.ExpireSolution(true);
 

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using DraftHorse.Helper;
+using Grasshopper.Kernel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Grasshopper.Kernel;
-using DraftHorse.Helper;
 
 namespace DraftHorse.Component
 {
@@ -100,7 +99,7 @@ namespace DraftHorse.Component
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.AddLayoutKV;
-       
+
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

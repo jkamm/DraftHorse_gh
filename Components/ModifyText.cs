@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
-using Rhino.Geometry;
-using DraftHorse.Helper; 
+using System;
+using System.Collections.Generic;
 
 
 namespace DraftHorse.Component

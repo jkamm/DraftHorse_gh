@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Grasshopper.Kernel;
+using Rhino;
+using Rhino.Display;
+using Rhino.DocObjects;
+using Rhino.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Rhino.Display;
-using Rhino;
-using Rhino.Geometry;
-using Rhino.DocObjects;
-using Grasshopper.Kernel;
 
 
 namespace DraftHorse.Helper
@@ -65,7 +63,7 @@ namespace DraftHorse.Helper
             this.Template = template;
         }
 
-        
+
         //Not being used - 6/14/19
         public void DupThisLayout()
         {
@@ -118,6 +116,38 @@ namespace DraftHorse.Helper
                 throw new IndexOutOfRangeException("No template found with name: " + name);
             }
         }
+        public static Rhino.Commands.Result ModifyLayout(Rhino.DocObjects.DetailViewObject detail, RhinoPageView pageview, double scale, Point3d target, Rhino.RhinoDoc doc)
+        {
+            if (detail != null)
+            {
+
+                pageview.SetActiveDetail(detail.Id);
+                detail.DetailGeometry.IsProjectionLocked = false;
+                detail.CommitChanges();
+
+                pageview.SetActiveDetail(detail.Id);
+                detail.Viewport.ZoomExtents();
+                detail.Viewport.SetCameraTarget(target, true);
+                // CommitViewPortChanges modifies the Viewport only
+                detail.CommitViewportChanges();
+
+
+
+                pageview.SetActiveDetail(detail.Id);
+                detail.DetailGeometry.IsProjectionLocked = true;
+                detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
+                // Commit changes tells the document to replace the document's detail object
+                // with the modified one that we just adjusted
+                detail.CommitChanges();
+
+                pageview.SetPageAsActive();
+                doc.Views.ActiveView = pageview;
+                doc.Views.Redraw();
+                return Rhino.Commands.Result.Success;
+
+            }
+            return Rhino.Commands.Result.Failure;
+        }
 
         public static Rhino.Commands.Result ReviseDetails(string detailName, RhinoPageView page, Rectangle3d rec, int modelScale, string namedView)
         {
@@ -133,7 +163,7 @@ namespace DraftHorse.Helper
             * - return Success/Failure
             * - goal: change to qualified success/failure with more info. 
             */
-            
+
             //get all details 
             RhinoDoc doc = RhinoDoc.ActiveDoc;
             var details = page.GetDetailViews();
@@ -150,14 +180,14 @@ namespace DraftHorse.Helper
             {
                 page.SetActiveDetail(matchedDet.Id);
                 doc.NamedViews.Restore(nViewIndex, matchedDet.Viewport);
-               
+
                 // Zoom bounding box.
                 BoundingBox bounds = new BoundingBox(rec.Corner(0), rec.Corner(2));
                 matchedDet.Viewport.ZoomBoundingBox(bounds);
 
                 //Set scale of image
                 matchedDet.DetailGeometry.SetScale(modelScale, doc.ModelUnitSystem, 1, doc.PageUnitSystem);
-                
+
                 matchedDet.CommitChanges();
                 RefreshView(page);
             }
@@ -268,7 +298,7 @@ namespace DraftHorse.Helper
             //goal: if not found, Throw exception
             try
             {
-               return pageViews[index];
+                return pageViews[index];
             }
             catch (IndexOutOfRangeException)
             {
@@ -330,7 +360,7 @@ namespace DraftHorse.Helper
                 settings.NameFilter = textKeys[i];
                 settings.ObjectTypeFilter = ObjectType.Annotation;
                 settings.ViewportFilter = page.ActiveViewport;
-                
+
                 var objs = RhinoDoc.ActiveDoc.Objects.GetObjectList(settings);
 
                 foreach (RhinoObject obj in objs)
@@ -391,7 +421,7 @@ namespace DraftHorse.Helper
             foreach (RhinoObject obj in objs)
             {
                 guidList.Add(obj.Id);
-                
+
                 //else throw new Exception("has no id");
             }
 
@@ -426,7 +456,7 @@ namespace DraftHorse.Helper
             return gooList;
         }
 
-            public static void SortPagesByPageNumber(RhinoPageView[] pages)
+        public static void SortPagesByPageNumber(RhinoPageView[] pages)
         {
             PageNumCompare pageCompare = new PageNumCompare();
             Array.Sort(pages, pageCompare);
@@ -457,7 +487,7 @@ namespace DraftHorse.Helper
             //var viewInfo = new Rhino.DocObjects.ViewInfo()
 
             var views = RhinoDoc.ActiveDoc.Views.ToDictionary(v => v.ActiveViewport.Name, v => v);
-            
+
 
             //RhinoDoc.ActiveDoc.Views.ToDictionary(v => v.ActiveViewport.Name, v => v);
         }
@@ -502,7 +532,7 @@ namespace DraftHorse.Helper
         public static Rhino.Commands.Result AddLayout(string name, string detTitle, double width, double height, Rectangle3d detailRec, double scale, out RhinoPageView layout)
         {
             RhinoDoc doc = RhinoDoc.ActiveDoc;
-            
+
             var page_views = doc.Views.GetPageViews();
             int page_number = (page_views == null) ? 1 : page_views.Length + 1;
 
@@ -592,6 +622,6 @@ namespace DraftHorse.Helper
         }
     }
 
-    
+
 }
 

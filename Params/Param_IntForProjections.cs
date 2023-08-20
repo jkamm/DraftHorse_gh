@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 namespace DraftHorse.Params
 {
@@ -12,7 +8,7 @@ namespace DraftHorse.Params
         /// Goal: a custom Param component that allows the user to select and store one or more Projections by name
         /// goal: add list of projections in toolstripmenu that store value to the param
         /// </summary>
-        
+
         public override void AppendAdditionalMenuItems(System.Windows.Forms.ToolStripDropDown menu)
         {
             base.AppendAdditionalMenuItems(menu);

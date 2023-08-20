@@ -93,6 +93,16 @@ namespace DraftHorse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CopyLayout {
+            get {
+                object obj = ResourceManager.GetObject("CopyLayout", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CopyLayout_bitmap {
             get {
                 object obj = ResourceManager.GetObject("CopyLayout_bitmap", resourceCulture);
@@ -116,6 +126,16 @@ namespace DraftHorse.Properties {
         internal static System.Drawing.Bitmap Dec_Layout {
             get {
                 object obj = ResourceManager.GetObject("Dec_Layout", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DeleteLayout {
+            get {
+                object obj = ResourceManager.GetObject("DeleteLayout", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -293,6 +313,16 @@ namespace DraftHorse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MakePageActive {
+            get {
+                object obj = ResourceManager.GetObject("MakePageActive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Name_Tag {
             get {
                 object obj = ResourceManager.GetObject("Name_Tag", resourceCulture);
@@ -306,6 +336,16 @@ namespace DraftHorse.Properties {
         internal static System.Drawing.Bitmap SetDocText {
             get {
                 object obj = ResourceManager.GetObject("SetDocText", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap zoomDetail {
+            get {
+                object obj = ResourceManager.GetObject("zoomDetail", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

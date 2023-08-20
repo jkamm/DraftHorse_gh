@@ -1,6 +1,6 @@
-﻿using Grasshopper.Kernel;
-using Grasshopper.GUI;
+﻿using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
+using Grasshopper.Kernel;
 
 namespace DraftHorse.Component.Base
 {

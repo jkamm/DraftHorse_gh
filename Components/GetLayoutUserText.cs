@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
-using DraftHorse.Helper;
+using System;
 
 namespace DraftHorse.Component
 {
@@ -44,10 +44,10 @@ namespace DraftHorse.Component
 
             Rhino.Display.RhinoPageView pageView = Layout.GetPage(index);
 
-            if(pageView != null)
+            if (pageView != null)
             {
                 var userText = pageView.MainViewport.GetUserStrings();
-                                
+
                 //Get UserText from MainViewPort of Layout                              
                 string[] userVals = new string[userText.Count];
                 if (userText.Count != 0)
@@ -57,7 +57,7 @@ namespace DraftHorse.Component
                         userVals[i] = userText.Get(i);
                     }
                 }
-                
+
                 DA.SetDataList("Keys", userText.AllKeys);
                 DA.SetDataList("Values", userVals);
             }
@@ -68,7 +68,7 @@ namespace DraftHorse.Component
         /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.GetLayoutKV;
-        
+
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

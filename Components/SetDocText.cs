@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Grasshopper.Kernel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 namespace DraftHorse.Component
 {
@@ -52,7 +50,7 @@ namespace DraftHorse.Component
 
             List<string> vals = new List<string>();
             DA.GetDataList("Values", vals);
-            
+
             bool run = false;
             if (!DA.GetData("Run", ref run)) run = false;
 

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
 using Rhino;
-using DraftHorse.Helper;
+using System;
+using System.Collections.Generic;
 
 namespace DraftHorse.Component
 {
@@ -110,7 +109,7 @@ namespace DraftHorse.Component
                     if (indexSet.Add(thisInt))
                         uniqIndexList.Add(thisInt);
                 }
-                               
+
                 PageNumCompare pageNumCompare = new PageNumCompare();
                 PageNameCompare pageNameCompare = new PageNameCompare();
 
@@ -126,9 +125,9 @@ namespace DraftHorse.Component
                     }
                     catch (Exception)
                     {
-                        throw new IndexOutOfRangeException("No layouts beyond index [" + (page_views.Length-1).ToString() + "]");
+                        throw new IndexOutOfRangeException("No layouts beyond index [" + (page_views.Length - 1).ToString() + "]");
                     }
-                   
+
 
                     if (byName) Array.Sort(page_views, pageNameCompare);
                     else Array.Sort(page_views, pageNumCompare);
@@ -162,8 +161,8 @@ namespace DraftHorse.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => DraftHorse.Properties.Resources.LayoutSort; 
-        
+        protected override System.Drawing.Bitmap Icon => DraftHorse.Properties.Resources.LayoutSort;
+
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
