@@ -1,26 +1,43 @@
 ﻿using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
+using System.Drawing;
 
 namespace DraftHorse.Component.Base
 {
     public class LO_ButtonComponentAttributes : Grasshopper.Kernel.Attributes.GH_ComponentAttributes
     {
-        GH_Component thisowner = null;
+        private bool mouseOver;
+        private bool mouseDown;
 
-        public LO_ButtonComponentAttributes(GH_Component owner) : base(owner) { thisowner = owner; }
+        private RectangleF buttonArea;
+        private RectangleF textArea;
+
+        //GH_Component thisowner = null;
+
+        public LO_ButtonComponentAttributes(GH_Component owner) : base(owner) 
+        { 
+            //thisowner = owner;
+            mouseOver = false;
+            mouseDown = false;
+        }
 
         public Grasshopper.GUI.Canvas.GH_Capsule button = null;
 
         protected override void Layout()
         {
-            base.Layout();
 
             // Draw a button 
-            System.Drawing.Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
+            //Bounds = RectangleF.Empty;
+            base.Layout();
+            //buttonArea = new RectangleF(Bounds.Left,Bounds.Bottom,Bounds.Width, 20f);
+            //textArea = buttonArea;
+            //Bounds = RectangleF.Union(Bounds, buttonArea);
+
+            Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
             rec0.Height += 22;
 
-            System.Drawing.Rectangle rec1 = rec0;
+            Rectangle rec1 = rec0;
             rec1.Y = rec1.Bottom - 22;
             rec1.Height = 22;
             rec1.Inflate(-2, -2);
@@ -28,9 +45,9 @@ namespace DraftHorse.Component.Base
             Bounds = rec0;
             ButtonBounds = rec1;
         }
-        private System.Drawing.Rectangle ButtonBounds { get; set; }
+        private Rectangle ButtonBounds { get; set; }
 
-        protected override void Render(GH_Canvas canvas, System.Drawing.Graphics graphics, GH_CanvasChannel channel)
+        protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)
         {
             base.Render(canvas, graphics, channel);
 
@@ -48,7 +65,7 @@ namespace DraftHorse.Component.Base
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                System.Drawing.RectangleF rec = ButtonBounds;
+                RectangleF rec = ButtonBounds;
                 if (rec.Contains(e.CanvasLocation))
                 {
                     //Set Execute to true
