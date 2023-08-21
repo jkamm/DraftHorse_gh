@@ -13,7 +13,10 @@ namespace DraftHorse.Params
         {
             base.AppendAdditionalMenuItems(menu);
             Menu_AppendSeparator(menu);
-            //Menu_AppendItem(menu, "Pick Projection", Menu_DoClick);
+            Menu_AppendItem(menu, "Pick Projection"); //, Menu_DoClick);
+            Menu_AppendSeparator(menu);
+            //Menu_AppendItem(menu, "Parallel", Menu_SetParallel);
+            //Menu_AppendItem(menu, "Perspective", Menu_SetPerspective);
         }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace DraftHorse.Component
         public ModifyDetail()
           : base("Modify Details", "LODetails",
               "Repoint detail views in a layout",
-              "DraftHorse", "Layouts")
+              "DraftHorse", "Details")
         {
             ButtonName = "Modify";
         }
@@ -67,12 +67,6 @@ namespace DraftHorse.Component
             bool run = false;
             DA.GetData("Run", ref run);
 
-            //System.Object detailVar = new Object();
-            /*
-            Rhino.DocObjects.DetailViewObject[] details = new Rhino.DocObjects.DetailViewObject[1];
-            DA.GetData("Detail", ref details[0]);
-            Rhino.DocObjects.DetailViewObject detail = details[0];
-             */
             Guid detailGUID = Guid.Empty;
             DA.GetData("Detail GUID", ref detailGUID);
             Rhino.DocObjects.DetailViewObject detail = Rhino.RhinoDoc.ActiveDoc.Objects.FindId(detailGUID) as Rhino.DocObjects.DetailViewObject; ;
@@ -123,16 +117,8 @@ namespace DraftHorse.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.LayoutDetail_bitmap;
-            }
-        }
-
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.LayoutDetail_bitmap;
+        
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

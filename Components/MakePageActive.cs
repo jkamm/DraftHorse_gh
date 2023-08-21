@@ -1,9 +1,10 @@
 ﻿using Grasshopper.Kernel;
 using System;
+using System.Xml.Linq;
 
-namespace DraftHorse.Components
+namespace DraftHorse.Component
 {
-    public class MakePageActive : GH_Component
+    public class MakePageActive : Base.LO_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
@@ -13,6 +14,7 @@ namespace DraftHorse.Components
               "Make a page active (primarily for Baking)",
               "DraftHorse", "Layouts")
         {
+            ButtonName = "Activate";
         }
 
         /// <summary>
@@ -20,7 +22,10 @@ namespace DraftHorse.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-
+            var bToggleParam = new Params.Param_BooleanToggle();
+            pManager.AddParameter(bToggleParam, "Run", "R", "Do not use button to activate - toggle only", GH_ParamAccess.item);
+            Params.Input[0].Optional = true;
+            pManager.AddIntegerParameter("Index", "Li", "Indices for Layouts", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -28,6 +33,8 @@ namespace DraftHorse.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.Register_BooleanParam("Result", "R", "Result of Operation");
+            pManager.Register_StringParam("Name", "N", "Active Layout Name");
         }
 
         /// <summary>
@@ -36,30 +43,35 @@ namespace DraftHorse.Components
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            /*
-             *  if (Component.Params.Input[Component.Params.IndexOfInputParam("LayoutIndex")].DataType.ToString() != "void")
-    {
-      bool run = Run;
 
-      //int LayoutIndex = TemplateIndex;
+            bool run = false;
+            bool result = false;
+            string name = null;
 
-      #region EscapeBehavior
-      //Esc behavior code snippet from
-      // http://james-ramsden.com/you-should-be-implementing-esc-behaviour-in-your-grasshopper-development/
-      if (GH_Document.IsEscapeKeyDown())
-      {
-        GrasshopperDocument.RequestAbortSolution();
-      }
-      #endregion EscapeBehavior
+            int LayoutIndex = 0;
+            if (!DA.GetData("Index", ref LayoutIndex)) return;
 
-      if (run)
-      {
-        RhinoPageView activePage = GetPage(LayoutIndex, Component);
-        RhinoDocument.Views.ActiveView = activePage;
-        Result = true;
-      }
-    }
-             */
+            #region EscapeBehavior
+            //Esc behavior code snippet from
+            // http://james-ramsden.com/you-should-be-implementing-esc-behaviour-in-your-grasshopper-development/
+
+            if (GH_Document.IsEscapeKeyDown())
+            {
+                OnPingDocument().RequestAbortSolution();
+                return;
+            }
+            #endregion EscapeBehavior
+
+            if (run || Execute)
+            {
+                Rhino.Display.RhinoPageView activePage = Helper.Layout.GetPage(LayoutIndex);
+                Rhino.RhinoDoc.ActiveDoc.Views.ActiveView = activePage;
+                result = true;
+                name = activePage.PageName;
+            }
+            DA.SetData("Result", result);
+            DA.SetData("Name", name);
+                     
         }
 
         /// <summary>
