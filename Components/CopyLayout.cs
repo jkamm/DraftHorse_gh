@@ -7,7 +7,7 @@ using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
 {
-    public class CopyLayout : Base.LO_ButtonComponent
+    public class CopyLayout : Base.DH_ButtonComponent
     {
         #region GH_Component
         /// <summary>

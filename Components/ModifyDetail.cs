@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace DraftHorse.Component
 {
-    public class ModifyDetail : Base.LO_ButtonComponent
+    public class ModifyDetail : Base.DH_ButtonComponent
     {
 
 

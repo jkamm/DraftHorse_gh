@@ -3,7 +3,7 @@ using System;
 
 namespace DraftHorse.Component.Base
 {
-    public abstract class LO_ButtonComponent : GH_Component
+    public abstract class DH_ButtonComponent : GH_Component
     {
         //Should this be an abstract class so that it can't be called directly?  That would avoid the exposure issue.
 
@@ -14,13 +14,13 @@ namespace DraftHorse.Component.Base
         /// <summary>
         /// Initializes a new instance of the LO_ButtonComponent class.
         /// </summary>
-        public LO_ButtonComponent()
+        public DH_ButtonComponent()
           : base("LO_ButtonComponent", "Nickname",
               "Description",
               "Category", "Subcategory")
         {
         }
-        public LO_ButtonComponent(string name, string nickname, string description, string category, string subcategory)
+        public DH_ButtonComponent(string name, string nickname, string description, string category, string subcategory)
           : base(name, nickname,
               description,
               category, subcategory)
@@ -78,7 +78,7 @@ namespace DraftHorse.Component.Base
 
         public override void CreateAttributes()
         {
-            base.m_attributes = new LO_ButtonComponentAttributes(this);
+            base.m_attributes = new DH_ButtonComponentAttributes(this);
         }
     }
 }

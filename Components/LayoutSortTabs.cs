@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DraftHorse.Component
 {
-    public class LayoutSortTabs : Base.LO_ButtonComponent
+    public class LayoutSortTabs : Base.DH_ButtonComponent
     {
         //Obsolete: No longer necessary in Rhino 7
         //goal: exception handling - what happens if there is a duplicate index? throw exception/error?

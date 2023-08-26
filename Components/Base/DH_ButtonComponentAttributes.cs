@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace DraftHorse.Component.Base
 {
-    public class LO_ButtonComponentAttributes : Grasshopper.Kernel.Attributes.GH_ComponentAttributes
+    public class DH_ButtonComponentAttributes : Grasshopper.Kernel.Attributes.GH_ComponentAttributes
     {
         private bool mouseOver;
         private bool mouseDown;
@@ -15,7 +15,7 @@ namespace DraftHorse.Component.Base
 
         //GH_Component thisowner = null;
 
-        public LO_ButtonComponentAttributes(GH_Component owner) : base(owner) 
+        public DH_ButtonComponentAttributes(GH_Component owner) : base(owner) 
         { 
             //thisowner = owner;
             mouseOver = false;
@@ -53,7 +53,7 @@ namespace DraftHorse.Component.Base
 
             if (channel == GH_CanvasChannel.Objects)
             {
-                button = GH_Capsule.CreateTextCapsule(ButtonBounds, ButtonBounds, GH_Palette.Black, (base.Owner as LO_ButtonComponent).ButtonName, 2, 0);
+                button = GH_Capsule.CreateTextCapsule(ButtonBounds, ButtonBounds, GH_Palette.Black, (base.Owner as DH_ButtonComponent).ButtonName, 2, 0);
                 button.Render(graphics, Selected, Owner.Locked, false);
                 button.Dispose();
             }
@@ -69,13 +69,13 @@ namespace DraftHorse.Component.Base
                 if (rec.Contains(e.CanvasLocation))
                 {
                     //Set Execute to true
-                    (base.Owner as LO_ButtonComponent).Execute = true;
+                    (base.Owner as DH_ButtonComponent).Execute = true;
 
                     //Run component
                     Owner.ExpireSolution(true);
 
                     //Set Execute to false
-                    (base.Owner as LO_ButtonComponent).Execute = false;
+                    (base.Owner as DH_ButtonComponent).Execute = false;
                     return GH_ObjectResponse.Handled;
                 }
             }

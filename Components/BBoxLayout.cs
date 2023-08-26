@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace DraftHorse.Component
 {
-    public class BBoxLayout : Base.LO_ButtonComponent
+    public class BBoxLayout : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.

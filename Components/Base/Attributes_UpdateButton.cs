@@ -8,7 +8,7 @@ namespace DraftHorse.Component.Base
     {
         GH_Component thisowner = null;
         public Attributes_UpdateButton(GH_Component owner) : base(owner) { thisowner = owner; }
-        public Grasshopper.GUI.Canvas.GH_Capsule button = null;
+        public GH_Capsule button = null;
 
         protected override void Layout()
         {

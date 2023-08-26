@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DraftHorse.Component
 {
-    public class SetLayoutUserText : Base.LO_ButtonComponent
+    public class SetLayoutUserText : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the SetLayoutUserText class.

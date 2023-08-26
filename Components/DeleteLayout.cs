@@ -8,7 +8,7 @@ using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
 {
-    public class DeleteLayout : Base.LO_ButtonComponent
+    public class DeleteLayout : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the DeleteLayout class.

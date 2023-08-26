@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace DraftHorse.Component
 {
-    public class MakePageActive : Base.LO_ButtonComponent
+    public class MakePageActive : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.

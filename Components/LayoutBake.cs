@@ -3,7 +3,7 @@ using System;
 
 namespace DraftHorse.Component
 {
-    public class LayoutBake : Base.LO_ButtonComponent
+    public class LayoutBake : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the LayoutBake class.

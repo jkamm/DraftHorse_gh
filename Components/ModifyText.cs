@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DraftHorse.Component
 {
-    public class ModifyText : Base.LO_ButtonComponent
+    public class ModifyText : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the ModifyText class.

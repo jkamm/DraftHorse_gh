@@ -9,7 +9,7 @@ using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
 {
-    public class PDFLayout : Base.LO_ButtonComponent
+    public class PDFLayout : Base.DH_ButtonComponent
     {
         #region GH_Component
         /// <summary>

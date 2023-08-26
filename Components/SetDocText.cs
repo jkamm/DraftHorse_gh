@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DraftHorse.Component
 {
-    public class SetDocText : Base.LO_ButtonComponent
+    public class SetDocText : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the SetDocText class.
