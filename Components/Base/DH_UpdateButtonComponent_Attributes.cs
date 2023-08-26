@@ -49,7 +49,7 @@ public class DH_UpdateButtonComponent_Attributes : GH_ComponentAttributes
             gH_Capsule.RenderEngine.RenderOutlines(graphics, canvas.Viewport.Zoom, impliedStyle);
             if (mouseOver)
             {
-                gH_Capsule.RenderEngine.RenderBackground_Alternative(graphics, Color.FromArgb(50, Color.Blue), drawAlphaGrid: false);
+                gH_Capsule.RenderEngine.RenderBackground_Alternative(graphics, Color.FromArgb(50, Color.Gray), drawAlphaGrid: false);
             }
             gH_Capsule.RenderEngine.RenderText(graphics, Color.White);
             gH_Capsule.Dispose();
