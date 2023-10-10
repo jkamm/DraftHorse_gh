@@ -18,6 +18,8 @@ namespace DraftHorse.Component
         {
             ButtonName = "Modify";
         }
+
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

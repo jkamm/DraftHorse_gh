@@ -13,11 +13,11 @@ namespace DraftHorse.Component
         public SetDocText()
           : base("Set Document Text", "SetDocText",
               "Set Key/Value pairs to the Document Text Table. \nStrings starting with '.' are hidden from users",
-              "Drafthorse", "Layouts")
+              "Drafthorse", "Document")
         {
             ButtonName = "Write";
         }
-        public override GH_Exposure Exposure => GH_Exposure.quarternary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

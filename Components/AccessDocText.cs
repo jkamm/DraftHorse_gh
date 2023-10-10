@@ -11,11 +11,11 @@ namespace DraftHorse.Component
         public AccessDocText()
           : base("Access Document Text", "AccessDocText",
               "Retrieve a value from the Document Text by key",
-              "Drafthorse", "Layouts")
+              "Drafthorse", "Document")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

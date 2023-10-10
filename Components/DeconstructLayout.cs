@@ -19,7 +19,7 @@ namespace DraftHorse.Component
               "DraftHorse", "Layouts")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

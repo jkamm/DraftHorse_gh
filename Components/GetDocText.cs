@@ -12,11 +12,11 @@ namespace DraftHorse.Component
         public GetDocText()
           : base("Get Document Text", "GetDocText",
               "Return Document Text Table as Keys and Values",
-              "Drafthorse", "Layouts")
+              "Drafthorse", "Document")
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.quarternary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace DraftHorse.Component
             ButtonName = "Print";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
 
         /// <summary>

@@ -17,6 +17,7 @@ namespace DraftHorse.Component
             ButtonName = "Activate";
         }
 
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -77,16 +78,8 @@ namespace DraftHorse.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
-            }
-        }
-
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.MakePageActive;
+        
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

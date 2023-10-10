@@ -21,7 +21,7 @@ namespace DraftHorse.Component
             ButtonName = "Delete";
         }
 
-        //public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -106,6 +106,7 @@ namespace DraftHorse.Component
                         Rhino.Display.RhinoPageView pageView = Layout.GetPage(uniqIndexList[j]);
                         pageView.Close();
                     }
+                   
 
                     Done = true;
                 }
@@ -180,14 +181,6 @@ namespace DraftHorse.Component
         #endregion
 
         #region Add Value Lists
-
-        /* Disabled b/c Override message already implements the function
-        protected override void AppendAdditionalComponentMenuItems(System.Windows.Forms.ToolStripDropDown menu)
-        {
-            base.AppendAdditionalComponentMenuItems(menu);
-            Menu_AppendItem(menu, "Add/Update ValueList", Menu_DoClick);
-        }
-         */
 
         private void Menu_DoClick(object sender, EventArgs e)
         {

@@ -70,8 +70,8 @@ namespace DraftHorse.Component.Base
                 if(mouseDown)
                 {
                     gH_Capsule.RenderEngine.RenderBackground_Alternative(graphics, Color.FromArgb(75, Color.Black), drawAlphaGrid: false);
-                    //gH_Capsule.RenderEngine.RenderText(graphics, Color.Black);
                 }
+
                 gH_Capsule.RenderEngine.RenderText(graphics, Color.White);
                 gH_Capsule.Dispose();
             }
@@ -82,9 +82,9 @@ namespace DraftHorse.Component.Base
             if (e.Button == MouseButtons.Left && sender.Viewport.Zoom >= 0.5f && ButtonBounds.Contains(e.CanvasLocation))
             {
                 mouseDown = true;
-                Owner.RecordUndoEvent("Execute Action");
                 DH_ButtonComponent dH_ButtonComponent = Owner as DH_ButtonComponent;
                 (base.Owner as DH_ButtonComponent).Execute = true;
+                Owner.RecordUndoEvent("Execute Action");
                 Owner.ExpireSolution(recompute: true);
                 return GH_ObjectResponse.Capture;
             }
