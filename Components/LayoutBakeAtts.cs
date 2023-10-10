@@ -5,7 +5,7 @@ using static DraftHorse.Helper.XParams;
 
 namespace DraftHorse.Component
 {
-    public class LayoutBakeAtts : Base.CondensedParamComponent
+    public class LayoutBakeAtts : Base.DH_CondensedParamComponent
     {
         /// <summary>
         /// Initializes a new instance of the LayoutBakeAtts class.

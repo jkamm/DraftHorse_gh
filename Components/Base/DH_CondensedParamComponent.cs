@@ -8,7 +8,7 @@ using static DraftHorse.Helper.XParams;
 namespace DraftHorse.Component.Base
 {
 
-    public abstract class CondensedParamComponent : GH_Component, IGH_VariableParameterComponent
+    public abstract class DH_CondensedParamComponent : GH_Component, IGH_VariableParameterComponent
     //make this an abstract class so it is not instantiated?
     {
         public int MinInputs { get; set; }
@@ -16,7 +16,7 @@ namespace DraftHorse.Component.Base
         protected List<object[]> XParamInputs { get; set; }
         protected List<object[]> XParamOutputs { get; set; }
 
-        //public override GH_Exposure Exposure => GH_Exposure.hidden;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         #region Methods of GH_Component interface
 
@@ -27,7 +27,7 @@ namespace DraftHorse.Component.Base
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public CondensedParamComponent()
+        public DH_CondensedParamComponent()
             : base("VariableParameterTest", "Nickname",
                 "Description",
                 "DraftHorse", "Test")
@@ -49,7 +49,7 @@ namespace DraftHorse.Component.Base
             };
         }
 
-        public CondensedParamComponent(string name, string nickname, string description, string category, string subcategory)
+        public DH_CondensedParamComponent(string name, string nickname, string description, string category, string subcategory)
         : base(name, nickname,
                 description,
                 category, subcategory)

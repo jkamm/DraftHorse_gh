@@ -12,14 +12,15 @@ namespace DraftHorse.Component.Base
 
 
         /// <summary>
-        /// Initializes a new instance of the LO_ButtonComponent class.
+        /// Initializes a new instance of the DH_ButtonComponent class.
         /// </summary>
-        public DH_ButtonComponent()
+        /*public DH_ButtonComponent()
           : base("LO_ButtonComponent", "Nickname",
               "Description",
               "Category", "Subcategory")
         {
         }
+        */
         public DH_ButtonComponent(string name, string nickname, string description, string category, string subcategory)
           : base(name, nickname,
               description,
@@ -31,7 +32,7 @@ namespace DraftHorse.Component.Base
 
         public bool Execute { get; set; }
         public string ButtonName { get; set; }
-        //public override GH_Exposure Exposure => GH_Exposure.hidden;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         /// <summary>
         /// Registers all the input parameters for this component.

@@ -6,7 +6,7 @@ using Rhino.Geometry;
 
 namespace DraftHorse.Components
 {
-    public class UpdateComponent : GH_Component
+    public class UpdateComponent : Base.DH_UpdateButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the UpdateComponent class.
