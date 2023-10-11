@@ -8,6 +8,7 @@
     <TargetExt>.gha</TargetExt>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/jkamm/DraftHorse_gh</RepositoryUrl>
+    <Copyright>MIT License</Copyright>
   </PropertyGroup>
   
   <ItemGroup>
@@ -50,7 +51,7 @@
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="Copy &quot;$(TargetPath)&quot; &quot;C:\Users\%25USERNAME%25\AppData\Roaming\Grasshopper\Libraries\DraftHorse.gha&quot;&#xD;&#xA;Copy &quot;$(TargetPath)&quot; &quot;C:\git\DraftHorse\DraftHorse.gha&quot;&#xD;&#xA;Erase &quot;$(TargetPath)&quot;" />
+    <Exec Command="Copy &quot;$(TargetPath)&quot; &quot;C:\Users\%25USERNAME%25\AppData\Roaming\Grasshopper\Libraries\DraftHorse.gha&quot;&#xD;&#xA;Copy &quot;$(TargetPath)&quot; &quot;C:\Users\%25USERNAME%25\Documents\Github\DraftHorse_gh\DraftHorse.gha&quot;&#xD;&#xA;Erase &quot;$(TargetPath)&quot;" />
   </Target>
 
 </Project>

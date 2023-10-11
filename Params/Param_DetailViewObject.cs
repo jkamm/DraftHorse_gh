@@ -1,5 +1,9 @@
 ﻿namespace DraftHorse.Params
 {
+    /*
+     Goal is to generate DetailView as a Param object
+     */
+
     /*public class Param_DetailViewObject : GH_Param<GH_DetailView>
     {
         public Param_DetailViewObject()

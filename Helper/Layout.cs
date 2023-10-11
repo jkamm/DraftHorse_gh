@@ -116,7 +116,7 @@ namespace DraftHorse.Helper
                 throw new IndexOutOfRangeException("No template found with name: " + name);
             }
         }
-        public static Rhino.Commands.Result ModifyLayout(Rhino.DocObjects.DetailViewObject detail, RhinoPageView pageview, double scale, Point3d target, Rhino.RhinoDoc doc)
+        public static Rhino.Commands.Result ModifyLayout(DetailViewObject detail, RhinoPageView pageview, double scale, Point3d target, Rhino.RhinoDoc doc)
         {
             if (detail != null)
             {
@@ -204,7 +204,7 @@ namespace DraftHorse.Helper
         /// <param name="target"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public static Rhino.Commands.Result ReviseDetail(Rhino.DocObjects.DetailViewObject detail, Point3d target, double scale)
+        public static Rhino.Commands.Result ReviseDetail(DetailViewObject detail, Point3d target, double scale)
         {
             /* Replace Details
             * - make named detail active (input detailName)
@@ -240,7 +240,7 @@ namespace DraftHorse.Helper
             doc.Views.Redraw();
             return Rhino.Commands.Result.Success;
         }
-        public static Rhino.Commands.Result ReviseDetail(Rhino.DocObjects.DetailViewObject detail, Point3d target, double scale, DefinedViewportProjection projection)
+        public static Rhino.Commands.Result ReviseDetail(DetailViewObject detail, Point3d target, double scale, DefinedViewportProjection projection)
         {
             /* Replace Details
             * - make named detail active (input detailName)
@@ -498,7 +498,7 @@ namespace DraftHorse.Helper
         /// <param name="doc"></param>
         /// <param name="pageUnits"></param>
         /// <returns></returns>
-        public static Rhino.Commands.Result AddLayout(Rhino.RhinoDoc doc, Rhino.UnitSystem pageUnits)
+        public static Rhino.Commands.Result AddLayout(RhinoDoc doc, UnitSystem pageUnits)
         {
             doc.PageUnitSystem = pageUnits;
             var page_views = doc.Views.GetPageViews();
@@ -506,8 +506,8 @@ namespace DraftHorse.Helper
             var pageview = doc.Views.AddPageView(string.Format("A0_{0}", page_number), 1189, 841);
             if (pageview != null)
             {
-                Rhino.Geometry.Point2d top_left = new Rhino.Geometry.Point2d(20, 821);
-                Rhino.Geometry.Point2d bottom_right = new Rhino.Geometry.Point2d(1169, 20);
+                Point2d top_left = new Point2d(20, 821);
+                Point2d bottom_right = new Point2d(1169, 20);
                 var detail = pageview.AddDetailView("ModelView", top_left, bottom_right, Rhino.Display.DefinedViewportProjection.Top);
                 if (detail != null)
                 {

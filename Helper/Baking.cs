@@ -8,6 +8,7 @@ namespace DraftHorse.Helper
 {
     public class Baking
     {
+        //Baking is not implemented yet
         public static void Bake(object obj, Rhino.DocObjects.ObjectAttributes att, int groupIndex)
         {
             RhinoDoc doc = RhinoDoc.ActiveDoc;
