@@ -1,8 +1,11 @@
 ﻿using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types.Transforms;
 using Rhino;
 using Rhino.Display;
 using Rhino.DocObjects;
 using Rhino.Geometry;
+using Rhino.Render.ChangeQueue;
+using Rhino.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -306,17 +309,6 @@ namespace DraftHorse.Helper
             }
         }
 
-        //public static Rhino.Display.RhinoPageView[] GetPages(string name)
-        //{
-        //    var page_views = RhinoDoc.ActiveDoc.Views.GetPageViews();
-        //    //Find page matching template name
-        //    Rhino.Display.RhinoPageView[] pages= Array.FindAll(page_views, (x) => (x.PageName == name));
-        //    //goal: if not found, Throw exception
-        //   if (pages.Length != 0)
-        //        return pages;
-        //   else throw new IndexOutOfRangeException("No page found with name: " + name);
-        //}
-
         public static int[] GetPages(string name)
         {
             var page_views = RhinoDoc.ActiveDoc.Views.GetPageViews();
@@ -508,7 +500,7 @@ namespace DraftHorse.Helper
             {
                 Point2d top_left = new Point2d(20, 821);
                 Point2d bottom_right = new Point2d(1169, 20);
-                var detail = pageview.AddDetailView("ModelView", top_left, bottom_right, Rhino.Display.DefinedViewportProjection.Top);
+                var detail = pageview.AddDetailView("ModelView", top_left, bottom_right, DefinedViewportProjection.Top);
                 if (detail != null)
                 {
                     pageview.SetActiveDetail(detail.Id);
@@ -570,6 +562,87 @@ namespace DraftHorse.Helper
             return Rhino.Commands.Result.Failure;
         }
 
+        public static Rhino.Commands.Result AddLayout(string name, double width, double height, Point3d target, int detailCount, double scale, out RhinoPageView layout)
+        {
+            RhinoDoc doc = RhinoDoc.ActiveDoc;
+
+            var page_views = doc.Views.GetPageViews();
+            //int page_number = (page_views == null) ? 1 : page_views.Length + 1;
+
+            var pageview = doc.Views.AddPageView(name, width, height);
+
+            //goal: check direction, if landscape, switch height and width for points
+                
+            if (pageview != null)
+            {
+                double margin = doc.ModelUnitSystem == UnitSystem.Inches ? .5 : doc.ModelUnitSystem == UnitSystem.Centimeters ? 2.5 : 25;
+
+                double xRight = width - 2 * margin;
+                double xLeft = 0 + margin;
+                double xMid = width / 2;
+                double yTop = height - 2 * margin;
+                double yBottom = 0 + margin;
+                double yMid = height / 2;
+
+                Point2d leftTop = new Point2d(xLeft, yTop);
+                Point2d leftCenter = new Point2d(xLeft, yMid);
+                Point2d midTop = new Point2d(xMid, yTop);
+                Point2d center = new Point2d(xMid, yMid);
+                Point2d midBottom = new Point2d(xMid, yBottom);
+                Point2d rightCenter = new Point2d(xRight, yMid);
+                Point2d rightBottom = new Point2d(xRight, yBottom);
+
+                switch (detailCount)
+                {
+                    case 1:
+                        AddDetail(leftTop, rightBottom, pageview,target, "Top", scale, DefinedViewportProjection.Top);
+                        break;
+                    case 2:
+                        break; 
+                    case 3:
+                        break;
+                    case 4:
+                        AddDetail(leftTop, center, pageview, target, "Top", scale, DefinedViewportProjection.Top);                       
+                        AddDetail(leftCenter, midBottom, pageview, target, "Front", scale, DefinedViewportProjection.Front);
+                        AddDetail(center, rightBottom, pageview, target, "Right", scale, DefinedViewportProjection.Right);
+                        AddDetail(midTop, rightCenter, pageview, target, "Perspective", scale, DefinedViewportProjection.Perspective);
+                        break;
+                    default:
+                        break;
+                }
+                
+                pageview.SetPageAsActive();
+                doc.Views.ActiveView = pageview;
+                doc.Views.Redraw();
+                layout = pageview;
+                return Rhino.Commands.Result.Success;
+            }
+            layout = null;
+            return Rhino.Commands.Result.Failure;
+        }
+
+        public static Rhino.Commands.Result AddDetail(Point2d top_left, Point2d bottom_right, RhinoPageView pageview, Point3d target, string detTitle, double scale, DefinedViewportProjection projection)
+        {
+            RhinoDoc doc = RhinoDoc.ActiveDoc;
+            var detail = pageview.AddDetailView(detTitle, top_left, bottom_right, projection);
+            if (detail != null)
+            {
+                pageview.SetActiveDetail(detail.Id);
+                detail.Viewport.SetCameraTarget(target, true);
+                // CommitViewPortChanges modifies the Viewport only
+                detail.CommitViewportChanges();
+
+                pageview.SetActiveDetail(detail.Id);
+                //detail.Name = detTitle;
+                detail.DetailGeometry.IsProjectionLocked = true;
+                detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
+                // Commit changes tells the document to replace the document's detail object
+                // with the modified one that we just adjusted
+                detail.CommitChanges();
+                return Rhino.Commands.Result.Success;
+            }
+            return Rhino.Commands.Result.Failure;
+        }
         /// <summary>
         /// Sets the size of a Layout for Printing
         /// </summary>
