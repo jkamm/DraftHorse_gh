@@ -1,4 +1,4 @@
-﻿using DraftHorse.Components.Base;
+﻿using DraftHorse.Component.Base;
 using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
@@ -56,7 +56,7 @@ namespace DraftHorse.Component.Base
             if (channel == GH_CanvasChannel.Objects)
             {
                 GH_PaletteStyle impliedStyle = GH_CapsuleRenderEngine.GetImpliedStyle(GH_Palette.Black, Selected, Owner.Locked, hidden: true);
-                GH_Capsule gH_Capsule = GH_Capsule.CreateTextCapsule(ButtonBounds, ButtonBounds, GH_Palette.Black, (base.Owner as DH_ButtonComponent).ButtonName, 2, 0);
+                GH_Capsule gH_Capsule = GH_Capsule.CreateTextCapsule(ButtonBounds, ButtonBounds, GH_Palette.Black, (base.Owner as DH_ButtonComponent).ButtonName, 2, 9);
                 gH_Capsule.RenderEngine.RenderBackground(graphics, canvas.Viewport.Zoom, impliedStyle);
                 if (!mouseDown)
                 {
@@ -67,11 +67,7 @@ namespace DraftHorse.Component.Base
                 {
                     gH_Capsule.RenderEngine.RenderBackground_Alternative(graphics, Color.FromArgb(50, Color.Gray), drawAlphaGrid: false);
                 }
-                if(mouseDown)
-                {
-                    gH_Capsule.RenderEngine.RenderBackground_Alternative(graphics, Color.FromArgb(75, Color.Black), drawAlphaGrid: false);
-                }
-
+               
                 gH_Capsule.RenderEngine.RenderText(graphics, Color.White);
                 gH_Capsule.Dispose();
             }

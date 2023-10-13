@@ -2,8 +2,8 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System;
-using System.Windows.Forms;
-using static DraftHorse.Helper.Layout;
+//using System.Windows.Forms;
+//using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component
 {
@@ -19,7 +19,7 @@ namespace DraftHorse.Component
         {
             ButtonName = "Create";
         }
-        public override GH_Exposure Exposure => GH_Exposure.hidden;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -34,7 +34,7 @@ namespace DraftHorse.Component
             //Params.Input[pManager.AddTextParameter("Paper", "P[]", "PaperName - Set to Custom to set H and W \nAttach ValueList for Papernames", GH_ParamAccess.item,"Custom")].Optional = false;
             Params.Input[pManager.AddNumberParameter("Height", "H", "Custom Page Height", GH_ParamAccess.item, 11)].Optional= false;
             Params.Input[pManager.AddNumberParameter("Width", "W", "Custom Page Width", GH_ParamAccess.item, 17)].Optional = false;
-            pManager.AddIntegerParameter("Units", "U", "Sets Page Units\n\n0 = inches\n1 = centimeters\n2=millimeters", GH_ParamAccess.item,0);
+            pManager.AddIntegerParameter("Units", "U", "Sets Page Units\n\n0 = inches\n1 = centimeters\n2 = millimeters", GH_ParamAccess.item,0);
             //pManager.AddBooleanParameter("Orientation", "O","Sets Page Orientation\nFalse = Portrait\nTrue = Landscape",GH_ParamAccess.item,false);
         }
 
@@ -53,16 +53,22 @@ namespace DraftHorse.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            //If papername and H and W are undefined, then throw error that one or the other must be defined
+            //goal: If papername and H and W are undefined, then throw error that one or the other must be defined
 
-            //Add CustomValueList that generates PaperNames - is there a table, or is this universal (by language)? are they elements in an IEnumerable?
+            //goal: Add CustomValueList that generates PaperNames - is there a table, or is this universal (by language)? are they elements in an IEnumerable?
 
-            //Develop NewLayout function that takes different numbers of details, defining them relative to the size of the layout
+            //in dev: Develop NewLayout function that takes different numbers of details, defining them relative to the size of the layout
+
+            //goal: handle all "optional" inputs
+
             bool run = false;
             DA.GetData("Run", ref run);
 
             string pageName = string.Empty;
             DA.GetData("Name", ref pageName);
+            //example code for optional handling
+            //if (!DA.GetData("Template Index", ref templateIndex)) return;
+            
             //add default pagename if none?
 
             //Get and define paper UnitSystem
@@ -78,7 +84,7 @@ namespace DraftHorse.Component
 
             Point3d target = new Point3d(0, 0, 0);
             DA.GetData("Target", ref target);
-
+           
             int detailCount = 0;
             DA.GetData("Details", ref detailCount);
 
@@ -95,11 +101,13 @@ namespace DraftHorse.Component
 
                 result = Layout.AddLayout(pageName, width, height, target, detailCount, scale, out layout[0]);
 
-                if (result == Rhino.Commands.Result.Success) 
+                if (result != Rhino.Commands.Result.Success) 
                 {
-                    //store name and index of created layout
-                    //else store as null
+                    return;
                 }
+
+                DA.SetData("Layout Index", layout[0].PageNumber);
+                DA.SetData("Layout Name", layout[0].PageName);
             }
 
             return;
@@ -110,15 +118,7 @@ namespace DraftHorse.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.NewLayout;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.

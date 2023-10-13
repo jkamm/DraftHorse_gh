@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DraftHorse.Component
 {
-    public class GetLayoutNames : GH_Component
+    public class GetLayoutNames : Base.DH_UpdateButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the GetLayoutNames class.

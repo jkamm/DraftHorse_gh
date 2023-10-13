@@ -1,6 +1,6 @@
 using Grasshopper.Kernel;
 
-namespace DraftHorse.Components.Base
+namespace DraftHorse.Component.Base
 {
     //Borrowed from Metahopper with permission from Andrew Heumann, 2023
 

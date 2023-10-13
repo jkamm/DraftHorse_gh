@@ -7,7 +7,7 @@ using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
 {
-    public class GetLayoutIndex : GH_Component
+    public class GetLayoutIndex : Base.DH_UpdateButtonComponent
     {
         #region GH_Component
         /// <summary>
@@ -80,14 +80,16 @@ namespace DraftHorse.Component
             get { return new Guid("8dc334f6-2c09-4a37-98c0-0945d58438de"); }
         }
         #endregion GH_Component
+        
         /*
         #region AddUpdateButton
         public override void CreateAttributes()
         {
-            base.m_attributes = new DraftHorse.Component.Base.Attributes_UpdateButton(this);
+            base.m_attributes = new DraftHorse.Component.Base.DH_ButtonComponentAttributes(this);
         }
         #endregion AddUpdateButton
          */
+        
 
         #region Add Value Lists
         protected override void AppendAdditionalComponentMenuItems(System.Windows.Forms.ToolStripDropDown menu)

@@ -545,7 +545,7 @@ namespace DraftHorse.Helper
 
                     pageview.SetActiveDetail(detail.Id);
                     detail.Name = detTitle;
-                    detail.DetailGeometry.IsProjectionLocked = true;
+                    detail.DetailGeometry.IsProjectionLocked = false;
                     detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
                     // Commit changes tells the document to replace the document's detail object
                     // with the modified one that we just adjusted
@@ -577,10 +577,10 @@ namespace DraftHorse.Helper
             {
                 double margin = doc.ModelUnitSystem == UnitSystem.Inches ? .5 : doc.ModelUnitSystem == UnitSystem.Centimeters ? 2.5 : 25;
 
-                double xRight = width - 2 * margin;
+                double xRight = width - margin;
                 double xLeft = 0 + margin;
                 double xMid = width / 2;
-                double yTop = height - 2 * margin;
+                double yTop = height - margin;
                 double yBottom = 0 + margin;
                 double yMid = height / 2;
 
@@ -598,14 +598,19 @@ namespace DraftHorse.Helper
                         AddDetail(leftTop, rightBottom, pageview,target, "Top", scale, DefinedViewportProjection.Top);
                         break;
                     case 2:
+                        AddDetail(leftTop, midBottom, pageview, target, "Top", scale, DefinedViewportProjection.Top);
+                        AddDetail(midTop, rightBottom, pageview, target, "Perspective", scale, DefinedViewportProjection.Perspective);
                         break; 
                     case 3:
+                        AddDetail(leftTop, rightCenter, pageview, target, "Top", scale, DefinedViewportProjection.Top);
+                        AddDetail(leftCenter, midBottom, pageview, target, "Top", scale, DefinedViewportProjection.Front);
+                        AddDetail(center, rightBottom, pageview, target, "Perspective", scale, DefinedViewportProjection.Right);
                         break;
                     case 4:
                         AddDetail(leftTop, center, pageview, target, "Top", scale, DefinedViewportProjection.Top);                       
-                        AddDetail(leftCenter, midBottom, pageview, target, "Front", scale, DefinedViewportProjection.Front);
+                        AddDetail(leftCenter, midBottom, pageview, target, "Perspective", scale, DefinedViewportProjection.Perspective);
                         AddDetail(center, rightBottom, pageview, target, "Right", scale, DefinedViewportProjection.Right);
-                        AddDetail(midTop, rightCenter, pageview, target, "Perspective", scale, DefinedViewportProjection.Perspective);
+                        AddDetail(midTop, rightCenter, pageview, target, "Front", scale, DefinedViewportProjection.Front);
                         break;
                     default:
                         break;
@@ -633,8 +638,8 @@ namespace DraftHorse.Helper
                 detail.CommitViewportChanges();
 
                 pageview.SetActiveDetail(detail.Id);
-                //detail.Name = detTitle;
-                detail.DetailGeometry.IsProjectionLocked = true;
+                detail.Name = detTitle;
+                detail.DetailGeometry.IsProjectionLocked = false;
                 detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
                 // Commit changes tells the document to replace the document's detail object
                 // with the modified one that we just adjusted
