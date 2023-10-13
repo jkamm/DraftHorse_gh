@@ -323,6 +323,16 @@ namespace DraftHorse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap NewLayout {
+            get {
+                object obj = ResourceManager.GetObject("NewLayout", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SetDocText {
             get {
                 object obj = ResourceManager.GetObject("SetDocText", resourceCulture);
