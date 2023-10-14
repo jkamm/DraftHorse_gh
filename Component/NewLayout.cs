@@ -13,11 +13,11 @@ namespace DraftHorse.Component
         public NewLayout()
           : base("Create New Layout", "NewLayout",
               "Create a new layout from scratch",
-              "Drafthorse", "Layouts")
+              "Drafthorse", "Layout-Make")
         {
             ButtonName = "Create";
         }
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -85,7 +85,7 @@ namespace DraftHorse.Component
             int detailCount = 0;
             DA.GetData("Details", ref detailCount);
             detailCount = Math.Min(detailCount, 4);
-            detailCount = Math.Min(detailCount, 0);
+            detailCount = Math.Max(detailCount, 0);
 
             string pageName = string.Empty;
             if(!DA.GetData("Name", ref pageName)) pageName = "New Layout (" + detailCount.ToString() + " details)"  ;

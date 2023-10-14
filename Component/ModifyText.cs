@@ -14,12 +14,12 @@ namespace DraftHorse.Component
         public ModifyText()
           : base("Modify Text", "LOText",
               "Replace text of Named Text Objects on a Layout with new text",
-              "DraftHorse", "Layouts")
+              "DraftHorse", "Layout-Modify")
         {
             ButtonName = "Modify";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

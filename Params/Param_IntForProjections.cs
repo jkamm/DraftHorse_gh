@@ -8,6 +8,14 @@ namespace DraftHorse.Params
         /// Goal: a custom Param component that allows the user to select and store one or more Projections by name
         /// goal: add list of projections in toolstripmenu that store value to the param
         /// </summary>
+        /// 
+        public override string TypeName => "View Projection";
+
+        /*
+        public Param_IntForProjections()
+            : base(new GH_InstanceDescription("dhViewProjection", "View Projection", "Contains View Projection", "DraftHorse", "Params"))
+            { }
+         */
 
         public override void AppendAdditionalMenuItems(System.Windows.Forms.ToolStripDropDown menu)
         {

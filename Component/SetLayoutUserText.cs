@@ -14,11 +14,11 @@ namespace DraftHorse.Component
         public SetLayoutUserText()
           : base("SetLayoutUserText", "SetLOUText",
               "Add Key/Value Pair to Layout's User Text",
-              "Drafthorse", "Layouts")
+              "Drafthorse", "Layout Text")
         {
             ButtonName = "Write";
         }
-        public override GH_Exposure Exposure => GH_Exposure.quinary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

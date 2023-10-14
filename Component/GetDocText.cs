@@ -12,7 +12,7 @@ namespace DraftHorse.Component
         public GetDocText()
           : base("Get Document Text", "GetDocText",
               "Return Document Text Table as Keys and Values",
-              "Drafthorse", "Document")
+              "Drafthorse", "Doc Text")
         {
         }
 

@@ -608,9 +608,9 @@ namespace DraftHorse.Helper
                         break;
                     case 4:
                         AddDetail(leftTop, center, pageview, target, "Top", scale, DefinedViewportProjection.Top);                       
-                        AddDetail(leftCenter, midBottom, pageview, target, "Perspective", scale, DefinedViewportProjection.Perspective);
+                        AddDetail(midTop, rightCenter, pageview, target, "Perspective", scale, DefinedViewportProjection.Perspective);
                         AddDetail(center, rightBottom, pageview, target, "Right", scale, DefinedViewportProjection.Right);
-                        AddDetail(midTop, rightCenter, pageview, target, "Front", scale, DefinedViewportProjection.Front);
+                        AddDetail(leftCenter, midBottom, pageview, target, "Front", scale, DefinedViewportProjection.Front);
                         break;
                     default:
                         break;

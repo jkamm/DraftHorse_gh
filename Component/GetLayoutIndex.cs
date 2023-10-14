@@ -16,7 +16,7 @@ namespace DraftHorse.Component
         public GetLayoutIndex()
           : base("Get Layout Index", "GetLOIndex",
               "Get index map for layout name(s). Be careful of duplicate names",
-              "DraftHorse", "Layouts")
+              "DraftHorse", "Layout-Get")
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -80,16 +80,7 @@ namespace DraftHorse.Component
             get { return new Guid("8dc334f6-2c09-4a37-98c0-0945d58438de"); }
         }
         #endregion GH_Component
-        
-        /*
-        #region AddUpdateButton
-        public override void CreateAttributes()
-        {
-            base.m_attributes = new DraftHorse.Component.Base.DH_ButtonComponentAttributes(this);
-        }
-        #endregion AddUpdateButton
-         */
-        
+           
 
         #region Add Value Lists
         protected override void AppendAdditionalComponentMenuItems(System.Windows.Forms.ToolStripDropDown menu)

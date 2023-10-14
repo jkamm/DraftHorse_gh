@@ -11,7 +11,7 @@ namespace DraftHorse.Component
         public AccessDocText()
           : base("Access Document Text", "AccessDocText",
               "Retrieve a value from the Document Text by key",
-              "Drafthorse", "Document")
+              "Drafthorse", "Doc Text")
         {
         }
 

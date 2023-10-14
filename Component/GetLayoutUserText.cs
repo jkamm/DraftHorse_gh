@@ -12,10 +12,10 @@ namespace DraftHorse.Component
         public GetLayoutUserText()
           : base("Get Layout UserText", "GetLOUserText",
               "Retrieve a Layout's User Text",
-              "Drafthorse", "Layouts")
+              "Drafthorse", "Layout Text")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.quinary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

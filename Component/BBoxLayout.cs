@@ -14,12 +14,12 @@ namespace DraftHorse.Component
         public BBoxLayout()
           : base("Layout By Bounds", "BBox Layout",
               "Generate a Layout with a single detail using a bounding rectangle",
-              "DraftHorse", "Layouts")
+              "DraftHorse", "Layout-Make")
         {
             ButtonName = "Generate";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

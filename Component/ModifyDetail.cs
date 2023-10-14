@@ -17,7 +17,7 @@ namespace DraftHorse.Component
         public ModifyDetail()
           : base("Modify Details", "LODetails",
               "Repoint detail views in a layout",
-              "DraftHorse", "Details")
+              "DraftHorse", "Layout-Modify")
         {
             ButtonName = "Modify";
         }
@@ -35,7 +35,7 @@ namespace DraftHorse.Component
             pManager.AddParameter(guidParam, "Detail GUID", "D", "GUID for Detail Object", GH_ParamAccess.item);
             Params.Input[pManager.AddPointParameter("Target", "T", "Target for Detail", GH_ParamAccess.item)].Optional = true;
             Params.Input[pManager.AddNumberParameter("Scale", "S", "Model Units per Paperspace Unit", GH_ParamAccess.item, 1)].Optional = true;
-            Params.Input[pManager.AddIntegerParameter("Projection", "P[]", "View Projection", GH_ParamAccess.item)].Optional = true;
+            Params.Input[pManager.AddIntegerParameter("Projection", "P[]", "View Projection \nAttach Value List for list of projections", GH_ParamAccess.item)].Optional = true;
             //Goal: Add Value List Generation for Named Views
         }
 

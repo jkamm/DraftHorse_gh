@@ -12,10 +12,10 @@ namespace DraftHorse.Component
         public DeconstructDetail()
           : base("Deconstruct Detail", "DecDetail",
               "Deconstruct a Detail into its Composition and Attributes",
-              "DraftHorse", "Details")
+              "DraftHorse", "Layout-Modify")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -41,6 +41,7 @@ namespace DraftHorse.Component
             pManager.AddRectangleParameter("Bounds", "B", "Boundary of detail viewport in Rhino Space", GH_ParamAccess.item);
             pManager.AddPointParameter("Target", "T", "Viewport Camera Target", GH_ParamAccess.item);
             pManager.AddGenericParameter("Attributes", "A", "Detail Attributes", GH_ParamAccess.item);
+            pManager.AddTextParameter("Name", "N", "Detail Name", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -69,8 +70,9 @@ namespace DraftHorse.Component
 
             Rhino.DocObjects.ObjectAttributes att = detail.Attributes;
             Guid viewportId = att.ViewportId;
-            //var parentView = viewport.ParentView;
-            //var parent = parentView.
+            var parentView = viewport.ParentView;
+            
+            //var parent = parentView
             //get viewport name from ViewportId
             //return viewportName which should be the layout it belongs to.
 
@@ -91,6 +93,7 @@ namespace DraftHorse.Component
             DA.SetData("Bounds", rhinoBounds);
             DA.SetData("Target", targetPt);
             DA.SetData("Attributes", att);
+            DA.SetData("Name", att.Name);
 
         }
 

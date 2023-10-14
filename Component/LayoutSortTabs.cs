@@ -17,12 +17,12 @@ namespace DraftHorse.Component
         public LayoutSortTabs()
           : base("Layout Sort Tabs", "LOSort",
               "Sort Layout Tabs in Rhino\nDefault Sorts Layouts by Name",
-              "DraftHorse", "Layouts")
+              "DraftHorse", "Layout-Modify")
         {
             ButtonName = "Sort";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

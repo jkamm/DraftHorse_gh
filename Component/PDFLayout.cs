@@ -16,14 +16,14 @@ namespace DraftHorse.Component
         /// Initializes a new instance of the PDFLayout class.
         /// </summary>
         public PDFLayout()
-          : base("PDF Layout", "LOpdf",
+          : base("PDF Layout", "DH pdf",
               "Print Multiple Layouts to PDF",
-              "DraftHorse", "Layouts")
+              "DraftHorse", "Layout-Utility")
         {
             ButtonName = "Print";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
 
         /// <summary>
@@ -32,24 +32,21 @@ namespace DraftHorse.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             //need to add default behavior for no indices - print all
+            var bToggleParam = new DraftHorse.Params.Param_BooleanToggle();
+            Params.Input[pManager.AddParameter(bToggleParam, "Run", "R", "Set to true to Print \nUse Toggle only (not Button)", GH_ParamAccess.item)].Optional = true; 
             Params.Input[pManager.AddIntegerParameter("LayoutIndex", "Li[]", "List of Indices for Layouts to Print to PDF \nAttach Value List for list of Layouts", GH_ParamAccess.list)].Optional = true;
             Grasshopper.Kernel.Parameters.Param_FilePath filePath = new Grasshopper.Kernel.Parameters.Param_FilePath();
             pManager.AddParameter(filePath, "Folder", "F", "Target Folder to Save PDFs \nWill create if it does not exist", GH_ParamAccess.item);
             pManager.AddTextParameter("Filename", "N", "Filename", GH_ParamAccess.item, "Layout");
             Params.Input[pManager.AddIntegerParameter("DPI", "DPI", "Print Resolution (72-1200) Default is 100", GH_ParamAccess.item, 100)].Optional = true;
-            Params.Input[pManager.AddIntegerParameter("ColorMode", "C", "[0]Black&White, [1]Display Color, [2]Print Color", GH_ParamAccess.item, 0)].Optional = true;
+            Params.Input[pManager.AddIntegerParameter("ColorMode", "C", "0 = Black&White\n1 = Display Color\n2 = Print Color", GH_ParamAccess.item, 0)].Optional = true;
             Params.Input[pManager.AddBooleanParameter("UsePrintWidths", "U", "Use defined print widths (False prints Display values) ", GH_ParamAccess.item, true)].Optional = true;
             Params.Input[pManager.AddNumberParameter("DefaultWidth", "D", "Set default print width for undefined", GH_ParamAccess.item, 0.1)].Optional = true;
             Params.Input[pManager.AddNumberParameter("WireScale", "W", "Scale width of curves in print", GH_ParamAccess.item, 1)].Optional = true;
-            var bToggleParam = new DraftHorse.Params.Param_BooleanToggle();
-            Params.Input[pManager.AddParameter(bToggleParam, "Run", "R", "Set to true to Print \nUse Toggle only (not Button)", GH_ParamAccess.item)].Optional = true;
+            
 
         }
-
-        //public bool execute = false;
-        //this is to enable the button to drive execution of the component.
-        //It doesn't work right now.
-
+          
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
