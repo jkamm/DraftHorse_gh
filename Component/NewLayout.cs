@@ -2,8 +2,6 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System;
-//using System.Windows.Forms;
-//using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component
 {
@@ -28,13 +26,13 @@ namespace DraftHorse.Component
             var bToggleParam = new DraftHorse.Params.Param_BooleanToggle();
             Params.Input[pManager.AddParameter(bToggleParam, "Run", "R", "Do not use button to activate - toggle only", GH_ParamAccess.item)].Optional = true;
             Params.Input[pManager.AddTextParameter("Name", "N", "PageName for new layout", GH_ParamAccess.item)].Optional = true;
+            Params.Input[pManager.AddNumberParameter("Height", "H", "Custom Page Height", GH_ParamAccess.item, 11)].Optional = false;
+            Params.Input[pManager.AddNumberParameter("Width", "W", "Custom Page Width", GH_ParamAccess.item, 17)].Optional = false; 
             Params.Input[pManager.AddIntegerParameter("Details", "D", "Details (0-4)", GH_ParamAccess.item,4)].Optional = true;
-            Params.Input[pManager.AddPointParameter("Target", "T", "Target of Details",GH_ParamAccess.item )].Optional = true;
+            Params.Input[pManager.AddPointParameter("Target", "T", "Single target for all details on a single layout",GH_ParamAccess.item )].Optional = true;
             Params.Input[pManager.AddNumberParameter("Scale", "S", "Scale for details", GH_ParamAccess.item,1)].Optional = true;
-            //Params.Input[pManager.AddTextParameter("Paper", "P[]", "PaperName - Set to Custom to set H and W \nAttach ValueList for Papernames", GH_ParamAccess.item,"Custom")].Optional = false;
-            Params.Input[pManager.AddNumberParameter("Height", "H", "Custom Page Height", GH_ParamAccess.item, 11)].Optional= false;
-            Params.Input[pManager.AddNumberParameter("Width", "W", "Custom Page Width", GH_ParamAccess.item, 17)].Optional = false;
             pManager.AddIntegerParameter("Units", "U", "Sets Page Units\n\n0 = inches\n1 = centimeters\n2 = millimeters", GH_ParamAccess.item,0);
+            //Params.Input[pManager.AddTextParameter("Paper", "P[]", "PaperName - Set to Custom to use H and W \nAttach ValueList for Papernames", GH_ParamAccess.item,"Custom")].Optional = false;
             //pManager.AddBooleanParameter("Orientation", "O","Sets Page Orientation\nFalse = Portrait\nTrue = Landscape",GH_ParamAccess.item,false);
         }
 
@@ -43,8 +41,8 @@ namespace DraftHorse.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Layout Index", "Li", "Index of new Layout(s)", GH_ParamAccess.item);
-            pManager.AddTextParameter("Layout Name", "N", "Name of new Layout(s)", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Layout Index", "Li", "Index of last created Layout(s)", GH_ParamAccess.item);
+            pManager.AddTextParameter("Layout Name", "N", "Name of last created Layout(s)", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -64,34 +62,42 @@ namespace DraftHorse.Component
             bool run = false;
             DA.GetData("Run", ref run);
 
-            string pageName = string.Empty;
-            DA.GetData("Name", ref pageName);
+            
             //example code for optional handling
             //if (!DA.GetData("Template Index", ref templateIndex)) return;
-            
+
             //add default pagename if none?
 
             //Get and define paper UnitSystem
             int units = 0;
             DA.GetData("Units", ref units);
-            Rhino.UnitSystem pageUnits = units == 0 ? Rhino.UnitSystem.Inches : units == 1 ? Rhino.UnitSystem.Centimeters : Rhino.UnitSystem.Millimeters;
+            Rhino.UnitSystem pageUnits = units == 2 ? Rhino.UnitSystem.Millimeters : units == 1 ? Rhino.UnitSystem.Centimeters : Rhino.UnitSystem.Inches;
 
             double width = 0;
-            DA.GetData("Width", ref width);
+            if (!DA.GetData("Width", ref width)) return;
 
             double height = 0;
-            DA.GetData("Height", ref height); 
+            if (!DA.GetData("Height", ref height)) return;
 
             Point3d target = new Point3d(0, 0, 0);
             DA.GetData("Target", ref target);
-           
+
             int detailCount = 0;
             DA.GetData("Details", ref detailCount);
+            detailCount = Math.Min(detailCount, 4);
+            detailCount = Math.Min(detailCount, 0);
 
+            string pageName = string.Empty;
+            if(!DA.GetData("Name", ref pageName)) pageName = "New Layout (" + detailCount.ToString() + " details)"  ;
+            
             double scale = 1;
             DA.GetData("Scale", ref scale);
+            //do some exception handling on scale?
+            scale = Math.Min(scale, 1000);
+            scale = Math.Max(scale, 0.001);
 
             Rhino.Commands.Result result = new Rhino.Commands.Result();
+            
 
             if (Execute || run)
             {
@@ -101,20 +107,23 @@ namespace DraftHorse.Component
 
                 result = Layout.AddLayout(pageName, width, height, target, detailCount, scale, out layout[0]);
 
-                if (result != Rhino.Commands.Result.Success) 
+                if (result != Rhino.Commands.Result.Success)
                 {
                     return;
                 }
-
-                DA.SetData("Layout Index", layout[0].PageNumber);
-                DA.SetData("Layout Name", layout[0].PageName);
+                layoutIndex = layout[0].PageNumber.ToString();
+                layoutName = layout[0].PageName;
             }
+
+            if (layoutIndex != string.Empty) DA.SetData("Layout Index", int.Parse(layoutIndex));
+            if (layoutName != string.Empty) DA.SetData("Layout Name", layoutName);
 
             return;
 
 
         }
-
+        string layoutIndex = string.Empty;
+        string layoutName = string.Empty;
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
