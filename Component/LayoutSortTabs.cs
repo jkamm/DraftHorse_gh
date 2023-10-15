@@ -17,7 +17,7 @@ namespace DraftHorse.Component
         public LayoutSortTabs()
           : base("Layout Sort Tabs", "LOSort",
               "Sort Layout Tabs in Rhino\nDefault Sorts Layouts by Name",
-              "DraftHorse", "Layout-Modify")
+              "DraftHorse", "Layout-Edit")
         {
             ButtonName = "Sort";
         }

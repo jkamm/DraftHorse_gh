@@ -1,5 +1,6 @@
 ﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
+using Rhino.Display;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -7,17 +8,17 @@ using System.Linq;
 
 namespace DraftHorse.Component
 {
-    public class ModifyDetail : Base.DH_ButtonComponent
+    public class DetailEdit : Base.DH_ButtonComponent
     {
 
 
         /// <summary>
         /// Initializes a new instance of the ReplaceDetails class.
         /// </summary>
-        public ModifyDetail()
-          : base("Modify Details", "LODetails",
-              "Repoint detail views in a layout",
-              "DraftHorse", "Layout-Modify")
+        public DetailEdit()
+          : base("Edit Details", "DetailEdit",
+              "Modify detail views in a layout",
+              "DraftHorse", "Layout-Edit")
         {
             ButtonName = "Modify";
         }
@@ -33,10 +34,12 @@ namespace DraftHorse.Component
             Params.Input[pManager.AddParameter(bToggle, "Run", "R", "Do not use button to activate - toggle only", GH_ParamAccess.item)].Optional = true;
             var guidParam = new Grasshopper.Kernel.Parameters.Param_Guid();
             pManager.AddParameter(guidParam, "Detail GUID", "D", "GUID for Detail Object", GH_ParamAccess.item);
-            Params.Input[pManager.AddPointParameter("Target", "T", "Target for Detail", GH_ParamAccess.item)].Optional = true;
-            Params.Input[pManager.AddNumberParameter("Scale", "S", "Model Units per Paperspace Unit", GH_ParamAccess.item, 1)].Optional = true;
+            Params.Input[pManager.AddPointParameter("Target", "T", "Camera Target for Detail", GH_ParamAccess.item)].Optional = true;
+            Params.Input[pManager.AddNumberParameter("Scale", "S", "Page Units per Model Unit", GH_ParamAccess.item)].Optional = true;
             Params.Input[pManager.AddIntegerParameter("Projection", "P[]", "View Projection \nAttach Value List for list of projections", GH_ParamAccess.item)].Optional = true;
             //Goal: Add Value List Generation for Named Views
+            Params.Input[pManager.AddTextParameter("DisplayMode", "D[]", "Display Mode \nAttach Value List for list of Display Modes", GH_ParamAccess.item)].Optional = true;
+
         }
 
         /// <summary>
@@ -45,6 +48,12 @@ namespace DraftHorse.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Result", "R", "Success or Failure for each detail", GH_ParamAccess.item);
+            var guidParam = new Grasshopper.Kernel.Parameters.Param_Guid();
+            pManager.AddParameter(guidParam, "Detail GUID", "D", "GUID for Detail Object", GH_ParamAccess.item);
+            pManager.AddPointParameter("Target", "T", "Camera Target for Detail", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Scale", "S", "Page Units per Model Unit", GH_ParamAccess.item);
+            pManager.AddTextParameter("ViewName", "V", "ViewPort Viewname", GH_ParamAccess.item);  
+            pManager.AddTextParameter("DisplayMode", "D", "Display Mode", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -70,50 +79,59 @@ namespace DraftHorse.Component
             Guid detailGUID = Guid.Empty;
             DA.GetData("Detail GUID", ref detailGUID);
             Rhino.DocObjects.DetailViewObject detail = Rhino.RhinoDoc.ActiveDoc.Objects.FindId(detailGUID) as Rhino.DocObjects.DetailViewObject; ;
+           
 
             Point3d target = new Point3d();
-            DA.GetData("Target", ref target);
+            if(!DA.GetData("Target", ref target)) target = detail.Viewport.CameraTarget;
+            //DA.GetData("Target", ref target);
 
             double scale = 1.0;
-            DA.GetData("Scale", ref scale);
+            if(!DA.GetData("Scale", ref scale)) scale = detail.DetailGeometry.PageToModelRatio;
+            //DA.GetData("Scale", ref scale);
 
             int pNum = 0;
-            if (!DA.GetData("Projection", ref pNum)) pNum = 0;
+            //if (!DA.GetData("Projection", ref pNum)) pNum = 0;
+            DA.GetData("Projection", ref pNum);
 
             if (!Enum.IsDefined(typeof(Rhino.Display.DefinedViewportProjection), pNum))
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, pNum + " is not a valid Projection");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, pNum + " is not a valid Projection number. Projection will not be modified");
             }
 
             Rhino.Display.DefinedViewportProjection projection = (Rhino.Display.DefinedViewportProjection)pNum;
 
+            string dName = String.Empty;
+            if (!DA.GetData("DisplayMode", ref dName)) dName = detail.Viewport.DisplayMode.EnglishName;
+            DisplayModeDescription displayMode = detail.Viewport.DisplayMode;
+
+            //convert LocalName to EnglishName
+            if (ValList.GetDisplaySettingsList(true).Contains(dName))
+                dName = ValList.GetDisplaySettingsList(false)[ValList.GetDisplaySettingsList(true).IndexOf(dName)];
+
+            if (!ValList.GetDisplaySettingsList(false).Contains(dName))
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, dName + " is not a valid Display Mode name");
+            else
+            {
+                //Change to type DisplayModeDescription
+                displayMode = DisplayModeDescription.GetDisplayModes().First(mode => mode.DisplayAttributes.EnglishName == dName);
+            }
+
             if (Execute || run)
             {
                 //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale);
-                Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection);
+                //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection);
+                Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode);
                 DA.SetData("Result", detailResult);
             }
+            DA.SetData("Detail GUID", detailGUID);
+            DA.SetData("Target", detail.Viewport.CameraTarget);
+            DA.SetData("Projection", detail.Viewport.Name);
+            DA.SetData("DisplayMode", detail.Viewport.DisplayMode.EnglishName);
+            DA.SetData("Scale", detail.DetailGeometry.PageToModelRatio);
+
         }
 
-        /*
-          bool run = Run;
 
-    double scale = Scale; // goal: set default scale to 1 or limit scale settings
-    Point3d target = Target; //goal: set default behavior for target? Do not change if no input?
-    Rhino.DocObjects.DetailViewObject detail = Detail as Rhino.DocObjects.DetailViewObject; //goal: add message if detail is not a valid detail?
-
-    // get the layout viewport containing the detail
-    RhinoPageView[] page_views = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews();
-    IEnumerable<RhinoPageView> query = from page in page_views
-        where page.MainViewport.Id == detail.Attributes.ViewportId
-        select page;
-    RhinoPageView pageview = query.ElementAt(0);
-
-    if (Run)
-    {
-      Result = ModifyLayout(detail, pageview, scale, target, doc);
-    }
-         */
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -131,10 +149,11 @@ namespace DraftHorse.Component
         protected override void AppendAdditionalComponentMenuItems(System.Windows.Forms.ToolStripDropDown menu)
         {
             base.AppendAdditionalComponentMenuItems(menu);
-            Menu_AppendItem(menu, "Add/Update List of Views", Menu_DoClick);
+            Menu_AppendItem(menu, "Add List of Views", Menu_ViewClick);
+            Menu_AppendItem(menu, "Add List of DisplayModes", Menu_DisplayClick);
         }
 
-        private void Menu_DoClick(object sender, EventArgs e)
+        private void Menu_ViewClick(object sender, EventArgs e)
         {
             //List<string> pageViewNames = ValList.GetStandardViewList();
             string[] pNames = Enum.GetNames(typeof(Rhino.Display.DefinedViewportProjection));
@@ -144,6 +163,17 @@ namespace DraftHorse.Component
 
 
             if (!ValList.AddOrUpdateValueList(this, 4, "Views", "Pick Projection: ", projNames, projVals))
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "ValueList at input [" + 0 + "] failed to update");
+
+            ExpireSolution(true);
+        }
+
+        private void Menu_DisplayClick(object sender, EventArgs e)
+        {
+            List<string> dNames = ValList.GetDisplaySettingsList(false);
+            List<string> dLocalNames = ValList.GetDisplaySettingsList(true);
+
+            if (!ValList.AddOrUpdateValueList(this, 5, "DisplayMode", "Pick DisplayMode: ", dLocalNames, dNames))
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "ValueList at input [" + 0 + "] failed to update");
 
             ExpireSolution(true);

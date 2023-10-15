@@ -16,7 +16,7 @@ namespace DraftHorse.Component
         public CopyLayout()
           : base("Copy Layout", "CopyLayout",
               "Instantiate a Layout from a template in the document",
-              "DraftHorse", "Layout-Make")
+              "DraftHorse", "Layout-Add")
         {
             ButtonName = "Copy";
         }

@@ -285,6 +285,51 @@ namespace DraftHorse.Helper
             return Rhino.Commands.Result.Success;
         }
 
+        public static Rhino.Commands.Result ReviseDetail(DetailViewObject detail, Point3d target, double scale, DefinedViewportProjection projection, DisplayModeDescription displayMode)
+        {
+            /* Replace Details
+            * - make named detail active (input detailName)
+            * - change named view to thisNamedView (input namedView)
+            * - point to target
+            * - set scale - add as input
+            * - check other attributes
+            * - deactivate
+            * - return Success/Failure
+            * - goal: change to qualified success/failure with more info. 
+            */
+
+            //get all details 
+            RhinoDoc doc = RhinoDoc.ActiveDoc;
+            RhinoPageView[] page_views = RhinoDoc.ActiveDoc.Views.GetPageViews();
+            RhinoPageView page = Array.Find(page_views, (x) => x.MainViewport.Id.Equals(detail.Attributes.ViewportId));
+
+            /*
+            //get Named View index
+            int nViewIndex = doc.NamedViews.FindByName(namedView);
+            if (nViewIndex == -1) throw new Exception("named view not found: " + namedView);
+            //need better exception handling here, deliver Result.Failure? 
+
+            RhinoView sView = doc.Views.Find(namedView, false);
+             */
+
+            page.SetActiveDetail(detail.Id);
+            if (!projection.Equals(DefinedViewportProjection.None)) detail.Viewport.SetProjection(projection, projection.ToString(), true);
+            //doc.NamedViews.Restore(nViewIndex, detail.Viewport);
+            detail.Viewport.SetCameraTarget(target, true);
+
+            detail.Viewport.DisplayMode = displayMode;
+            detail.CommitViewportChanges();
+
+            detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
+            
+            detail.CommitChanges();
+
+            page.SetPageAsActive();
+            doc.Views.ActiveView = page;
+            doc.Views.Redraw();
+            return Rhino.Commands.Result.Success;
+        }
+
         public static void RefreshView(RhinoPageView page)
         {
             page.SetPageAsActive();

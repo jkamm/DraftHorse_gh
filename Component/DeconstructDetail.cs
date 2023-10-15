@@ -12,7 +12,7 @@ namespace DraftHorse.Component
         public DeconstructDetail()
           : base("Deconstruct Detail", "DecDetail",
               "Deconstruct a Detail into its Composition and Attributes",
-              "DraftHorse", "Layout-Modify")
+              "DraftHorse", "Layout-Edit")
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;

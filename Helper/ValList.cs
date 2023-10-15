@@ -370,15 +370,14 @@ namespace DraftHorse.Helper
             return Rhino.RhinoDoc.ActiveDoc.Views.GetStandardRhinoViews().ToDictionary(v => v.ActiveViewport.Name, v => v).Keys.ToList();
         }
 
+        public static List<string> GetDisplaySettingsList(bool local)
+        {
+            if(local) return DisplayModeDescription.GetDisplayModes().ToDictionary(v => v.DisplayAttributes.LocalName, v => v).Keys.ToList();
+            else return DisplayModeDescription.GetDisplayModes().ToDictionary(v => v.DisplayAttributes.EnglishName, v => v).Keys.ToList();
+        }
 
         #endregion Special Value Lists
-
-        #region Add boolean instantiator
-
-        //Want to add this to the input menu list.  need to edit the boolean type and instantiate a special type of boolean.
-
-        #endregion Add boolean instantiator
-
+               
     }
 
 

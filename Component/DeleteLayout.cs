@@ -16,7 +16,7 @@ namespace DraftHorse.Component
         public DeleteLayout()
           : base("Delete Layout", "DeleteLayout",
               "Delete a Layout using its Index (use Layout Index to get index from name) \nWARNING: THIS CANNOT BE UNDONE! ",
-              "DraftHorse", "Layout-Modify")
+              "DraftHorse", "Layout-Edit")
         {
             ButtonName = "Delete";
         }

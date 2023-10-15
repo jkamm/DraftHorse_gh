@@ -16,7 +16,7 @@ namespace DraftHorse.Component
         public DeconstructLayout()
           : base("Deconstruct Layout", "LODecLayout",
               "Deconstruct a Layout into its Composition and Attributes",
-              "DraftHorse", "Layout-Modify")
+              "DraftHorse", "Layout-Edit")
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;

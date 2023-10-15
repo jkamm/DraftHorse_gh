@@ -13,7 +13,7 @@ namespace DraftHorse.Component
         public NewLayout()
           : base("Create New Layout", "NewLayout",
               "Create a new layout from scratch",
-              "Drafthorse", "Layout-Make")
+              "Drafthorse", "Layout-Add")
         {
             ButtonName = "Create";
         }

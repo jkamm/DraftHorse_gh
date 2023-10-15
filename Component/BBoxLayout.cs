@@ -14,7 +14,7 @@ namespace DraftHorse.Component
         public BBoxLayout()
           : base("Layout By Bounds", "BBox Layout",
               "Generate a Layout with a single detail using a bounding rectangle",
-              "DraftHorse", "Layout-Make")
+              "DraftHorse", "Layout-Add")
         {
             ButtonName = "Generate";
         }

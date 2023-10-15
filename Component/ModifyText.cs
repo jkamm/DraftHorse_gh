@@ -14,7 +14,7 @@ namespace DraftHorse.Component
         public ModifyText()
           : base("Modify Text", "LOText",
               "Replace text of Named Text Objects on a Layout with new text",
-              "DraftHorse", "Layout-Modify")
+              "DraftHorse", "Layout-Edit")
         {
             ButtonName = "Modify";
         }
