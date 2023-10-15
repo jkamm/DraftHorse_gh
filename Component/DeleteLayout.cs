@@ -39,7 +39,9 @@ namespace DraftHorse.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddBooleanParameter("Done", "Done", "action completed", GH_ParamAccess.item);
-            //pManager.AddTextParameter("Deleted", "Del", "Layouts deleted", GH_ParamAccess.list);
+            //Don't know why this isn't working, but it's not.  Something to do with int type
+            //pManager.AddIntegerParameter("Deleted", "Del", "Layouts deleted", GH_ParamAccess.list);
+
         }
 
         /// <summary>
@@ -94,6 +96,7 @@ namespace DraftHorse.Component
                     ? "Delete Layout?"
                     : "Delete Layouts?";
 
+                
                 var result2 = overrideMessage == false
                     ? MessageBox.Show("WARNING: this cannot be undone \nright click on component to hide this message",
                     warning, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -109,8 +112,11 @@ namespace DraftHorse.Component
                    
 
                     Done = true;
+                    Execute = false;
                 }
                 DA.SetData(0, Done);
+                //Not currently working
+                //DA.SetData("Deleted", uniqIndexList.ToArray());
             }
         }
 
@@ -228,12 +234,12 @@ namespace DraftHorse.Component
             //if (e.Type == GH_ObjectEventType.Sources)
             //    Rhino.RhinoApp.WriteLine("Sources changed on input '{0}'.", sender.NickName);
 
-            if (sender.NickName == Params.Input[1].NickName)
+            if (sender.NickName == Params.Input[1].NickName) 
             {
                 // optional feedback
                 // Rhino.RhinoApp.WriteLine("This is the right input");
 
-                var pageDictionary = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews().ToDictionary(v => v.PageName, v => v.PageNumber);
+                var pageDictionary = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews().ToDictionary(v => v.PageNumber.ToString(), v => v.PageName);
                 List<string> pageViewNames = pageDictionary.Keys.ToList();
                 List<string> layoutIndices = new List<string>();
                 for (int i = 0; i < pageViewNames.Count; i++)

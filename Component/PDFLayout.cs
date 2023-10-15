@@ -18,7 +18,7 @@ namespace DraftHorse.Component
         public PDFLayout()
           : base("PDF Layout", "DH pdf",
               "Print Multiple Layouts to PDF",
-              "DraftHorse", "Layout-Utility")
+              "DraftHorse", "Utility")
         {
             ButtonName = "Print";
         }

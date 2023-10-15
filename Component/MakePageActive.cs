@@ -12,7 +12,7 @@ namespace DraftHorse.Component
         public MakePageActive()
           : base("Make Page Active", "Active Page",
               "Make a page active (primarily for Baking)",
-              "DraftHorse", "Layout-Utility")
+              "DraftHorse", "Utility")
         {
             ButtonName = "Activate";
         }
