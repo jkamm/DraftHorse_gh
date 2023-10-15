@@ -54,6 +54,8 @@ namespace DraftHorse.Component
             pManager.AddNumberParameter("Scale", "S", "Page Units per Model Unit", GH_ParamAccess.item);
             pManager.AddTextParameter("ViewName", "V", "ViewPort Viewname", GH_ParamAccess.item);  
             pManager.AddTextParameter("DisplayMode", "D", "Display Mode", GH_ParamAccess.item);
+            /*
+             */
         }
 
         /// <summary>
@@ -78,15 +80,16 @@ namespace DraftHorse.Component
 
             Guid detailGUID = Guid.Empty;
             DA.GetData("Detail GUID", ref detailGUID);
+            if (detailGUID == null) { return; }
             Rhino.DocObjects.DetailViewObject detail = Rhino.RhinoDoc.ActiveDoc.Objects.FindId(detailGUID) as Rhino.DocObjects.DetailViewObject; ;
-           
+
 
             Point3d target = new Point3d();
-            if(!DA.GetData("Target", ref target)) target = detail.Viewport.CameraTarget;
+            if (!DA.GetData("Target", ref target)) target = detail.Viewport.CameraTarget;
             //DA.GetData("Target", ref target);
 
             double scale = 1.0;
-            if(!DA.GetData("Scale", ref scale)) scale = detail.DetailGeometry.PageToModelRatio;
+            if (!DA.GetData("Scale", ref scale)) scale = detail.DetailGeometry.PageToModelRatio;
             //DA.GetData("Scale", ref scale);
 
             int pNum = 0;
@@ -125,10 +128,9 @@ namespace DraftHorse.Component
             }
             DA.SetData("Detail GUID", detailGUID);
             DA.SetData("Target", detail.Viewport.CameraTarget);
-            DA.SetData("Projection", detail.Viewport.Name);
-            DA.SetData("DisplayMode", detail.Viewport.DisplayMode.EnglishName);
             DA.SetData("Scale", detail.DetailGeometry.PageToModelRatio);
-
+            DA.SetData("ViewName", detail.Viewport.Name);
+            DA.SetData("DisplayMode", detail.Viewport.DisplayMode.EnglishName);
         }
 
 

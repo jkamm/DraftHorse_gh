@@ -16,7 +16,7 @@ namespace DraftHorse.Component
         public GetLayoutIndex()
           : base("Get Layout Index", "GetLOIndex",
               "Get index map for layout name(s). Be careful of duplicate names",
-              "DraftHorse", "Layout-Get")
+              "DraftHorse", "Layout Get")
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;

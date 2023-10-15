@@ -13,7 +13,7 @@ namespace DraftHorse.Component
         public GetLayoutNames()
           : base("Get Layout Names", "GetLONames",
               "Get LayoutNames by Index or get all (default)",
-              "DraftHorse", "Layout-Get")
+              "DraftHorse", "Layout Get")
         {
         }
 
