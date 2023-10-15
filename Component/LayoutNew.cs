@@ -5,12 +5,12 @@ using System;
 
 namespace DraftHorse.Component
 {
-    public class NewLayout : Base.DH_ButtonComponent
+    public class LayoutNew : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the NewLayout class.
         /// </summary>
-        public NewLayout()
+        public LayoutNew()
           : base("Create New Layout", "NewLayout",
               "Create a new layout from scratch",
               "Drafthorse", "Layout-Add")
