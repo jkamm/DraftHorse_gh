@@ -620,7 +620,13 @@ namespace DraftHorse.Helper
                 
             if (pageview != null)
             {
-                double margin = doc.ModelUnitSystem == UnitSystem.Inches ? .5 : doc.ModelUnitSystem == UnitSystem.Centimeters ? 2.5 : 25;
+                double margin = doc.PageUnitSystem == UnitSystem.Inches ? .5 : doc.PageUnitSystem == UnitSystem.Centimeters ? 2.5 : 25;
+                //need to handle size of default page so that margin does not exceed it.
+                if(margin > width || margin > height)
+                {
+                    layout = null;
+                    return Rhino.Commands.Result.Failure;
+                }
 
                 double xRight = width - margin;
                 double xLeft = 0 + margin;
@@ -669,6 +675,78 @@ namespace DraftHorse.Helper
             }
             layout = null;
             return Rhino.Commands.Result.Failure;
+        }
+
+        public static Tuple<bool, string> AddNewLayout(string name, double width, double height, Point3d target, int detailCount, double scale, out RhinoPageView layout)
+        {
+            RhinoDoc doc = RhinoDoc.ActiveDoc;
+
+            var page_views = doc.Views.GetPageViews();
+            //int page_number = (page_views == null) ? 1 : page_views.Length + 1;
+
+            var pageview = doc.Views.AddPageView(name, width, height);
+
+            //goal: check direction, if landscape, switch height and width for points
+
+            if (pageview != null)
+            {
+                double margin = doc.PageUnitSystem == UnitSystem.Inches ? .5 : doc.PageUnitSystem == UnitSystem.Centimeters ? 1.25 : 12.5;
+                //need to handle size of default page so that margin does not exceed it.
+                if (margin > width || margin > height)
+                {
+                    pageview.Close();
+                    layout = null;
+                    return new Tuple<bool, string>(false, "the size of the default margin exceeds the page size\n(1/2 in. or equivalent) Check the size and units ");
+                }
+
+                double xRight = width - margin;
+                double xLeft = 0 + margin;
+                double xMid = width / 2;
+                double yTop = height - margin;
+                double yBottom = 0 + margin;
+                double yMid = height / 2;
+
+                Point2d leftTop = new Point2d(xLeft, yTop);
+                Point2d leftCenter = new Point2d(xLeft, yMid);
+                Point2d midTop = new Point2d(xMid, yTop);
+                Point2d center = new Point2d(xMid, yMid);
+                Point2d midBottom = new Point2d(xMid, yBottom);
+                Point2d rightCenter = new Point2d(xRight, yMid);
+                Point2d rightBottom = new Point2d(xRight, yBottom);
+
+                switch (detailCount)
+                {
+                    case 1:
+                        AddDetail(leftTop, rightBottom, pageview, target, "Top", scale, DefinedViewportProjection.Top);
+                        break;
+                    case 2:
+                        AddDetail(leftTop, midBottom, pageview, target, "Top", scale, DefinedViewportProjection.Top);
+                        AddDetail(midTop, rightBottom, pageview, target, "Perspective", scale, DefinedViewportProjection.Perspective);
+                        break;
+                    case 3:
+                        AddDetail(leftTop, rightCenter, pageview, target, "Top", scale, DefinedViewportProjection.Top);
+                        AddDetail(leftCenter, midBottom, pageview, target, "Top", scale, DefinedViewportProjection.Front);
+                        AddDetail(center, rightBottom, pageview, target, "Perspective", scale, DefinedViewportProjection.Right);
+                        break;
+                    case 4:
+                        AddDetail(leftTop, center, pageview, target, "Top", scale, DefinedViewportProjection.Top);
+                        AddDetail(midTop, rightCenter, pageview, target, "Perspective", scale, DefinedViewportProjection.Perspective);
+                        AddDetail(center, rightBottom, pageview, target, "Right", scale, DefinedViewportProjection.Right);
+                        AddDetail(leftCenter, midBottom, pageview, target, "Front", scale, DefinedViewportProjection.Front);
+                        break;
+                    default:
+                        break;
+                }
+
+                pageview.SetPageAsActive();
+                doc.Views.ActiveView = pageview;
+                doc.Views.Redraw();
+                layout = pageview;
+                return new Tuple<bool, string>(true, "no error"); ;
+            }
+            pageview.Close();
+            layout = null;
+            return new Tuple<bool, string>(false, "the AddNewLayout function failed to return a result"); ;
         }
 
         public static Rhino.Commands.Result AddDetail(Point2d top_left, Point2d bottom_right, RhinoPageView pageview, Point3d target, string detTitle, double scale, DefinedViewportProjection projection)

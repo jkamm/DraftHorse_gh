@@ -2,6 +2,7 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System;
+using System.Windows.Forms;
 
 namespace DraftHorse.Component
 {
@@ -97,18 +98,28 @@ namespace DraftHorse.Component
             scale = Math.Max(scale, 0.001);
 
             Rhino.Commands.Result result = new Rhino.Commands.Result();
-            
+            Tuple<bool, string> layoutResult = new Tuple<bool, string>(false, string.Empty);
+
 
             if (Execute || run)
             {
                 Rhino.Display.RhinoPageView[] layout = new Rhino.Display.RhinoPageView[1];
 
-                Rhino.RhinoDoc.ActiveDoc.AdjustPageUnitSystem(pageUnits, true);
+                Rhino.RhinoDoc.ActiveDoc.AdjustPageUnitSystem(pageUnits, false);
 
-                result = Layout.AddLayout(pageName, width, height, target, detailCount, scale, out layout[0]);
+                //result = Layout.AddLayout(pageName, width, height, target, detailCount, scale, out layout[0]);
 
+                /*
                 if (result != Rhino.Commands.Result.Success)
                 {
+                    return;
+                }
+                 */
+                layoutResult = Layout.AddNewLayout(pageName, width, height, target, detailCount, scale, out layout[0]);
+
+                if (!layoutResult.Item1)
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, layoutResult.Item2);
                     return;
                 }
                 layoutIndex = layout[0].PageNumber.ToString();
