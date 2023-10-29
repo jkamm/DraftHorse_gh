@@ -14,6 +14,7 @@ WIP/Goals:
 [ ] Switch view input for details from view attributes (target, displayMode, projection) to CurveComponents.Make2DViewParam
 [ ] Create custom gh params for referencing DetailViewObject and PageView
 [ ] Change object references to DetailView and Layout/PageView params in RH8
-[ ] Add PaperName & Orientation as inputs to New Layout Component
+[x] Add PaperName & Orientation as inputs to New Layout Component (not possible in RH7 - paperName is read-only)
 [ ] Add Plane or View input for Layout from Bounding Box to allow non-XY views
 [ ] Add component to label details (name, auto-number, scale)
+[ ] Add Layout Edit component to modify Layout attributes (pageName, width, height, pageNumber (?), keys, values)

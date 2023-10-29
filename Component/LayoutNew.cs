@@ -30,14 +30,14 @@ namespace DraftHorse.Component
             var bToggleParam = new DraftHorse.Params.Param_BooleanToggle();
             Params.Input[pManager.AddParameter(bToggleParam, "Run", "R", "Do not use button to activate - toggle only", GH_ParamAccess.item)].Optional = true;
             Params.Input[pManager.AddTextParameter("Name", "N", "PageName for new layout", GH_ParamAccess.item)].Optional = true;
-            Params.Input[pManager.AddNumberParameter("Height", "H", "Custom Page Height", GH_ParamAccess.item)].Optional = true;
-            Params.Input[pManager.AddNumberParameter("Width", "W", "Custom Page Width", GH_ParamAccess.item)].Optional = true; 
+            Params.Input[pManager.AddNumberParameter("Height", "H", "Page Height", GH_ParamAccess.item, 11)].Optional = false;
+            Params.Input[pManager.AddNumberParameter("Width", "W", "Page Width", GH_ParamAccess.item, 17)].Optional = false; 
             Params.Input[pManager.AddIntegerParameter("Details", "D", "Details (0-4)", GH_ParamAccess.item,4)].Optional = true;
             Params.Input[pManager.AddPointParameter("Target", "T", "Single target for all details on a single layout",GH_ParamAccess.item )].Optional = true;
             Params.Input[pManager.AddNumberParameter("Scale", "S", "Scale for details", GH_ParamAccess.item,1)].Optional = true;
             pManager.AddIntegerParameter("Units", "U", "Sets Page Units\n\n0 = inches\n1 = centimeters\n2 = millimeters", GH_ParamAccess.item,0);
-            Params.Input[pManager.AddTextParameter("Paper", "P[]", "PaperName - Set to Custom to use H and W \nAttach ValueList for Papernames", GH_ParamAccess.item,"Default")].Optional = false;
-            pManager.AddBooleanParameter("Orientation", "O","Sets Page Orientation\nFalse = Portrait\nTrue = Landscape",GH_ParamAccess.item,false);
+            //Params.Input[pManager.AddTextParameter("Paper", "P[]", "PaperName - Set to Custom to use H and W \nAttach ValueList for Papernames", GH_ParamAccess.item,"Default")].Optional = false;
+            //pManager.AddBooleanParameter("Orientation", "O","Sets Page Orientation\nFalse = Portrait\nTrue = Landscape",GH_ParamAccess.item,false);
         }
 
         /// <summary>
@@ -71,8 +71,8 @@ namespace DraftHorse.Component
             //if (!DA.GetData("Template Index", ref templateIndex)) return;
 
             //add default pagename if none?
-            string paperName = "Default";
-            DA.GetData("Paper", ref paperName);
+            //string paperName = "Default";
+            //DA.GetData("Paper", ref paperName);
             //goal: check that papername is valid
 
 
@@ -157,7 +157,7 @@ namespace DraftHorse.Component
         {
             get { return new Guid("2C185D1A-6FD1-4F2F-BB08-1807247DD10C"); }
         }
-
+        /*
         #region AutoValueList
 
         //Update a value list if added to a given input(based on Elefront and FabTools)
@@ -206,5 +206,6 @@ namespace DraftHorse.Component
 
 
         #endregion AutoValueList
+         */
     }
 }
