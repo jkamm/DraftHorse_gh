@@ -1,6 +1,6 @@
 # ![DrafthorseLogo](https://github.com/jkamm/DraftHorse_gh/assets/9583495/06ac40b9-99bc-4328-9671-e6da55de96ec) DraftHorse 
 
-Grasshopper plugin for Rhino 7, helping automate Layout creation and management
+Grasshopper plugin for Rhino 7 (win), helping automate Layout creation and management. 
 
 ![DH_ComponentSet](https://github.com/jkamm/DraftHorse_gh/assets/9583495/f1a0c04b-e913-4790-bccd-82986e8662d5)
 
@@ -20,13 +20,13 @@ Look at the Example files for how to use components for different workflows incl
 
 WIP/Goals:
 
-- [ ] Example files for all components to demonstrate basic workflows
-	- [ ] Layout from Bounding Box (multipart template printing?)
-	- [ ] Activate View (Bake geometry to different layouts, like a BOM)		
+- [x] Example files for all components to demonstrate basic workflows
+	- [x] Layout from Bounding Box (multipart template printing?)
+	- [x] Activate View (Bake geometry to different layouts, like a BOM)		
 - [ ] Check that DisplayMode inputs work in other languages
-- [ ] Bake to Layouts (to allow programmatic baking of geometry to paperspace with a layout as additional object attribute)
+- [ ] Bake to Layouts Component(to allow programmatic baking of geometry to paperspace with a layout as additional object attribute)
 - [ ] Switch view input for details from view attributes (target, displayMode, projection) to CurveComponents.Make2DViewParam
-- [ ] Create custom gh params for referencing DetailViewObject and PageView
+- [ ] Create custom gh params for referencing DetailViewObject and PageView (for RH7)
 - [ ] Change object references to DetailView and Layout/PageView params in RH8
 - [x] Add PaperName & Orientation as inputs to New Layout Component (not possible in RH7 - paperName is read-only)
 - [ ] Add Plane or View input for Layout from Bounding Box to allow non-XY views
@@ -37,4 +37,5 @@ WIP/Goals:
 - [ ] Add capability to hide/show objects in details
 - [ ] Add Rhino PDF default Papernames to Modify Layout component
 - [ ] Add units change to Modify Layout component
-- [ ] Improve component icons 
+- [ ] Improve component icons
+- [ ] Refactor for OSX compatibility
