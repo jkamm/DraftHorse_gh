@@ -84,20 +84,6 @@ namespace DraftHorse.Component
             DA.SetDataList("Geo", gooList);
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.Dec_Layout;
-
-
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("cf90e7c1-5c2b-43e1-a8ad-a97118a74f78"); }
-        }
-
         #region AutoValueList
 
         //Update a value list if added to a given input(based on Elefront and FabTools)
@@ -174,11 +160,20 @@ namespace DraftHorse.Component
         }
         #endregion Add Value Lists
 
-        //#region AddUpdateButton
-        //public override void CreateAttributes()
-        //{
-        //    base.m_attributes = new DraftHorse.Component.Base.Attributes_UpdateButton(this);
-        //}
-        //#endregion AddUpdateButton
+        /// <summary>
+        /// Provides an Icon for the component.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.Dec_Layout;
+
+
+        /// <summary>
+        /// Gets the unique ID for this component. Do not change this ID after release.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("cf90e7c1-5c2b-43e1-a8ad-a97118a74f78"); }
+        }
+
+
     }
 }

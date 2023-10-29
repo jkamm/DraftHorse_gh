@@ -145,6 +145,12 @@
   <data name="DocKeyValues_bitmap" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>DocKeyValues_bitmap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="EditDetail_bitmap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>EditDetail_bitmap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EditLayout_bitmap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>EditLayout_bitmap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="GetDocText" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>GetDocText.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
