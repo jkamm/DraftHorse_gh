@@ -35,3 +35,6 @@ WIP/Goals:
 - [ ] Add ChangeSpace capability
 - [ ] Add capability to hide/show layers in details
 - [ ] Add capability to hide/show objects in details
+- [ ] Add Rhino PDF default Papernames to Modify Layout component
+- [ ] Add units change to Modify Layout component
+- [ ] Improve component icons 
