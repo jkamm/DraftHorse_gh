@@ -8,12 +8,12 @@ using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
 {
-    public class DeconstructLayout : GH_Component
+    public class LayoutDeconstruct : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the DeconstructLayout class.
         /// </summary>
-        public DeconstructLayout()
+        public LayoutDeconstruct()
           : base("Deconstruct Layout", "LODecLayout",
               "Deconstruct a Layout into its Composition and Attributes",
               "DraftHorse", "Layout-Edit")

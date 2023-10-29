@@ -7,13 +7,13 @@ using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
 {
-    public class CopyLayout : Base.DH_ButtonComponent
+    public class LayoutCopy : Base.DH_ButtonComponent
     {
         #region GH_Component
         /// <summary>
         /// Initializes a new instance of the CopyLayout class.
         /// </summary>
-        public CopyLayout()
+        public LayoutCopy()
           : base("Copy Layout", "CopyLayout",
               "Instantiate a Layout from a template in the document",
               "DraftHorse", "Layout-Add")

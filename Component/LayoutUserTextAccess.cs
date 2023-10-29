@@ -4,15 +4,15 @@ using System;
 
 namespace DraftHorse.Component
 {
-    public class AccessLayoutUserText : GH_Component
+    public class LayoutUserTextAccess : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the AccessLayoutUserText class.
         /// </summary>
-        public AccessLayoutUserText()
+        public LayoutUserTextAccess()
           : base("Access Layout UserText", "GetLOValue",
               "Get Value for a Key on a Layout",
-              "Drafthorse", "Layout Text")
+              "Drafthorse", "Doc Text")
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;

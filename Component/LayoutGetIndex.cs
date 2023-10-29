@@ -7,13 +7,13 @@ using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
 {
-    public class GetLayoutIndex : Base.DH_UpdateButtonComponent
+    public class LayoutGetIndex : Base.DH_UpdateButtonComponent
     {
         #region GH_Component
         /// <summary>
         /// Initializes a new instance of the GetLayoutIndex class.
         /// </summary>
-        public GetLayoutIndex()
+        public LayoutGetIndex()
           : base("Get Layout Index", "GetLOIndex",
               "Get index map for layout name(s). Be careful of duplicate names",
               "DraftHorse", "Layout Get")

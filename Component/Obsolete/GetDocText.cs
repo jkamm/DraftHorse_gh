@@ -2,27 +2,28 @@
 using System;
 using System.Linq;
 
-namespace DraftHorse.Component
+namespace DraftHorse.Component.Obsolete
 {
-    public class GetDocText : GH_Component
+    public class GetDocText_OBSOLETE : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the GetDocText class.
         /// </summary>
-        public GetDocText()
+        public GetDocText_OBSOLETE()
           : base("Get Document Text", "GetDocText",
               "Return Document Text Table as Keys and Values",
               "Drafthorse", "Doc Text")
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
+        public override bool Obsolete => base.Obsolete;
 
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             //Params.Input[pManager.AddBooleanParameter("Update", "U", "Update Document Text", GH_ParamAccess.item)].Optional = true;
         }
@@ -30,7 +31,7 @@ namespace DraftHorse.Component
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Keys", "K", "Document Text Keys", GH_ParamAccess.list);
             pManager.AddTextParameter("Values", "V", "Document Text Values", GH_ParamAccess.list);

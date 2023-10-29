@@ -8,12 +8,12 @@ using static DraftHorse.Helper.ValList;
 
 namespace DraftHorse.Component
 {
-    public class DeleteLayout : Base.DH_ButtonComponent
+    public class LayoutDelete : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the DeleteLayout class.
         /// </summary>
-        public DeleteLayout()
+        public LayoutDelete()
           : base("Delete Layout", "DeleteLayout",
               "Delete a Layout using its Index (use Layout Index to get index from name) \nWARNING: THIS CANNOT BE UNDONE! ",
               "DraftHorse", "Layout-Edit")

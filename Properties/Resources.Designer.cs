@@ -153,6 +153,16 @@ namespace DraftHorse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DrafthorseLogo {
+            get {
+                object obj = ResourceManager.GetObject("DrafthorseLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap EditDetail_bitmap {
             get {
                 object obj = ResourceManager.GetObject("EditDetail_bitmap", resourceCulture);

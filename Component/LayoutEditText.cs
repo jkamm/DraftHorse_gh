@@ -6,12 +6,12 @@ using System.Collections.Generic;
 
 namespace DraftHorse.Component
 {
-    public class ModifyText : Base.DH_ButtonComponent
+    public class LayoutEditText : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the ModifyText class.
         /// </summary>
-        public ModifyText()
+        public LayoutEditText()
           : base("Modify Text", "LOText",
               "Replace text of Named Text Objects on a Layout with new text",
               "DraftHorse", "Layout-Edit")

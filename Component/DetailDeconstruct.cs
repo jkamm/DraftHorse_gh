@@ -4,12 +4,12 @@ using System;
 
 namespace DraftHorse.Component
 {
-    public class DeconstructDetail : GH_Component
+    public class DetailDeconstruct : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the DeconstructDetail class.
         /// </summary>
-        public DeconstructDetail()
+        public DetailDeconstruct()
           : base("Deconstruct Detail", "DecDetail",
               "Deconstruct a Detail into its Composition and Attributes",
               "DraftHorse", "Layout-Edit")

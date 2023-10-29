@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace DraftHorse.Component
 {
-    public class SetDocText : Base.DH_ButtonComponent
+    public class DocTextEdit : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the SetDocText class.
         /// </summary>
-        public SetDocText()
-          : base("Set Document Text", "SetDocText",
-              "Set Key/Value pairs to the Document Text Table. \nStrings starting with '.' are hidden from users",
+        public DocTextEdit()
+          : base("Edit Document Text", "EditDocText",
+              "Get and/or Set Key/Value pairs to the Document Text Table. \nStrings starting with '.' are hidden from users",
               "Drafthorse", "Doc Text")
         {
             ButtonName = "Write";
@@ -26,8 +26,8 @@ namespace DraftHorse.Component
         {
             var bToggleParam = new DraftHorse.Params.Param_BooleanToggle();
             Params.Input[pManager.AddParameter(bToggleParam, "Run", "R", "Do not use button to activate - toggle only", GH_ParamAccess.item)].Optional = true;
-            pManager.AddTextParameter("Keys", "K", "Keys for Doc Texts (unique)", GH_ParamAccess.list);
-            pManager.AddTextParameter("Values", "V", "Values for Doc Texts (must match Key count)", GH_ParamAccess.list);
+            Params.Input[pManager.AddTextParameter("Keys", "K", "Keys for Doc Texts (unique)", GH_ParamAccess.list)].Optional = true;
+            Params.Input[pManager.AddTextParameter("Values", "V", "Values for Doc Texts (must match Key count)", GH_ParamAccess.list)].Optional = true;
         }
 
         /// <summary>
@@ -45,50 +45,52 @@ namespace DraftHorse.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<string> keys = new List<string>();
-            DA.GetDataList("Keys", keys);
-
-            List<string> vals = new List<string>();
-            DA.GetDataList("Values", vals);
-
-            bool run = false;
-            if (!DA.GetData("Run", ref run)) run = false;
-
-            //Goal: Check that there are the same number of Keys and Values
-            if (keys.Count != vals.Count) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Key/Value Pairs do not match. Double-check the data structure");
-
-            //var userText = thisPage.MainViewport.GetUserStrings();
             Rhino.DocObjects.Tables.StringTable docText = Rhino.RhinoDoc.ActiveDoc.Strings;
             string[] allKeys = new string[docText.Count];
 
             for (int i = 0; i < docText.Count; i++) allKeys[i] = docText.GetKey(i);
 
-            IEnumerable<string> keysFound = from key in keys
+            List<string> newKeys = new List<string>();
+            DA.GetDataList("Keys", newKeys);
+
+            List<string> newVals = new List<string>();
+            DA.GetDataList("Values", newVals);
+
+            bool run = false;
+            if (!DA.GetData("Run", ref run)) run = false;
+
+            //Goal: Check that there are the same number of Keys and Values
+            if (newKeys.Count != newVals.Count) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Key/Value Pairs do not match. Double-check the data structure");
+
+            //var userText = thisPage.MainViewport.GetUserStrings();
+
+            IEnumerable<string> keysFound = from key in newKeys
                                             where Array.IndexOf(allKeys, key) != -1
                                             select key;
             if (keysFound.Count() != 0) AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Duplicate Keys Found, all duplicates will be replaced");
 
             if (run || Execute)
             {
-                for (int i = 0; i < keys.Count; i++)
+                for (int i = 0; i < newKeys.Count; i++)
                 {
                     //if (thisPage.MainViewport.GetUserString(iKeys[j]) != null) Component.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Duplicate Keys Found, all duplicates will be replaced");
-                    docText.SetString(keys[i], vals[i]);
+                    docText.SetString(newKeys[i], newVals[i]);
                 }
             }
+                        
 
+            docText = Rhino.RhinoDoc.ActiveDoc.Strings;
+            
             string[] allKeysPost = new string[docText.Count];
             string[] allVals = new string[docText.Count];
 
             for (int i = 0; i < docText.Count; i++)
             {
-                //Print("Key {0}: {1}", i, docText.GetKey(i));
                 allKeysPost[i] = docText.GetKey(i);
                 allVals[i] = docText.GetValue(i);
             }
             DA.SetDataList("Keys", allKeysPost.ToList());
             DA.SetDataList("Values", allVals.ToList());
-
         }
 
         /// <summary>

@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace DraftHorse.Component
 {
-    public class GetLayoutNames : Base.DH_UpdateButtonComponent
+    public class LayoutGetNames : Base.DH_UpdateButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the GetLayoutNames class.
         /// </summary>
-        public GetLayoutNames()
+        public LayoutGetNames()
           : base("Get Layout Names", "GetLONames",
               "Get LayoutNames by Index or get all (default)",
               "DraftHorse", "Layout Get")

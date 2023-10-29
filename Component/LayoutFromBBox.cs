@@ -6,12 +6,12 @@ using System.Windows.Forms;
 
 namespace DraftHorse.Component
 {
-    public class BBoxLayout : Base.DH_ButtonComponent
+    public class LayoutFromBBox : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public BBoxLayout()
+        public LayoutFromBBox()
           : base("Layout By Bounds", "BBox Layout",
               "Generate a Layout with a single detail using a bounding rectangle",
               "DraftHorse", "Layout-Add")
