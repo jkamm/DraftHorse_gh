@@ -296,22 +296,28 @@ namespace DraftHorse.Helper
             //Grasshopper.Kernel.Special.GH_ValueList valList = owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList;
             //valList.Name = "Test";
             //valList.NickName = nickName;
-            (owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).Name = name;
-            (owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).NickName = nickName;
-            //(owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).ListMode = Grasshopper.Kernel.Special.GH_ValueListMode.DropDown;
-
-            //Reset Values
-            (owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).ListItems.Clear();
-            //store old list values and try to reinstate?
-
-            for (int i = 0; i < keys.Count; i++)
+            try
             {
-                (owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).ListItems.Add(new Grasshopper.Kernel.Special.GH_ValueListItem(keys[i], "\"" + values[i] + "\""));
-            }
+                (owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).Name = name;
+                (owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).NickName = nickName;
+                //(owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).ListMode = Grasshopper.Kernel.Special.GH_ValueListMode.DropDown;
+
+                //Reset Values
+                (owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).ListItems.Clear();
+                //store old list values and try to reinstate?
+
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    (owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).ListItems.Add(new Grasshopper.Kernel.Special.GH_ValueListItem(keys[i], "\"" + values[i] + "\""));
+                }
 
             //Reset Component Preview
             (owner.Params.Input[inputNum].Sources[0] as Grasshopper.Kernel.Special.GH_ValueList).ExpireSolution(true);
-
+            }
+            catch (Exception)
+            {
+                return;
+            }
         }
 
         public static bool AddOrUpdateValueList(GH_Component owner, int inputNum, string name, string nickName, List<string> keys, List<string> values)

@@ -11,6 +11,7 @@ namespace DraftHorse.Component.Base
     {
         private bool mouseOver;
         private bool mouseDown;
+        //public bool Active { get; set; };
 
         private RectangleF buttonArea;
         private RectangleF textArea;
