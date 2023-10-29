@@ -22,3 +22,6 @@ WIP/Goals:
 - [ ] Add Plane or View input for Layout from Bounding Box to allow non-XY views
 - [ ] Add component to label details (name, auto-number, scale)
 - [x] Add Layout Edit component to modify Layout attributes (pageName, width, height, pageNumber (?), keys, values)
+- [ ] Add ChangeSpace capability
+- [ ] Add capability to hide/show layers in details
+- [ ] Add capability to hide/show objects in details
