@@ -6,6 +6,17 @@ Grasshopper plugin for Rhino 7, helping automate Layout creation and management
 
 ![DH_ComponentsOnCanvas](https://github.com/jkamm/DraftHorse_gh/assets/9583495/814d4af4-a2fc-4f68-a357-0beff742ad61)
 
+Look at the Example files for how to use components for different workflows including: 
+- Copying an existing layout, Sorting, and batch Printing to one or more PDFs
+![DH_CopySortPrint_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/c6a1353f-4bb5-4a73-8d27-a6688386a587)
+- Adding Details to an existing layout
+![DH_NewDetails_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/aa0ec773-617c-4516-ba62-38505032fcc5)
+- Modifying Layout and Document User Text (useful for titleblocks)
+![DocumentText_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/90e31c3b-f8cc-42c2-8b90-dc7f27a3c498)
+- Modifying an existing layout
+![DH_ModifyLayouts_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/1b090913-a04b-490b-9caf-14534ffa1bfa)
+- Modifying an existing detail
+![DH_ModifyDetails_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/24c52aad-9b4e-47ae-bb92-8a809f64434e)
 
 
 WIP/Goals:
