@@ -18,4 +18,4 @@ WIP/Goals:
 - [x] Add PaperName & Orientation as inputs to New Layout Component (not possible in RH7 - paperName is read-only)
 - [ ] Add Plane or View input for Layout from Bounding Box to allow non-XY views
 - [ ] Add component to label details (name, auto-number, scale)
-- [ ] Add Layout Edit component to modify Layout attributes (pageName, width, height, pageNumber (?), keys, values)
+- [x] Add Layout Edit component to modify Layout attributes (pageName, width, height, pageNumber (?), keys, values)
