@@ -45,12 +45,15 @@ namespace DraftHorse.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
 
-            bool run = false;
+            
             bool result = false;
             string name = null;
 
             int LayoutIndex = 0;
             if (!DA.GetData("Index", ref LayoutIndex)) return;
+
+            bool run = false;
+            DA.GetData("Run", ref run);
 
             #region EscapeBehavior
             //Esc behavior code snippet from
