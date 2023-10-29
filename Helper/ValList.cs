@@ -1,5 +1,6 @@
 ﻿using Grasshopper.Kernel;
 using Rhino.Display;
+using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -375,6 +376,29 @@ namespace DraftHorse.Helper
             if(local) return DisplayModeDescription.GetDisplayModes().ToDictionary(v => v.DisplayAttributes.LocalName, v => v).Keys.ToList();
             else return DisplayModeDescription.GetDisplayModes().ToDictionary(v => v.DisplayAttributes.EnglishName, v => v).Keys.ToList();
         }
+
+        public static List<string> GetPaperNames()
+        {
+            var papernames = new List<string>(){
+                "A1 (594mm x 841mm)",
+                "A2 (420mm x 594mm)",
+                "A3 (297mm x 420mm)",
+                "A4 (210mm x 297mm)",
+                "A5 (148mm x 210mm)",
+                "Legal (8.5\" x 14\")",
+                "Letter (8.5\" x 11\")",
+                "Tabloid (11\" x 17\")",
+                "Arch A (9\" x 12\")",
+                "Arch B (12\" x 18\")",
+                "Arch C (18\" x 24\")",
+                "Arch D (24\" x 36\")",
+                "Arch E (36\" x 48\")",
+                "Arch E1 (30\" x 42\")",
+                "Custom"
+            };
+            return papernames;
+        }
+
 
         #endregion Special Value Lists
                
