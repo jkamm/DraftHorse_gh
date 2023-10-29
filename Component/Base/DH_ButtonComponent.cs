@@ -68,7 +68,7 @@ namespace DraftHorse.Component.Base
                 buttonComponent.Active = false;
                 Execute = false;
             }
-            //((GH_Component)this).AfterSolveInstance();
+            base.AfterSolveInstance();
         }
         /// <summary>
         /// Provides an Icon for the component.
