@@ -1,8 +1,10 @@
 # DraftHorse
 Grasshopper plugin for Rhino 7, helping automate Layout creation and management
 
-![DH_ComponentSet](https://github.com/jkamm/DraftHorse_gh/assets/9583495/f84618bb-75cb-4d12-804f-8a1c980cb4ee)
-![DH_Components](https://github.com/jkamm/DraftHorse_gh/assets/9583495/b9844d92-80aa-4376-a83a-5abce432edc6)
+![DH_ComponentSet](https://github.com/jkamm/DraftHorse_gh/assets/9583495/f1a0c04b-e913-4790-bccd-82986e8662d5)
+
+![DH_ComponentsOnCanvas](https://github.com/jkamm/DraftHorse_gh/assets/9583495/814d4af4-a2fc-4f68-a357-0beff742ad61)
+
 
 
 WIP/Goals:
