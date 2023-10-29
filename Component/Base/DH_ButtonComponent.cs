@@ -55,7 +55,21 @@ namespace DraftHorse.Component.Base
         protected override void SolveInstance(IGH_DataAccess DA)
         {
         }
+        public virtual void OnButtonActivate(object sender, EventArgs e)
+        {
+            Execute = true;
+            ExpireSolution(true);
+        }
 
+        protected override void AfterSolveInstance()
+        {
+            if (this.m_attributes is DH_ButtonComponentAttributes buttonComponent)
+            {
+                buttonComponent.Active = false;
+                Execute = false;
+            }
+            base.AfterSolveInstance();
+        }
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
