@@ -1,0 +1,14 @@
+---
+name: DraftHorse
+version: 0.3
+authors:
+- Jo Kamm
+description: >
+  Tools for generating and managing Rhino Layouts programmatically through Grasshopper
+url: https://github.com/jkamm/DraftHorse_gh
+icon: icon.png
+keywords:
+  - layouts
+  - drafting
+  - paperspace
+  - guid:ee57be77-5df8-4d13-b942-fa7177d208d1
