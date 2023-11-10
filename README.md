@@ -18,6 +18,10 @@ Look at the Example files for how to use components for different workflows incl
 - Modifying Layout and Document User Text (useful for titleblocks)
 ![DocumentText_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/90e31c3b-f8cc-42c2-8b90-dc7f27a3c498)
 
+v0.3.1
+- bug fix: LayoutFromBBox component scale issue if model units different from page units
+- bug fix: PDFLayout scale issue for non-inch units
+
 WIP/Goals:
 
 - [x] Example files for all components to demonstrate basic workflows
