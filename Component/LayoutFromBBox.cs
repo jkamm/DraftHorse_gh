@@ -50,7 +50,7 @@ namespace DraftHorse.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Rhino.UnitSystem pageUnits = unitsAreInches ? Rhino.UnitSystem.Inches : Rhino.UnitSystem.Millimeters;
-
+            
             //goal: add pageUnits to input options (default == inches)
 
             bool run = false;
@@ -92,6 +92,7 @@ namespace DraftHorse.Component
                 double modelToPage = Rhino.RhinoMath.UnitScale(Rhino.RhinoDoc.ActiveDoc.ModelUnitSystem, pageUnits);
                 width *= modelToPage;
                 height *= modelToPage;
+                scale = modelToPage;
 
                 Rhino.Commands.Result result = Layout.AddLayout(pageName, detailName, width, height, detailRec, scale, out layout[0]);
                 if (result == Rhino.Commands.Result.Success)

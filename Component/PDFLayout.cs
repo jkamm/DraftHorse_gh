@@ -1,5 +1,6 @@
 ﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
+using Rhino;
 using Rhino.Display;
 using System;
 using System.Collections.Generic;
@@ -129,13 +130,14 @@ namespace DraftHorse.Component
 
 
                 Rhino.FileIO.FilePdf pdf = Rhino.FileIO.FilePdf.Create();
+                RhinoDoc rhDoc = RhinoDoc.ActiveDoc;
 
                 //initialize settings variable
                 ViewCaptureSettings settings = new ViewCaptureSettings(); //not necessary to initialize if no settings are done globally
 
                 //get pages based on indices
                 RhinoPageView[] pages;
-                RhinoPageView[] page_views = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews();
+                RhinoPageView[] page_views = rhDoc.Views.GetPageViews();
 
 
                 if (indexList.Count != 0)
@@ -150,14 +152,12 @@ namespace DraftHorse.Component
                     Layout.SortPagesByPageNumber(pages);
                 }
 
-                /*
-                for (int i = 0; i < indexList.Count; i++)
-                    pages[i] = Layout.GetPage(indexList[i]);
-                 */
-
                 foreach (RhinoPageView page in pages)
                 {
-                    System.Drawing.Size size = Layout.SetSize(page, dpi);
+                    double modelToPage = Rhino.RhinoMath.UnitScale(rhDoc.PageUnitSystem, Rhino.UnitSystem.Inches);
+                    double relativeDPI = ((double)dpi*modelToPage);
+                    System.Drawing.Size size = Layout.SetSize(page, relativeDPI);
+                    //Rhino.RhinoApp.WriteLine("Size is w{1}, h{0}, relativeDPI is {2}", size.Height, size.Width, relativeDPI);
                     settings = new ViewCaptureSettings(page, size, dpi);
                     settings.OutputColor = color;
                     pdf.AddPage(settings);
@@ -211,28 +211,11 @@ namespace DraftHorse.Component
 
         private void Menu_DoClick(object sender, EventArgs e)
         {
-            var pageViews = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews();
+            var pageViews = RhinoDoc.ActiveDoc.Views.GetPageViews();
             Layout.SortPagesByPageNumber(pageViews);
             List<string> pageNums = pageViews.Select(p => p.PageNumber.ToString()).ToList();
             List<string> pageNames = pageViews.Select(p => p.PageName.ToString()).ToList();
-
-            /*
-            string[] pageNumbers = new string[pageViews.Length];
-            //string[] pageNames = new string[pageViews.Length];
-            for (int i = 0; i < pageViews.Length; i++)
-            {
-                pageNumbers[i] = pageViews[i].PageNumber.ToString();
-                //pageNames[i] = pageViews[i].PageName;
-            }
-             */
-            /*
-            var pageDictionary = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews().ToDictionary(v => v.PageNumber.ToString(), v => v.PageName);
-            List<string> layoutIndices = pageDictionary.Keys.ToList();
-            List<string> pageViewNames = new List<string>();
-            for (int i = 0; i < pageViewNames.Count; i++)
-                pageViewNames.Add(pageDictionary[layoutIndices[i]].ToString());
-             */
-
+                        
             if (!AddOrUpdateValueList(this, 0, "Layouts", "Layouts To Print: ", pageNames, pageNums))
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "ValueList at input [" + 1 + "] failed to update");
 
@@ -276,7 +259,7 @@ namespace DraftHorse.Component
                 // optional feedback
                 // Rhino.RhinoApp.WriteLine("This is the right input");
 
-                var pageDictionary = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews().ToDictionary(v => v.PageName, v => v.PageNumber);
+                var pageDictionary = RhinoDoc.ActiveDoc.Views.GetPageViews().ToDictionary(v => v.PageName, v => v.PageNumber);
                 List<string> pageViewNames = pageDictionary.Keys.ToList();
                 List<string> layoutIndices = new List<string>();
                 for (int i = 0; i < pageViewNames.Count; i++)

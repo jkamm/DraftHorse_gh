@@ -777,7 +777,7 @@ namespace DraftHorse.Helper
         /// <param name="page"> Layout Page</param>
         /// <param name="dpi">print dpi</param>
         /// <returns></returns>
-        public static System.Drawing.Size SetSize(RhinoPageView page, int dpi)
+        public static System.Drawing.Size SetSize(RhinoPageView page, double dpi)
         {
             double width = page.PageWidth;
             double height = page.PageHeight;
