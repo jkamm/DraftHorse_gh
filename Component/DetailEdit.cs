@@ -195,6 +195,7 @@ namespace DraftHorse.Component
                 return;
 
             Params.Input[4].ObjectChanged += InputParamChanged;
+            Params.Input[5].ObjectChanged += InputParamChanged;
 
             _handled = true;
         }
@@ -223,6 +224,25 @@ namespace DraftHorse.Component
                 try
                 {
                     ValList.UpdateValueList(this, 4, "Views", "Pick Projection: ", projNames, projVals);
+                    ExpireSolution(true);
+                }
+                //if it's not a value list, ignore
+                catch (Exception) { };
+            }
+            else if (sender.NickName == Params.Input[5].NickName)
+            {
+                // optional feedback
+                // Rhino.RhinoApp.WriteLine("This is the right input");
+
+                //List<string> standardViewNames = ValList.GetStandardViewList();
+
+                List<string> displayNames = ValList.GetDisplaySettingsList(true);
+                List<string> displayVals = ValList.GetDisplaySettingsList(false);
+
+                //try to modify input as a valuelist
+                try
+                {
+                    ValList.UpdateValueList(this, 5, "Display", "Pick Display: ", displayNames, displayVals);
                     ExpireSolution(true);
                 }
                 //if it's not a value list, ignore

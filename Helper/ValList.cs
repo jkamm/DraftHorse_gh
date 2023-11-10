@@ -377,9 +377,9 @@ namespace DraftHorse.Helper
             return Rhino.RhinoDoc.ActiveDoc.Views.GetStandardRhinoViews().ToDictionary(v => v.ActiveViewport.Name, v => v).Keys.ToList();
         }
 
-        public static List<string> GetDisplaySettingsList(bool local)
+        public static List<string> GetDisplaySettingsList(bool localname)
         {
-            if(local) return DisplayModeDescription.GetDisplayModes().ToDictionary(v => v.DisplayAttributes.LocalName, v => v).Keys.ToList();
+            if(localname) return DisplayModeDescription.GetDisplayModes().ToDictionary(v => v.DisplayAttributes.LocalName, v => v).Keys.ToList();
             else return DisplayModeDescription.GetDisplayModes().ToDictionary(v => v.DisplayAttributes.EnglishName, v => v).Keys.ToList();
         }
 

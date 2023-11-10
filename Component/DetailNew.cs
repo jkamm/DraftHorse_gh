@@ -205,6 +205,77 @@ namespace DraftHorse.Component
         }
         #endregion Add Value Lists
 
+        #region AutoValueList
+
+        //Update a value list if added to a given input(based on Elefront and FabTools)
+        //on event for a source added to a given input
+
+        private bool _handled = false;
+
+        private void SetupEventHandlers()
+        {
+            if (_handled)
+                return;
+
+            Params.Input[5].ObjectChanged += InputParamChanged;
+            Params.Input[6].ObjectChanged += InputParamChanged;
+
+            _handled = true;
+        }
+
+        protected override void BeforeSolveInstance()
+        {
+            base.BeforeSolveInstance();
+            SetupEventHandlers();
+        }
+
+
+        public void InputParamChanged(IGH_DocumentObject sender, GH_ObjectChangedEventArgs e)
+        {
+            if (sender.NickName == Params.Input[5].NickName)
+            {
+                // optional feedback
+                // Rhino.RhinoApp.WriteLine("This is the right input");
+
+                //List<string> standardViewNames = ValList.GetStandardViewList();
+                string[] pNames = Enum.GetNames(typeof(Rhino.Display.DefinedViewportProjection));
+                List<string> projNames = pNames.Select(v => v.ToString()).ToList();
+                List<int> pVals = ((Rhino.Display.DefinedViewportProjection[])Enum.GetValues(typeof(Rhino.Display.DefinedViewportProjection))).Select(c => (int)c).ToList();
+                List<string> projVals = pVals.ConvertAll<string>(v => v.ToString());
+
+                //try to modify input as a valuelist
+                try
+                {
+                    ValList.UpdateValueList(this, 5, "Views", "Pick Projection: ", projNames, projVals);
+                    ExpireSolution(true);
+                }
+                //if it's not a value list, ignore
+                catch (Exception) { };
+            }
+            else if (sender.NickName == Params.Input[6].NickName)
+            {
+                // optional feedback
+                // Rhino.RhinoApp.WriteLine("This is the right input");
+
+                //List<string> standardViewNames = ValList.GetStandardViewList();
+
+                List<string> displayNames = ValList.GetDisplaySettingsList(true);
+                List<string> displayVals = ValList.GetDisplaySettingsList(false);
+
+                //try to modify input as a valuelist
+                try
+                {
+                    ValList.UpdateValueList(this, 6, "Display", "Pick Display: ", displayNames, displayVals);
+                    ExpireSolution(true);
+                }
+                //if it's not a value list, ignore
+                catch (Exception) { };
+            }
+        }
+
+
+        #endregion AutoValueList
+
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>

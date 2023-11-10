@@ -21,6 +21,9 @@ Look at the Example files for how to use components for different workflows incl
 v0.3.1
 - bug fix: LayoutFromBBox component scale issue if model units different from page units
 - bug fix: PDFLayout scale issue for non-inch units
+ 
+v0.3.2
+- bug fix: AutoValueList not implemented for DisplayModes on DetailNew and DetailEdit
 
 WIP/Goals:
 
