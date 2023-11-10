@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static DraftHorse.Helper.Layout;
+using static DraftHorse.Helper.View;
+using CurveComponents;
 
 
 namespace DraftHorse.Component
@@ -47,7 +49,9 @@ namespace DraftHorse.Component
             pManager.AddNumberParameter("Scale", "S", "Page Units per Model Unit", GH_ParamAccess.item, 1);
             pManager.AddIntegerParameter("Projection", "P[]", "View Projection \nAttach Value List for list of projections", GH_ParamAccess.item, 0);
             pManager.AddTextParameter("DisplayMode", "D[]", "Display Mode \nAttach Value List for list of Display Modes", GH_ParamAccess.item, "Wireframe");
-            
+
+            var viewParam = new CurveComponents.Make2DViewParameter("View", "V", "ViewParam", "Drafthorse", "Params", GH_ParamAccess.item);
+            pManager.AddParameter(viewParam, "View", "V", "Input View from Make2D Components", GH_ParamAccess.item);
             //Add Name?
             //Add Layer or other attributes?
 
@@ -99,13 +103,24 @@ namespace DraftHorse.Component
             int pNum = 0;
             DA.GetData("Projection", ref pNum);
 
+            CurveComponents.Make2DViewInfoGoo view = new Make2DViewInfoGoo();
+            DA.GetData("View", ref view);
+
+            if (view != null)
+            {
+                var viewInfo = view.Value;
+                              
+            }
+
+
+
             if (!Enum.IsDefined(typeof(Rhino.Display.DefinedViewportProjection), pNum))
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, pNum + " is not a valid Projection number. Projection will not be modified");
             }
 
             Rhino.Display.DefinedViewportProjection projection = (Rhino.Display.DefinedViewportProjection)pNum;
-
+            
             string dName = String.Empty;
             DA.GetData("DisplayMode", ref dName);
             DisplayModeDescription displayMode = null;
@@ -141,10 +156,28 @@ namespace DraftHorse.Component
                     if (detail != null)
                     {
                         pageView.SetActiveDetail(detail.Id);
-                        if (!projection.Equals(DefinedViewportProjection.None)) detail.Viewport.SetProjection(projection, projection.ToString(), true);
+                        //if (!projection.Equals(DefinedViewportProjection.None)) detail.Viewport.SetProjection(projection, projection.ToString(), true);
                         //doc.NamedViews.Restore(nViewIndex, detail.Viewport);
-                        detail.Viewport.SetCameraTarget(target, true);
+                        //detail.Viewport.SetCameraTarget(target, true);
                         detail.Viewport.DisplayMode = displayMode;
+
+
+                        /*
+                        if (view.Value.IsParallelProjection && !detail.Viewport.IsParallelProjection) 
+                        { 
+                            detail.Viewport.ChangeToParallelProjection(view.Value.IsFrustumLeftRightSymmetric && view.Value.IsFrustumTopBottomSymmetric); 
+                        }
+                        else if (view.Value.IsPerspectiveProjection && !detail.Viewport.IsPerspectiveProjection)
+                        {
+                            detail.Viewport.ChangeToPerspectiveProjection(view.Value.FustrumLen);
+                        }
+                        
+                        
+                        detail.Viewport.SetCameraLocation(view.Value.CameraLocation, true);
+                        detail.Viewport.SetCameraDirection(view.Value.CameraDirection, true);
+                        detail.Viewport.SetCameraTarget(view.Value.TargetPoint, true);
+                         */
+                        ViewportInfoToRhinoViewport(view.Value, detail.Viewport);
                         detail.CommitViewportChanges();
 
                         detail.DetailGeometry.IsProjectionLocked = false;

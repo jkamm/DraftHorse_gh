@@ -1,4 +1,5 @@
-﻿using DraftHorse.Helper;
+﻿using CurveComponents;
+using DraftHorse.Helper;
 using Grasshopper.Kernel;
 using Rhino.Display;
 using Rhino.Geometry;
@@ -39,6 +40,8 @@ namespace DraftHorse.Component
             Params.Input[pManager.AddIntegerParameter("Projection", "P[]", "View Projection \nAttach Value List for list of projections", GH_ParamAccess.item)].Optional = true;
             //Goal: Add Value List Generation for Named Views
             Params.Input[pManager.AddTextParameter("DisplayMode", "D[]", "Display Mode \nAttach Value List for list of Display Modes", GH_ParamAccess.item)].Optional = true;
+            var viewParam = new CurveComponents.Make2DViewParameter("View", "V", "ViewParam", "Drafthorse", "Params", GH_ParamAccess.item);
+            pManager.AddParameter(viewParam, "View", "V", "Input View from Make2D Components", GH_ParamAccess.item);
 
         }
 
@@ -119,11 +122,16 @@ namespace DraftHorse.Component
                 displayMode = DisplayModeDescription.GetDisplayModes().First(mode => mode.DisplayAttributes.EnglishName == dName);
             }
 
+            CurveComponents.Make2DViewInfoGoo view = new Make2DViewInfoGoo();
+            DA.GetData("View", ref view);
+
             if (Execute || run)
             {
                 //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale);
                 //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection);
-                Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode);
+                //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode);
+                Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode, view.Value);
+
                 DA.SetData("Result", detailResult);
             }
             DA.SetData("Detail GUID", detailGUID);

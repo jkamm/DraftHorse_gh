@@ -12,10 +12,13 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
+    <PackageReference Include="Grasshopper" Version="7.34.23267.11001" IncludeAssets="compile;build" />
   </ItemGroup>
   
   <ItemGroup>
+    <Reference Include="CurveComponents">
+      <HintPath>..\..\..\..\..\Program Files\Rhino 7\Plug-ins\Grasshopper\Components\CurveComponents.gha</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   
