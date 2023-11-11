@@ -1,8 +1,10 @@
 ﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
+using Rhino.DocObjects;
 using Rhino.Geometry;
 using System;
 using System.Windows.Forms;
+
 
 namespace DraftHorse.Component
 {
@@ -92,6 +94,8 @@ namespace DraftHorse.Component
                 double modelToPage = Rhino.RhinoMath.UnitScale(Rhino.RhinoDoc.ActiveDoc.ModelUnitSystem, pageUnits);
                 width *= modelToPage;
                 height *= modelToPage;
+                scale = modelToPage;
+                
 
                 Rhino.Commands.Result result = Layout.AddLayout(pageName, detailName, width, height, detailRec, scale, out layout[0]);
                 if (result == Rhino.Commands.Result.Success)

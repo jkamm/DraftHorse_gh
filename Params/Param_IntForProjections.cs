@@ -22,11 +22,22 @@ namespace DraftHorse.Params
             base.AppendAdditionalMenuItems(menu);
             Menu_AppendSeparator(menu);
             Menu_AppendItem(menu, "Pick Projection"); //, Menu_DoClick);
+            var projections = Helper.ValList.GetStandardViewList();
+            foreach (var projection in projections) 
+            {
+                Menu_AppendItem(menu, projection, Menu_DoClick);
+            }
             Menu_AppendSeparator(menu);
             //Menu_AppendItem(menu, "Parallel", Menu_SetParallel);
             //Menu_AppendItem(menu, "Perspective", Menu_SetPerspective);
         }
 
+        private void Menu_DoClick(object sender, EventArgs e)
+        {
+
+        }
+
+        /*
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -39,6 +50,7 @@ namespace DraftHorse.Params
                 return null;
             }
         }
+         */
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.

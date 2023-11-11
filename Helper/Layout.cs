@@ -1,15 +1,15 @@
 ﻿using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types.Transforms;
+//using Grasshopper.Kernel.Types.Transforms;
 using Rhino;
 using Rhino.Display;
 using Rhino.DocObjects;
 using Rhino.Geometry;
-using Rhino.Render.ChangeQueue;
-using Rhino.UI;
+//using Rhino.Render.ChangeQueue;
+//using Rhino.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using static DraftHorse.Helper.View;
 
 
@@ -365,7 +365,8 @@ namespace DraftHorse.Helper
             detail.Viewport.SetCameraTarget(target, true);
 
             detail.Viewport.DisplayMode = displayMode;
-            if (!ViewportInfoToRhinoViewport(vpInfo, detail.Viewport)) return Rhino.Commands.Result.Failure;
+            //if (!ViewportInfoToRhinoViewport(vpInfo, detail.Viewport)) return Rhino.Commands.Result.Failure;
+            detail.Viewport.SetViewProjection(vpInfo, true);
             detail.CommitViewportChanges();
 
             detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
@@ -617,9 +618,10 @@ namespace DraftHorse.Helper
         public static Rhino.Commands.Result AddLayout(string name, string detTitle, double width, double height, Rectangle3d detailRec, double scale, out RhinoPageView layout)
         {
             RhinoDoc doc = RhinoDoc.ActiveDoc;
+            ViewportInfo vpInfo = ParallelViewFromRec(detailRec);
 
             var page_views = doc.Views.GetPageViews();
-            int page_number = (page_views == null) ? 1 : page_views.Length + 1;
+            //int page_number = (page_views == null) ? 1 : page_views.Length + 1;
 
             var pageview = doc.Views.AddPageView(name, width, height);
 
@@ -632,7 +634,9 @@ namespace DraftHorse.Helper
                 {
 
                     pageview.SetActiveDetail(detail.Id);
-                    detail.Viewport.SetCameraTarget(detailRec.Center, true);
+                    //detail.Viewport.SetCameraTarget(detailRec.Center, true);
+                    //ViewportInfoToRhinoViewport(vpInfo, detail.Viewport);
+                    detail.Viewport.SetViewProjection(vpInfo, true);
                     // CommitViewPortChanges modifies the Viewport only
                     detail.CommitViewportChanges();
 

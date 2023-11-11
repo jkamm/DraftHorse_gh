@@ -11,7 +11,7 @@ using System.Linq;
 using static DraftHorse.Helper.Layout;
 using static DraftHorse.Helper.View;
 using CurveComponents;
-
+using Grasshopper.Kernel.Parameters;
 
 namespace DraftHorse.Component
 {
@@ -57,9 +57,8 @@ namespace DraftHorse.Component
 
             //attributes: Name, Layer, Space OR existing detail object (goal).
             //or point as target for detail
-            
-            //need to define detail location on page.  use rectangle?
 
+            //need to define detail location on page.  use rectangle?
         }
 
         /// <summary>
@@ -177,7 +176,8 @@ namespace DraftHorse.Component
                         detail.Viewport.SetCameraDirection(view.Value.CameraDirection, true);
                         detail.Viewport.SetCameraTarget(view.Value.TargetPoint, true);
                          */
-                        ViewportInfoToRhinoViewport(view.Value, detail.Viewport);
+                        //ViewportInfoToRhinoViewport(view.Value, detail.Viewport);
+                        detail.Viewport.SetViewProjection(view.Value, true);
                         detail.CommitViewportChanges();
 
                         detail.DetailGeometry.IsProjectionLocked = false;
