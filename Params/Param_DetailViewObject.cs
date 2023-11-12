@@ -1,6 +1,7 @@
 ﻿using System;
 using Grasshopper.Kernel;
 using CurveComponents;
+using System.Net.Mail;
 
 namespace DraftHorse.Params
 {
@@ -11,29 +12,23 @@ namespace DraftHorse.Params
     public class Param_View : Make2DViewParameter
     {
         public Param_View() :
-            base("View", "V", "View Settings for Detail Viewports", "Drafthorse", "Detail", GH_ParamAccess.item)
+            base("View", "V", "View Projection (define using Make2d View Projection components)", "Drafthorse", "Detail", GH_ParamAccess.item)
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         public override void AppendAdditionalMenuItems(System.Windows.Forms.ToolStripDropDown menu)
         {
-            //Grasshopper.Kernel.GH_PersistentParam<GH_String>.Menu_
-            //base.AppendAdditionalMenuItems(menu);
-            //AppendAdditionalMenuItems(menu);
             Menu_AppendWireDisplay(menu);
             Menu_AppendDisconnectWires(menu);
-            //Menu_AppendSeparator(menu);
-            //Menu_CreateMultilineTextEditItem();
-            //Menu_CustomSingleValueItem();
-            //Menu_CustomSingleDirectoryItem();
-            //Menu_AppendCustomItem(menu,System.Windows.Forms.Control.)
-            //Menu_AppendManageCollection(menu);
-            //Menu_AppendSeparator(menu);
-            //Menu_AppendDestroyPersistent(menu);
-            //Menu_AppendInternaliseData(menu);
+            Menu_AppendPrincipalParameter(menu);
+            Menu_AppendReverseParameter(menu);
+            Menu_AppendGraftParameter(menu);
+            Menu_AppendFlattenParameter(menu);
+            Menu_AppendSimplifyParameter(menu);
         }
+
         public override Guid ComponentGuid
         {
             get { return new Guid("1ba581c1-3ab7-45cc-af15-d30a98f6ab01"); }

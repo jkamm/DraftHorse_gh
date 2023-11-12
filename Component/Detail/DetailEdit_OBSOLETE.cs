@@ -1,5 +1,4 @@
-﻿using CurveComponents;
-using DraftHorse.Helper;
+﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
 using Rhino.Display;
 using Rhino.Geometry;
@@ -9,22 +8,22 @@ using System.Linq;
 
 namespace DraftHorse.Component
 {
-    public class DetailEdit : Base.DH_ButtonComponent
+    public class DetailEdit_OBSOLETE: Base.DH_ButtonComponent
     {
 
 
         /// <summary>
         /// Initializes a new instance of the ReplaceDetails class.
         /// </summary>
-        public DetailEdit()
+        public DetailEdit_OBSOLETE()
           : base("Edit Details", "DetailEdit",
               "Modify detail views in a layout",
-              "DraftHorse", "Layout-Edit")
+              "DraftHorse", "Detail")
         {
             ButtonName = "Modify";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -40,8 +39,6 @@ namespace DraftHorse.Component
             Params.Input[pManager.AddIntegerParameter("Projection", "P[]", "View Projection \nAttach Value List for list of projections", GH_ParamAccess.item)].Optional = true;
             //Goal: Add Value List Generation for Named Views
             Params.Input[pManager.AddTextParameter("DisplayMode", "D[]", "Display Mode \nAttach Value List for list of Display Modes", GH_ParamAccess.item)].Optional = true;
-            var viewParam = new CurveComponents.Make2DViewParameter("View", "V", "ViewParam", "Drafthorse", "Params", GH_ParamAccess.item);
-            pManager.AddParameter(viewParam, "View", "V", "Input View from Make2D Components", GH_ParamAccess.item);
 
         }
 
@@ -122,16 +119,11 @@ namespace DraftHorse.Component
                 displayMode = DisplayModeDescription.GetDisplayModes().First(mode => mode.DisplayAttributes.EnglishName == dName);
             }
 
-            CurveComponents.Make2DViewInfoGoo view = new Make2DViewInfoGoo();
-            DA.GetData("View", ref view);
-
             if (Execute || run)
             {
                 //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale);
                 //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection);
-                //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode);
-                Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode, view.Value);
-
+                Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode);
                 DA.SetData("Result", detailResult);
             }
             DA.SetData("Detail GUID", detailGUID);
@@ -203,6 +195,7 @@ namespace DraftHorse.Component
                 return;
 
             Params.Input[4].ObjectChanged += InputParamChanged;
+            Params.Input[5].ObjectChanged += InputParamChanged;
 
             _handled = true;
         }
@@ -231,6 +224,25 @@ namespace DraftHorse.Component
                 try
                 {
                     ValList.UpdateValueList(this, 4, "Views", "Pick Projection: ", projNames, projVals);
+                    ExpireSolution(true);
+                }
+                //if it's not a value list, ignore
+                catch (Exception) { };
+            }
+            else if (sender.NickName == Params.Input[5].NickName)
+            {
+                // optional feedback
+                // Rhino.RhinoApp.WriteLine("This is the right input");
+
+                //List<string> standardViewNames = ValList.GetStandardViewList();
+
+                List<string> displayNames = ValList.GetDisplaySettingsList(true);
+                List<string> displayVals = ValList.GetDisplaySettingsList(false);
+
+                //try to modify input as a valuelist
+                try
+                {
+                    ValList.UpdateValueList(this, 5, "Display", "Pick Display: ", displayNames, displayVals);
                     ExpireSolution(true);
                 }
                 //if it's not a value list, ignore
