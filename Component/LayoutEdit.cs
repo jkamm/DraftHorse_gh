@@ -33,7 +33,7 @@ namespace DraftHorse.Component
             var bToggleParam = new DraftHorse.Params.Param_BooleanToggle();
             Params.Input[pManager.AddParameter(bToggleParam, "Run", "R", "Do not use button to activate - toggle only", GH_ParamAccess.item)].Optional = true;
             //get a layout by layout index (or several by layoutName)
-            pManager.AddIntegerParameter("Index", "Li[]", "Index of a Layout (from LayoutIndex Component) /nAttach Value List for Layout List", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Index", "Li[]", "Index of a Layout (from LayoutIndex Component)\nAttach Value List for Layout List", GH_ParamAccess.item);
             Params.Input[pManager.AddTextParameter("Name", "N", "PageName", GH_ParamAccess.item)].Optional = true;
             Params.Input[pManager.AddNumberParameter("Width", "W", "PageWidth", GH_ParamAccess.item)].Optional = true;
             Params.Input[pManager.AddNumberParameter("Height", "H", "PageHeight", GH_ParamAccess.item)].Optional = true;

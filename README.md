@@ -18,6 +18,10 @@ Look at the Example files for how to use components for different workflows incl
 - Modifying Layout and Document User Text (useful for titleblocks)
 ![DocumentText_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/90e31c3b-f8cc-42c2-8b90-dc7f27a3c498)
 
+v0.4.0
+- improvement: added View input to New Detail, Edit Detail (good for custom views)
+- bugfix: add/fix Layout Index, Display, and Projection Auto-ValueList generation on New Detail
+
 WIP/Goals:
 
 - [x] Example files for all components to demonstrate basic workflows
@@ -25,11 +29,11 @@ WIP/Goals:
 	- [x] Activate View (Bake geometry to different layouts, like a BOM)		
 - [ ] Check that DisplayMode inputs work in other languages
 - [ ] Bake to Layouts Component(to allow programmatic baking of geometry to paperspace with a layout as additional object attribute)
-- [ ] Switch view input for details from view attributes (target, displayMode, projection) to CurveComponents.Make2DViewParam
+- [x] Switch view input for details from view attributes (target, displayMode, projection) to CurveComponents.Make2DViewParam
 - [ ] Create custom gh params for referencing DetailViewObject and PageView (for RH7)
 - [ ] Change object references to DetailView and Layout/PageView params in RH8
 - [x] Add PaperName & Orientation as inputs to New Layout Component (not possible in RH7 - paperName is read-only)
-- [ ] Add Plane or View input for Layout from Bounding Box to allow non-XY views
+- [x] Add Plane or View input for Layout from Bounding Box to allow non-XY views
 - [ ] Add component to label details (name, auto-number, scale)
 - [x] Add Layout Edit component to modify Layout attributes (pageName, width, height, pageNumber (?), keys, values)
 - [ ] Add ChangeSpace capability
@@ -39,3 +43,4 @@ WIP/Goals:
 - [ ] Add units change to Modify Layout component
 - [ ] Improve component icons
 - [ ] Refactor for OSX compatibility
+- [ ] Switch complex components to Variable Input Components to simplify

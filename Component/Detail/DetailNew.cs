@@ -10,9 +10,6 @@ using System.Linq;
 using static DraftHorse.Helper.Layout;
 using CurveComponents;
 using Grasshopper.Kernel.Parameters;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using Grasshopper.Kernel.Types.Transforms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DraftHorse.Component.Detail
 {
@@ -85,10 +82,10 @@ namespace DraftHorse.Component.Detail
             pManager.AddIntegerParameter("Index", "Li", "Index of Layout detail was created on", GH_ParamAccess.item);
             var guidParam = new Param_Guid();
             pManager.AddParameter(guidParam, "GUID", "G", "GUID for Detail Object", GH_ParamAccess.item);
+            pManager.AddTextParameter("Display", "D", "Display Mode", GH_ParamAccess.item);
             pManager.AddPointParameter("Target", "T", "Camera Target for Detail", GH_ParamAccess.item);
             pManager.AddNumberParameter("Scale", "S", "Page Units per Model Unit", GH_ParamAccess.item);
             pManager.AddTextParameter("Projection", "P", "ViewPort Viewname", GH_ParamAccess.item);
-            pManager.AddTextParameter("Display", "D", "Display Mode", GH_ParamAccess.item);
 
             var viewParam = new Params.Param_View();
             viewParam.Hidden = true;
@@ -168,6 +165,7 @@ namespace DraftHorse.Component.Detail
             } 
             else
             {
+                //need a default view for view to start with - can't set attributes on a null object
                 view = new Make2DViewInfoGoo(new Rhino.DocObjects.ViewportInfo(RhinoDoc.ActiveDoc.Views.GetStandardRhinoViews()[0].MainViewport));
                 view.Value.TargetPoint = targetBBox.IsValid ? targetBBox.Center : view.Value.TargetPoint;
                 switch (projection)
@@ -189,9 +187,8 @@ namespace DraftHorse.Component.Detail
                         }
                 }
             }
-            /*
-            */
-
+           
+            // initialize result
             Result result = Result.Failure;
 
             if (Execute || run)
@@ -214,7 +211,7 @@ namespace DraftHorse.Component.Detail
                         result = Layout.ReviseDetail(detail, targetBBox, scale, projection, displayMode, view.Value);
                     }
 
-
+                    Make2DViewInfoGoo newView= new Make2DViewInfoGoo(new Rhino.DocObjects.ViewportInfo(detail.Viewport));
 
                     DA.SetData("Result", result);
                     DA.SetData("Index", pageView.PageNumber);
@@ -223,13 +220,14 @@ namespace DraftHorse.Component.Detail
                     DA.SetData("Scale", detail.DetailGeometry.PageToModelRatio);
                     DA.SetData("Projection", detail.Viewport.Name);
                     DA.SetData("Display", detail.Viewport.DisplayMode.EnglishName);
-                    //DA.SetData("View", )
+                    DA.SetData("View", newView);
                 }
 
             }
            
 
         }
+
 
         #region Add Value Lists
         protected override void AppendAdditionalComponentMenuItems(System.Windows.Forms.ToolStripDropDown menu)
@@ -259,12 +257,97 @@ namespace DraftHorse.Component.Detail
             List<string> dNames = ValList.GetDisplaySettingsList(false);
             List<string> dLocalNames = ValList.GetDisplaySettingsList(true);
 
-            if (!ValList.AddOrUpdateValueList(this, 3, "DisplayMode", "Pick DisplayMode: ", dLocalNames, dNames))
+            if (!ValList.AddOrUpdateValueList(this, 3, "Display", "Pick Display: ", dLocalNames, dNames))
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "ValueList at input [" + 0 + "] failed to update");
 
             ExpireSolution(true);
         }
         #endregion Add Value Lists
+
+        #region AutoValueList
+
+        //Update a value list if added to a given input(based on Elefront and FabTools)
+        //on event for a source added to a given input
+
+        private bool _handled = false;
+
+        private void SetupEventHandlers()
+        {
+            if (_handled)
+                return;
+
+            Params.Input[1].ObjectChanged += InputParamChanged;
+            Params.Input[3].ObjectChanged += InputParamChanged;
+            Params.Input[6].ObjectChanged += InputParamChanged;
+
+            _handled = true;
+        }
+
+        protected override void BeforeSolveInstance()
+        {
+            base.BeforeSolveInstance();
+            SetupEventHandlers();
+        }
+
+
+        public void InputParamChanged(IGH_DocumentObject sender, GH_ObjectChangedEventArgs e)
+        {
+            if (sender.NickName == Params.Input[1].NickName)
+            {
+                // optional feedback
+                // Rhino.RhinoApp.WriteLine("This is the right input");
+
+                var pageDictionary = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews().ToDictionary(v => v.PageName, v => v.PageNumber);
+                List<string> pageViewNames = pageDictionary.Keys.ToList();
+                List<string> layoutIndices = new List<string>();
+                for (int i = 0; i < pageViewNames.Count; i++)
+                    layoutIndices.Add(pageDictionary[pageViewNames[i]].ToString());
+
+                //try to modify input as a valuelist
+                try
+                {
+                    ValList.UpdateValueList(this, 1, "Layouts", "Pick Layout(s): ", pageViewNames, layoutIndices);
+                    ExpireSolution(true);
+                }
+                //if it's not a value list, ignore
+                catch (Exception) { };
+            }
+
+            if (sender.NickName == Params.Input[6].NickName)
+            {
+                string[] pNames = Enum.GetNames(typeof(DefinedViewportProjection));
+                List<string> projNames = pNames.Select(v => v.ToString()).ToList();
+                List<int> pVals = ((DefinedViewportProjection[])Enum.GetValues(typeof(DefinedViewportProjection))).Select(c => (int)c).ToList();
+                List<string> projVals = pVals.ConvertAll(v => v.ToString());
+
+                //try to modify input as a valuelist
+                try
+                {
+                    ValList.UpdateValueList(this, 6, "Views", "Pick Projection: ", projNames, projVals);
+                    ExpireSolution(true);
+                }
+                //if it's not a value list, ignore
+                catch (Exception) { };
+            }
+
+            if (sender.NickName == Params.Input[3].NickName)
+            {
+                List<string> displayNames = ValList.GetDisplaySettingsList(true);
+                List<string> displayVals = ValList.GetDisplaySettingsList(false);
+
+                //try to modify input as a valuelist
+                try
+                {
+                    ValList.UpdateValueList(this, 3, "Display", "Pick Display: ", displayNames, displayVals);
+                    ExpireSolution(true);
+                }
+                //if it's not a value list, ignore
+                catch (Exception) { };
+            }
+        }
+
+
+        #endregion AutoValueList
 
         /// <summary>
         /// Provides an Icon for the component.
