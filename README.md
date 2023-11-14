@@ -18,8 +18,14 @@ Look at the Example files for how to use components for different workflows incl
 - Modifying Layout and Document User Text (useful for titleblocks)
 ![DocumentText_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/90e31c3b-f8cc-42c2-8b90-dc7f27a3c498)
 
+v0.3.1
+- bug fix: LayoutFromBBox component scale issue if model units different from page units
+- bug fix: PDFLayout scale issue for non-inch units
+v0.3.2
+- bug fix: AutoValueList not implemented for DisplayModes on DetailNew and DetailEdit
 v0.4.0
 - improvement: added View input to New Detail, Edit Detail (good for custom views)
+- BBox Layout now generates non-XY Plane views
 - bugfix: add/fix Layout Index, Display, and Projection Auto-ValueList generation on New Detail
 
 WIP/Goals:
@@ -44,3 +50,4 @@ WIP/Goals:
 - [ ] Improve component icons
 - [ ] Refactor for OSX compatibility
 - [ ] Switch complex components to Variable Input Components to simplify
+- [ ] Add RedrawViews component with self-instantiating Trigger or built-in trigger

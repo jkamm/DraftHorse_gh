@@ -16,12 +16,12 @@ namespace DraftHorse.Component
         public LayoutDelete()
           : base("Delete Layout", "DeleteLayout",
               "Delete a Layout using its Index (use Layout Index to get index from name) \nWARNING: THIS CANNOT BE UNDONE! ",
-              "DraftHorse", "Layout-Edit")
+              "DraftHorse", "Layout")
         {
             ButtonName = "Delete";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

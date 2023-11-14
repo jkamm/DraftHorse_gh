@@ -3,12 +3,12 @@ using System;
 
 namespace DraftHorse.Component
 {
-    public class LayoutBake : Base.DH_ButtonComponent
+    public class LayoutBake_WIP : Base.DH_ButtonComponent
     {
         /// <summary>
         /// Initializes a new instance of the LayoutBake class.
         /// </summary>
-        public LayoutBake()
+        public LayoutBake_WIP()
           : base("LayoutBake", "LOBake",
               "Bake to Rhino Layouts",
               "DraftHorse", "Layouts")

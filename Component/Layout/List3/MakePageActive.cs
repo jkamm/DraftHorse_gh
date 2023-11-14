@@ -12,12 +12,12 @@ namespace DraftHorse.Component
         public MakePageActive()
           : base("Make Page Active", "Active Page",
               "Make a page active (primarily for Baking)",
-              "DraftHorse", "Utility")
+              "DraftHorse", "Layout")
         {
             ButtonName = "Activate";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.quarternary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

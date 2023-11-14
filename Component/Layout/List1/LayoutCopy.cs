@@ -16,11 +16,11 @@ namespace DraftHorse.Component
         public LayoutCopy()
           : base("Copy Layout", "CopyLayout",
               "Instantiate a Layout from a template in the document",
-              "DraftHorse", "Layout-Add")
+              "DraftHorse", "Layout")
         {
             ButtonName = "Copy";
         }
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

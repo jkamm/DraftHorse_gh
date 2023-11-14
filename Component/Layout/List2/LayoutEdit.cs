@@ -19,11 +19,11 @@ namespace DraftHorse.Component
         public LayoutEdit()
           : base("Edit Layout", "LayoutEdit",
               "Modify Layout Attributes",
-              "Drafthorse", "Layout-Edit")
+              "Drafthorse", "Layout")
         {
             ButtonName = "Modify";
         }
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

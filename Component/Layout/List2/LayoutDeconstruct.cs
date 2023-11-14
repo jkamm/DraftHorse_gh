@@ -16,10 +16,10 @@ namespace DraftHorse.Component
         public LayoutDeconstruct()
           : base("Deconstruct Layout", "LODecLayout",
               "Deconstruct a Layout into its Composition and Attributes",
-              "DraftHorse", "Layout-Edit")
+              "DraftHorse", "Layout")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

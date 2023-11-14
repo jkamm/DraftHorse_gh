@@ -30,7 +30,7 @@ namespace DraftHorse.Component
 
 
         //This hides the component from view!  is it callable?  Don't know.
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
 
 
         /// <summary>

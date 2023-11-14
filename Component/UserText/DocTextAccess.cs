@@ -1,7 +1,7 @@
 ﻿using Grasshopper.Kernel;
 using System;
 
-namespace DraftHorse.Component
+namespace DraftHorse.Component.UserText
 {
     public class DocTextAccess : GH_Component
     {
@@ -11,7 +11,7 @@ namespace DraftHorse.Component
         public DocTextAccess()
           : base("Access Document Text", "AccessDocText",
               "Retrieve a value from the Document Text by key",
-              "Drafthorse", "Doc Text")
+              "Drafthorse", "User Text")
         {
         }
 
@@ -20,7 +20,7 @@ namespace DraftHorse.Component
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("Key", "K", "Key(s) to return Value for.", GH_ParamAccess.item);
         }
@@ -28,7 +28,7 @@ namespace DraftHorse.Component
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Value", "V", "Values corresponding to Key", GH_ParamAccess.item);
         }
