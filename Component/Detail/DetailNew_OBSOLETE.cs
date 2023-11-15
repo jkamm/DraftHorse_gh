@@ -1,29 +1,37 @@
 ﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
+using Rhino;
+using Rhino.Commands;
 using Rhino.Display;
 using Rhino.Geometry;
+using Rhino.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static DraftHorse.Helper.Layout;
+
 
 namespace DraftHorse.Component
 {
-    public class DetailEdit : Base.DH_ButtonComponent
+    public class DetailNew_OBSOLETE : Base.DH_ButtonComponent
     {
-
+        //Goal: Change from instantiator to separate Detail settings so that a detail can either be modified or baked
 
         /// <summary>
-        /// Initializes a new instance of the ReplaceDetails class.
+        /// Initializes a new instance of the AddDetail class.
         /// </summary>
-        public DetailEdit()
-          : base("Edit Details", "DetailEdit",
-              "Modify detail views in a layout",
-              "DraftHorse", "Layout-Edit")
+        public DetailNew_OBSOLETE()
+          : base("New Detail", "NewDetail",
+              "Add a new detail to an existing layout",
+              "DraftHorse", "Layout-Add")
         {
-            ButtonName = "Modify";
+            ButtonName = "Create";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+
+        //This hides the component from view!  is it callable?  Don't know.
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
+
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -32,13 +40,21 @@ namespace DraftHorse.Component
         {
             var bToggle = new Params.Param_BooleanToggle();
             Params.Input[pManager.AddParameter(bToggle, "Run", "R", "Do not use button to activate - toggle only", GH_ParamAccess.item)].Optional = true;
-            var guidParam = new Grasshopper.Kernel.Parameters.Param_Guid();
-            pManager.AddParameter(guidParam, "Detail GUID", "D", "GUID for Detail Object", GH_ParamAccess.item);
-            Params.Input[pManager.AddPointParameter("Target", "T", "Camera Target for Detail", GH_ParamAccess.item)].Optional = true;
-            Params.Input[pManager.AddNumberParameter("Scale", "S", "Page Units per Model Unit", GH_ParamAccess.item)].Optional = true;
-            Params.Input[pManager.AddIntegerParameter("Projection", "P[]", "View Projection \nAttach Value List for list of projections", GH_ParamAccess.item)].Optional = true;
-            //Goal: Add Value List Generation for Named Views
-            Params.Input[pManager.AddTextParameter("DisplayMode", "D[]", "Display Mode \nAttach Value List for list of Display Modes", GH_ParamAccess.item)].Optional = true;
+            
+            pManager.AddIntegerParameter("Index", "Li[]", "Layout index for new detail\nAdd ValueList to get list of layouts", GH_ParamAccess.item);
+            pManager.AddRectangleParameter("Detail Bounds", "B", "Detail Boundary Rectangle on Layout Page", GH_ParamAccess.item);
+            pManager.AddPointParameter("Target", "T", "Camera Target for Detail", GH_ParamAccess.item, new Rhino.Geometry.Point3d(0,0,0));
+            pManager.AddNumberParameter("Scale", "S", "Page Units per Model Unit", GH_ParamAccess.item, 1);
+            pManager.AddIntegerParameter("Projection", "P[]", "View Projection \nAttach Value List for list of projections", GH_ParamAccess.item, 0);
+            pManager.AddTextParameter("DisplayMode", "D[]", "Display Mode \nAttach Value List for list of Display Modes", GH_ParamAccess.item, "Wireframe");
+            
+            //Add Name?
+            //Add Layer or other attributes?
+
+            //attributes: Name, Layer, Space OR existing detail object (goal).
+            //or point as target for detail
+            
+            //need to define detail location on page.  use rectangle?
 
         }
 
@@ -48,14 +64,13 @@ namespace DraftHorse.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Result", "R", "Success or Failure for each detail", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Index", "Li", "Index of Layout detail was created on", GH_ParamAccess.item);
             var guidParam = new Grasshopper.Kernel.Parameters.Param_Guid();
             pManager.AddParameter(guidParam, "Detail GUID", "D", "GUID for Detail Object", GH_ParamAccess.item);
             pManager.AddPointParameter("Target", "T", "Camera Target for Detail", GH_ParamAccess.item);
             pManager.AddNumberParameter("Scale", "S", "Page Units per Model Unit", GH_ParamAccess.item);
-            pManager.AddTextParameter("ViewName", "V", "ViewPort Viewname", GH_ParamAccess.item);  
+            pManager.AddTextParameter("ViewName", "V", "ViewPort Viewname", GH_ParamAccess.item);
             pManager.AddTextParameter("DisplayMode", "D", "Display Mode", GH_ParamAccess.item);
-            /*
-             */
         }
 
         /// <summary>
@@ -64,36 +79,24 @@ namespace DraftHorse.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-
-            #region EscapeBehavior
-            //Esc behavior code snippet from 
-            // http://james-ramsden.com/you-should-be-implementing-esc-behaviour-in-your-grasshopper-development/
-            if (GH_Document.IsEscapeKeyDown())
-            {
-                GH_Document GHDocument = OnPingDocument();
-                GHDocument.RequestAbortSolution();
-            }
-            #endregion EscapeBehavior
-
             bool run = false;
             DA.GetData("Run", ref run);
 
-            Guid detailGUID = Guid.Empty;
-            DA.GetData("Detail GUID", ref detailGUID);
-            if (detailGUID == null) { return; }
-            Rhino.DocObjects.DetailViewObject detail = Rhino.RhinoDoc.ActiveDoc.Objects.FindId(detailGUID) as Rhino.DocObjects.DetailViewObject; ;
+            int index = new int();
+            DA.GetData("Index", ref index);
 
+            Rhino.Display.RhinoPageView pageView = GetPage(index);
+
+            Rectangle3d dBounds = new Rectangle3d();
+            DA.GetData("Detail Bounds", ref dBounds);
 
             Point3d target = new Point3d();
-            if (!DA.GetData("Target", ref target)) target = detail.Viewport.CameraTarget;
-            //DA.GetData("Target", ref target);
+            DA.GetData("Target", ref target);
 
             double scale = 1.0;
-            if (!DA.GetData("Scale", ref scale)) scale = detail.DetailGeometry.PageToModelRatio;
-            //DA.GetData("Scale", ref scale);
+            DA.GetData("Scale", ref scale);
 
             int pNum = 0;
-            //if (!DA.GetData("Projection", ref pNum)) pNum = 0;
             DA.GetData("Projection", ref pNum);
 
             if (!Enum.IsDefined(typeof(Rhino.Display.DefinedViewportProjection), pNum))
@@ -104,8 +107,8 @@ namespace DraftHorse.Component
             Rhino.Display.DefinedViewportProjection projection = (Rhino.Display.DefinedViewportProjection)pNum;
 
             string dName = String.Empty;
-            if (!DA.GetData("DisplayMode", ref dName)) dName = detail.Viewport.DisplayMode.EnglishName;
-            DisplayModeDescription displayMode = detail.Viewport.DisplayMode;
+            DA.GetData("DisplayMode", ref dName);
+            DisplayModeDescription displayMode = null;
 
             //convert LocalName to EnglishName
             if (ValList.GetDisplaySettingsList(true).Contains(dName))
@@ -119,32 +122,52 @@ namespace DraftHorse.Component
                 displayMode = DisplayModeDescription.GetDisplayModes().First(mode => mode.DisplayAttributes.EnglishName == dName);
             }
 
+            RhinoDoc doc = RhinoDoc.ActiveDoc;
+
+            Result result = Rhino.Commands.Result.Failure;
+            
             if (Execute || run)
             {
-                //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale);
-                //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection);
-                Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode);
-                DA.SetData("Result", detailResult);
+                if (pageView != null)
+                {
+                    //goal: Check that detail fits on page
+                    Rectangle3d pageBounds = new Rectangle3d(Plane.WorldXY, pageView.PageWidth, pageView.PageHeight);
+                    bool upperLeft = pageBounds.Contains(dBounds.Corner(3)) == PointContainment.Inside;
+                    bool lowerRight = pageBounds.Contains(dBounds.Corner(1)) == PointContainment.Inside;
+                    if (!upperLeft || !lowerRight)
+                          AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "New detail is (atleast partially) outside of layout boundaries");
+                    
+                    var detail = pageView.AddDetailView("ModelView", new Point2d(dBounds.Corner(3)), new Point2d(dBounds.Corner(1)), projection);
+                    if (detail != null)
+                    {
+                        pageView.SetActiveDetail(detail.Id);
+                        if (!projection.Equals(DefinedViewportProjection.None)) detail.Viewport.SetProjection(projection, projection.ToString(), true);
+                        //doc.NamedViews.Restore(nViewIndex, detail.Viewport);
+                        detail.Viewport.SetCameraTarget(target, true);
+                        detail.Viewport.DisplayMode = displayMode;
+                        detail.CommitViewportChanges();
+
+                        detail.DetailGeometry.IsProjectionLocked = false;
+                        detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
+                        detail.CommitChanges();
+
+                        result = Rhino.Commands.Result.Success;
+                    }
+                    pageView.SetPageAsActive();
+                    doc.Views.ActiveView = pageView;
+                    doc.Views.Redraw();
+                    
+                    DA.SetData("Result", result);
+                    DA.SetData("Index", pageView.PageNumber);
+                    DA.SetData("Detail GUID", detail.Id);
+                    DA.SetData("Target", detail.Viewport.CameraTarget);
+                    DA.SetData("Scale", detail.DetailGeometry.PageToModelRatio);
+                    DA.SetData("ViewName", detail.Viewport.Name);
+                    DA.SetData("DisplayMode", detail.Viewport.DisplayMode.EnglishName);
+
+                }
             }
-            DA.SetData("Detail GUID", detailGUID);
-            DA.SetData("Target", detail.Viewport.CameraTarget);
-            DA.SetData("Scale", detail.DetailGeometry.PageToModelRatio);
-            DA.SetData("ViewName", detail.Viewport.Name);
-            DA.SetData("DisplayMode", detail.Viewport.DisplayMode.EnglishName);
-        }
 
-
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.LayoutDetail_bitmap;
-        
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("95ff5c32-54c5-44c3-8f0e-ed0db7f1b702"); }
         }
 
         #region Add Value Lists
@@ -164,7 +187,7 @@ namespace DraftHorse.Component
             List<string> projVals = pVals.ConvertAll<string>(v => v.ToString());
 
 
-            if (!ValList.AddOrUpdateValueList(this, 4, "Views", "Pick Projection: ", projNames, projVals))
+            if (!ValList.AddOrUpdateValueList(this, 5, "Views", "Pick Projection: ", projNames, projVals))
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "ValueList at input [" + 0 + "] failed to update");
 
             ExpireSolution(true);
@@ -175,7 +198,7 @@ namespace DraftHorse.Component
             List<string> dNames = ValList.GetDisplaySettingsList(false);
             List<string> dLocalNames = ValList.GetDisplaySettingsList(true);
 
-            if (!ValList.AddOrUpdateValueList(this, 5, "DisplayMode", "Pick DisplayMode: ", dLocalNames, dNames))
+            if (!ValList.AddOrUpdateValueList(this, 6, "DisplayMode", "Pick DisplayMode: ", dLocalNames, dNames))
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "ValueList at input [" + 0 + "] failed to update");
 
             ExpireSolution(true);
@@ -194,8 +217,8 @@ namespace DraftHorse.Component
             if (_handled)
                 return;
 
-            Params.Input[4].ObjectChanged += InputParamChanged;
             Params.Input[5].ObjectChanged += InputParamChanged;
+            Params.Input[6].ObjectChanged += InputParamChanged;
 
             _handled = true;
         }
@@ -209,7 +232,7 @@ namespace DraftHorse.Component
 
         public void InputParamChanged(IGH_DocumentObject sender, GH_ObjectChangedEventArgs e)
         {
-            if (sender.NickName == Params.Input[4].NickName)
+            if (sender.NickName == Params.Input[5].NickName)
             {
                 // optional feedback
                 // Rhino.RhinoApp.WriteLine("This is the right input");
@@ -223,13 +246,13 @@ namespace DraftHorse.Component
                 //try to modify input as a valuelist
                 try
                 {
-                    ValList.UpdateValueList(this, 4, "Views", "Pick Projection: ", projNames, projVals);
+                    ValList.UpdateValueList(this, 5, "Views", "Pick Projection: ", projNames, projVals);
                     ExpireSolution(true);
                 }
                 //if it's not a value list, ignore
                 catch (Exception) { };
             }
-            else if (sender.NickName == Params.Input[5].NickName)
+            else if (sender.NickName == Params.Input[6].NickName)
             {
                 // optional feedback
                 // Rhino.RhinoApp.WriteLine("This is the right input");
@@ -242,7 +265,7 @@ namespace DraftHorse.Component
                 //try to modify input as a valuelist
                 try
                 {
-                    ValList.UpdateValueList(this, 5, "Display", "Pick Display: ", displayNames, displayVals);
+                    ValList.UpdateValueList(this, 6, "Display", "Pick Display: ", displayNames, displayVals);
                     ExpireSolution(true);
                 }
                 //if it's not a value list, ignore
@@ -252,5 +275,26 @@ namespace DraftHorse.Component
 
 
         #endregion AutoValueList
+
+        /// <summary>
+        /// Provides an Icon for the component.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                //You can add image files to your project resources and access them like this:
+                // return Resources.IconForThisComponent;
+                return Properties.Resources.LayoutNewDetail_bitmap;
+            }
+        }
+
+        /// <summary>
+        /// Gets the unique ID for this component. Do not change this ID after release.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("92c1c7ab-9640-452a-bafe-a7bd4bcbf323"); }
+        }
     }
 }

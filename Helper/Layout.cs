@@ -1,14 +1,16 @@
 ﻿using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types.Transforms;
+//using Grasshopper.Kernel.Types.Transforms;
 using Rhino;
 using Rhino.Display;
 using Rhino.DocObjects;
 using Rhino.Geometry;
-using Rhino.Render.ChangeQueue;
-using Rhino.UI;
+//using Rhino.Render.ChangeQueue;
+//using Rhino.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+//using System.Windows.Forms;
+using static DraftHorse.Helper.View;
 
 
 namespace DraftHorse.Helper
@@ -285,16 +287,55 @@ namespace DraftHorse.Helper
             return Rhino.Commands.Result.Success;
         }
 
+        /// <summary>
+        /// Version using Bounding Box to allow for Zoom in non-parallel views
+        /// </summary>
+        /// <param name="detail"></param>
+        /// <param name="targetBox"></param>
+        /// <param name="scale"></param>
+        /// <param name="projection"></param>
+        /// <param name="displayMode"></param>
+        /// <returns></returns>
+        public static Rhino.Commands.Result ReviseDetail(DetailViewObject detail, BoundingBox targetBox, double scale, DefinedViewportProjection projection, DisplayModeDescription displayMode, ViewportInfo vpInfo)
+        {
+            /* Replace Details
+            * - goal: add named views
+            * - goal: change to qualified success/failure with more info. 
+            */
+
+            //get all details 
+            RhinoDoc doc = RhinoDoc.ActiveDoc;
+            RhinoPageView[] page_views = RhinoDoc.ActiveDoc.Views.GetPageViews();
+            RhinoPageView page = Array.Find(page_views, (x) => x.MainViewport.Id.Equals(detail.Attributes.ViewportId));
+
+            page.SetActiveDetail(detail.Id);
+            //detail.Viewport.SetViewProjection(vpInfo, true);
+            ViewportInfoToDetailView(vpInfo, detail.Viewport);
+
+            if (!projection.Equals(DefinedViewportProjection.None)) detail.Viewport.SetProjection(projection, projection.ToString(), true);
+            
+            detail.Viewport.SetCameraTarget(targetBox.Center, true);
+            
+            detail.Viewport.DisplayMode = displayMode;
+            detail.CommitViewportChanges();
+
+            bool result = false;
+            if (targetBox.Diagonal.Length > 0) result = detail.Viewport.ZoomBoundingBox(targetBox);
+            //Rhino.RhinoApp.WriteLine("result of ZoomBBX was " + result.ToString());
+            if(detail.Viewport.IsParallelProjection && scale != 0) detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
+
+            detail.CommitChanges();
+
+            page.SetPageAsActive();
+            doc.Views.ActiveView = page;
+            doc.Views.Redraw();
+            return Rhino.Commands.Result.Success;
+        }
+
         public static Rhino.Commands.Result ReviseDetail(DetailViewObject detail, Point3d target, double scale, DefinedViewportProjection projection, DisplayModeDescription displayMode)
         {
             /* Replace Details
-            * - make named detail active (input detailName)
-            * - change named view to thisNamedView (input namedView)
-            * - point to target
-            * - set scale - add as input
-            * - check other attributes
-            * - deactivate
-            * - return Success/Failure
+            * - goal: add named
             * - goal: change to qualified success/failure with more info. 
             */
 
@@ -316,12 +357,53 @@ namespace DraftHorse.Helper
             if (!projection.Equals(DefinedViewportProjection.None)) detail.Viewport.SetProjection(projection, projection.ToString(), true);
             //doc.NamedViews.Restore(nViewIndex, detail.Viewport);
             detail.Viewport.SetCameraTarget(target, true);
-
+            
             detail.Viewport.DisplayMode = displayMode;
             detail.CommitViewportChanges();
 
             detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
             
+            detail.CommitChanges();
+
+            page.SetPageAsActive();
+            doc.Views.ActiveView = page;
+            doc.Views.Redraw();
+            return Rhino.Commands.Result.Success;
+        }
+        
+        /// <summary>
+        /// Revise a detail using a Make2dview input
+        /// </summary>
+        /// <param name="detail"></param>
+        /// <param name="target"></param>
+        /// <param name="scale"></param>
+        /// <param name="projection"></param>
+        /// <param name="displayMode"></param>
+        /// <param name="vpInfo" description="input from Make2dViewParam"></param>
+        /// <returns></returns>
+        public static Rhino.Commands.Result ReviseDetail(DetailViewObject detail, Point3d target, double scale, DefinedViewportProjection projection, DisplayModeDescription displayMode, ViewportInfo vpInfo)
+        {
+            /* Replace Details
+          * - goal: add named
+          * - goal: change to qualified success/failure with more info. 
+          */
+
+            //get all details 
+            RhinoDoc doc = RhinoDoc.ActiveDoc;
+            RhinoPageView[] page_views = RhinoDoc.ActiveDoc.Views.GetPageViews();
+            RhinoPageView page = Array.Find(page_views, (x) => x.MainViewport.Id.Equals(detail.Attributes.ViewportId));
+                        
+            page.SetActiveDetail(detail.Id);
+            // Set all to input View settings
+            detail.Viewport.SetViewProjection(vpInfo, true);
+            if (!projection.Equals(DefinedViewportProjection.None)) detail.Viewport.SetProjection(projection, projection.ToString(), true);
+            // Override Camera Target
+            detail.Viewport.SetCameraTarget(target, true);
+            detail.Viewport.DisplayMode = displayMode;
+            detail.CommitViewportChanges();
+
+            // Override scale
+            detail.DetailGeometry.SetScale(1, doc.ModelUnitSystem, scale, doc.PageUnitSystem);
             detail.CommitChanges();
 
             page.SetPageAsActive();
@@ -569,9 +651,10 @@ namespace DraftHorse.Helper
         public static Rhino.Commands.Result AddLayout(string name, string detTitle, double width, double height, Rectangle3d detailRec, double scale, out RhinoPageView layout)
         {
             RhinoDoc doc = RhinoDoc.ActiveDoc;
+            ViewportInfo vpInfo = ParallelViewFromRec(detailRec);
 
             var page_views = doc.Views.GetPageViews();
-            int page_number = (page_views == null) ? 1 : page_views.Length + 1;
+            //int page_number = (page_views == null) ? 1 : page_views.Length + 1;
 
             var pageview = doc.Views.AddPageView(name, width, height);
 
@@ -584,7 +667,9 @@ namespace DraftHorse.Helper
                 {
 
                     pageview.SetActiveDetail(detail.Id);
-                    detail.Viewport.SetCameraTarget(detailRec.Center, true);
+                    //detail.Viewport.SetCameraTarget(detailRec.Center, true);
+                    //ViewportInfoToRhinoViewport(vpInfo, detail.Viewport);
+                    detail.Viewport.SetViewProjection(vpInfo, true);
                     // CommitViewPortChanges modifies the Viewport only
                     detail.CommitViewportChanges();
 

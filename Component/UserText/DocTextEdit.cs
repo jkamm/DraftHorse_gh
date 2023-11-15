@@ -13,7 +13,7 @@ namespace DraftHorse.Component
         public DocTextEdit()
           : base("Edit Document Text", "EditDocText",
               "Get and/or Set Key/Value pairs to the Document Text Table. \nStrings starting with '.' are hidden from users",
-              "Drafthorse", "Doc Text")
+              "Drafthorse", "User Text")
         {
             ButtonName = "Write";
         }

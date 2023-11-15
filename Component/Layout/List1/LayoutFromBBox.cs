@@ -1,8 +1,10 @@
 ﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
+using Rhino.DocObjects;
 using Rhino.Geometry;
 using System;
 using System.Windows.Forms;
+
 
 namespace DraftHorse.Component
 {
@@ -14,12 +16,12 @@ namespace DraftHorse.Component
         public LayoutFromBBox()
           : base("Layout By Bounds", "BBox Layout",
               "Generate a Layout with a single detail using a bounding rectangle",
-              "DraftHorse", "Layout-Add")
+              "DraftHorse", "Layout")
         {
             ButtonName = "Generate";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -50,7 +52,7 @@ namespace DraftHorse.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Rhino.UnitSystem pageUnits = unitsAreInches ? Rhino.UnitSystem.Inches : Rhino.UnitSystem.Millimeters;
-            
+
             //goal: add pageUnits to input options (default == inches)
 
             bool run = false;
@@ -93,6 +95,7 @@ namespace DraftHorse.Component
                 width *= modelToPage;
                 height *= modelToPage;
                 scale = modelToPage;
+                
 
                 Rhino.Commands.Result result = Layout.AddLayout(pageName, detailName, width, height, detailRec, scale, out layout[0]);
                 if (result == Rhino.Commands.Result.Success)

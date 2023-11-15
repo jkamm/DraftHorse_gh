@@ -3,12 +3,12 @@ using System;
 
 namespace DraftHorse.Component
 {
-    public class LayoutAddText : GH_Component
+    public class LayoutAddText_WIP : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the AddLayoutText class.
         /// </summary>
-        public LayoutAddText()
+        public LayoutAddText_WIP()
           : base("Add Layout Text", "LayoutNewText",
               "Add a new text object to a layout",
               "DraftHorse", "Layouts")

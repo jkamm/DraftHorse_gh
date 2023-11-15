@@ -5,12 +5,12 @@ using static DraftHorse.Helper.XParams;
 
 namespace DraftHorse.Component
 {
-    public class LayoutBakeAtts : Base.DH_CondensedParamComponent
+    public class LayoutBakeAtts_WIP : Base.DH_CondensedParamComponent
     {
         /// <summary>
         /// Initializes a new instance of the LayoutBakeAtts class.
         /// </summary>
-        public LayoutBakeAtts()
+        public LayoutBakeAtts_WIP()
           : base("Layout Bake Attributes", "LOBakeAtts",
               "Attributes for Layout Bake Component",
               "DraftHorse", "Layouts")

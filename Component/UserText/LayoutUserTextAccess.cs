@@ -2,7 +2,7 @@
 using Grasshopper.Kernel;
 using System;
 
-namespace DraftHorse.Component
+namespace DraftHorse.Component.UserText
 {
     public class LayoutUserTextAccess : GH_Component
     {
@@ -12,14 +12,14 @@ namespace DraftHorse.Component
         public LayoutUserTextAccess()
           : base("Access Layout UserText", "GetLOValue",
               "Get Value for a Key on a Layout",
-              "Drafthorse", "Doc Text")
+              "Drafthorse", "User Text")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddIntegerParameter("Index", "Li", "Indices for Layouts. \nGet using 'Get Layout Index'", GH_ParamAccess.item);
             pManager.AddTextParameter("Keys", "K", "Key(s) to return Value for.", GH_ParamAccess.item);
@@ -29,7 +29,7 @@ namespace DraftHorse.Component
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Values", "V", "Values corresponding to Key", GH_ParamAccess.item);
         }

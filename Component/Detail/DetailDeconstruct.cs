@@ -2,7 +2,7 @@
 using Rhino.Geometry;
 using System;
 
-namespace DraftHorse.Component
+namespace DraftHorse.Component.Detail
 {
     public class DetailDeconstruct : GH_Component
     {
@@ -12,15 +12,15 @@ namespace DraftHorse.Component
         public DetailDeconstruct()
           : base("Deconstruct Detail", "DecDetail",
               "Deconstruct a Detail into its Composition and Attributes",
-              "DraftHorse", "Layout-Edit")
+              "DraftHorse", "Detail")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             var guidParam = new Grasshopper.Kernel.Parameters.Param_Guid();
             pManager.AddParameter(guidParam, "Detail GUID", "D", "GUID for Detail Object", GH_ParamAccess.item);
@@ -30,7 +30,7 @@ namespace DraftHorse.Component
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddGeometryParameter("Geometry", "G", "Underlying Geometry for Detail View", GH_ParamAccess.item);
             pManager.AddTextParameter("View", "V", "Name of Viewport", GH_ParamAccess.item);
@@ -69,9 +69,9 @@ namespace DraftHorse.Component
             Rhino.Display.DisplayModeDescription viewDisplay = viewport.DisplayMode;
 
             Rhino.DocObjects.ObjectAttributes att = detail.Attributes;
-            Guid viewportId = att.ViewportId;
-            var parentView = viewport.ParentView;
-            
+            //Guid viewportId = att.ViewportId;
+            //var parentView = viewport.ParentView;
+
             //var parent = parentView
             //get viewport name from ViewportId
             //return viewportName which should be the layout it belongs to.

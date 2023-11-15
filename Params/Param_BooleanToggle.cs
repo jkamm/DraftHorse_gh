@@ -26,10 +26,7 @@ namespace DraftHorse.Params
                    (float)this.Attributes.Bounds.Y);
 
 
-            GH_Document GrasshopperDocument = this.OnPingDocument();
-            if (GrasshopperDocument == null)
-                throw new ArgumentNullException("Grasshopper document is null");
-
+            GH_Document GrasshopperDocument = this.OnPingDocument() ?? throw new ArgumentNullException("Grasshopper document is null");
             GrasshopperDocument.AddObject(bToggle, false);
 
             this.AddSource(bToggle);

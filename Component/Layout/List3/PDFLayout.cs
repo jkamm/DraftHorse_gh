@@ -19,12 +19,12 @@ namespace DraftHorse.Component
         public PDFLayout()
           : base("PDF Layout", "DH pdf",
               "Print one or more Layouts to one or more PDFs",
-              "DraftHorse", "Utility")
+              "DraftHorse", "Layout")
         {
             ButtonName = "Print";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
 
         /// <summary>

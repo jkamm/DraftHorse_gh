@@ -2,7 +2,7 @@
 	
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <Version>0.3.2</Version>
+    <Version>0.4.0</Version>
     <Title>DraftHorse</Title>
     <Description>Tools for automating layout creation and management</Description>
     <TargetExt>.gha</TargetExt>
@@ -12,10 +12,13 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
+    <PackageReference Include="Grasshopper" Version="7.34.23267.11001" IncludeAssets="compile;build" />
   </ItemGroup>
   
   <ItemGroup>
+    <Reference Include="CurveComponents">
+      <HintPath>..\..\..\..\..\Program Files\Rhino 7\Plug-ins\Grasshopper\Components\CurveComponents.gha</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   
@@ -40,6 +43,9 @@
   </ItemGroup>
   
   <ItemGroup>
+    <None Update="DraftHorse.gha">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

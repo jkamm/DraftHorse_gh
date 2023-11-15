@@ -16,12 +16,12 @@ namespace DraftHorse.Component
         public LayoutDelete()
           : base("Delete Layout", "DeleteLayout",
               "Delete a Layout using its Index (use Layout Index to get index from name) \nWARNING: THIS CANNOT BE UNDONE! ",
-              "DraftHorse", "Layout-Edit")
+              "DraftHorse", "Layout")
         {
             ButtonName = "Delete";
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -31,6 +31,7 @@ namespace DraftHorse.Component
             var bToggleParam = new DraftHorse.Params.Param_BooleanToggle();
             Params.Input[pManager.AddParameter(bToggleParam, "Run", "R", "Do not use button to activate - toggle only", GH_ParamAccess.item)].Optional = true;
             Params.Input[pManager.AddIntegerParameter("Layout Index", "Li[]", "Indices for Layouts to delete \nAdd ValueList to get Layouts", GH_ParamAccess.tree)].Optional = true;
+            pManager[1].DataMapping = GH_DataMapping.Flatten;
         }
 
         /// <summary>
@@ -74,12 +75,11 @@ namespace DraftHorse.Component
             //goal: Always flatten inputs - add flatten to node
 
             var indexList = index.FlattenData();
-            int thisInt = new int();
-
             HashSet<int> indexSet = new HashSet<int>();
 
             for (int i = 0; i < indexList.Count; i++)
             {
+                int thisInt;
                 GH_Convert.ToInt32(indexList[i], out thisInt, GH_Conversion.Both);
                 if (indexSet.Add(thisInt))
                 {
@@ -103,7 +103,7 @@ namespace DraftHorse.Component
                     : DialogResult.Yes;
                 if (result2 == DialogResult.Yes)
                 {
-
+                    
                     for (int j = 0; j < indexSet.Count; j++)
                     {
                         Rhino.Display.RhinoPageView pageView = Layout.GetPage(uniqIndexList[j]);
@@ -113,6 +113,7 @@ namespace DraftHorse.Component
 
                     Done = true;
                     Execute = false;
+                   
                 }
                 DA.SetData(0, Done);
                 //Not currently working
