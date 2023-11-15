@@ -2,7 +2,7 @@
 	
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <Version>0.4.0</Version>
+    <Version>0.4.1</Version>
     <Title>DraftHorse</Title>
     <Description>Tools for automating layout creation and management</Description>
     <TargetExt>.gha</TargetExt>
