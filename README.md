@@ -10,9 +10,9 @@ Look at the Example files for how to use components for different workflows incl
 - Copying an existing layout, Sorting, and batch Printing to one or more PDFs
 ![DH_CopySortPrint_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/c6a1353f-4bb5-4a73-8d27-a6688386a587)
 - Generating a new Layout and modifying existing Details
-![DH_NewLayout_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/ed19d8e9-af3e-437d-9895-68a353a59175)
-- Modifying an existing layout
 ![DH_NewLayout_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/a3e6a0e4-e23f-4834-a979-18eaa5b7d55a)
+- Modifying an existing layout
+![DH_ModifyLayouts_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/3d467bfa-5019-4f41-8d37-9a47310511ab)
 - Generating new Details on an existing Layout
 ![DH_NewDetails_Example](https://github.com/jkamm/DraftHorse_gh/assets/9583495/5719ba13-ccfb-467c-a613-87011ada5139)
 - Modifying Layout and Document User Text (useful for titleblocks)
