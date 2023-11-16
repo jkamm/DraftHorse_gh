@@ -208,7 +208,7 @@ namespace DraftHorse.Component.Detail
                     doc.Views.Redraw();
                     if (detail != null)
                     {
-                        result = Layout.ReviseDetail(detail, targetBBox, scale, projection, displayMode, view.Value);
+                        result = ReviseDetail(detail, targetBBox, scale, projection, displayMode, view.Value);
                     }
 
                     Make2DViewInfoGoo newView= new Make2DViewInfoGoo(new Rhino.DocObjects.ViewportInfo(detail.Viewport));

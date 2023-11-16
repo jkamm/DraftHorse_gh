@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static DraftHorse.Helper.ValList;
+using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component
 {
@@ -75,7 +76,7 @@ namespace DraftHorse.Component
 
             if (run || Execute)
             {
-                Rhino.Display.RhinoPageView template = Layout.GetPage(templateIndex);
+                Rhino.Display.RhinoPageView template = GetPage(templateIndex);
                 Rhino.Display.RhinoPageView dup = template.Duplicate(true);
 
                 //if no newName is defined, then set newName to template + PageNumber
@@ -84,7 +85,7 @@ namespace DraftHorse.Component
                 //rename duplicate
                 dup.PageName = newName;
                 newIndex = dup.PageNumber;
-                Layout.RefreshView(dup);
+                RefreshView(dup);
 
                 DA.SetData("Layout Index", newIndex);
                 DA.SetData("Layout Name", newName);

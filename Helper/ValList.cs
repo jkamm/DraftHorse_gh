@@ -202,7 +202,7 @@ namespace DraftHorse.Helper
                     valList.ListItems.Add(new Grasshopper.Kernel.Special.GH_ValueListItem(keys[i], i.ToString()));
                 }
 
-                GH_Document GrasshopperDocument = owner.OnPingDocument();
+                GH_Document GrasshopperDocument = owner.OnPingDocument() ?? throw new ArgumentNullException("Grasshopper document is null");
                 //this may return a null under certain circumstances.  check and add exception handling
                 //https://www.grasshopper3d.com/forum/topics/get-current-grasshopperdocument-in-c
                 if (GrasshopperDocument == null)

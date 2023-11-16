@@ -1,6 +1,7 @@
 ﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
 using System;
+using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component.Obsolete
 {
@@ -43,7 +44,7 @@ namespace DraftHorse.Component.Obsolete
             int index = new int();
             DA.GetData("Index", ref index);
 
-            Rhino.Display.RhinoPageView pageView = Layout.GetPage(index);
+            Rhino.Display.RhinoPageView pageView = GetPage(index);
 
             if (pageView != null)
             {

@@ -5,6 +5,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component
 {
@@ -123,7 +124,7 @@ namespace DraftHorse.Component
             {
                 //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale);
                 //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection);
-                Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode);
+                Rhino.Commands.Result detailResult = ReviseDetail(detail, target, scale, projection, displayMode);
                 DA.SetData("Result", detailResult);
             }
             DA.SetData("Detail GUID", detailGUID);

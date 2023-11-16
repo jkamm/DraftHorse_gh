@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using static DraftHorse.Helper.ValList;
+using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component
 {
@@ -125,7 +126,7 @@ namespace DraftHorse.Component
                     return;
                 }
                  */
-                layoutResult = Layout.AddNewLayout(pageName, width, height, target, detailCount, scale, out layout[0]);
+                layoutResult = AddNewLayout(pageName, width, height, target, detailCount, scale, out layout[0]);
 
                 if (!layoutResult.Item1)
                 {

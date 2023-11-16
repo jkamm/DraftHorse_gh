@@ -3,6 +3,7 @@ using Grasshopper.Kernel;
 using System;
 using System.Collections.Generic;
 using static DraftHorse.Helper.ValList;
+using static DraftHorse.Helper.Layout;
 
 
 namespace DraftHorse.Component
@@ -51,7 +52,7 @@ namespace DraftHorse.Component
             int indexCount = 0;
             List<int> indexList = new List<int>();
 
-            int[] pages = Layout.GetPages(name);
+            int[] pages = GetPages(name);
 
             //foreach (Rhino.Display.RhinoPageView page in pages)
             //{

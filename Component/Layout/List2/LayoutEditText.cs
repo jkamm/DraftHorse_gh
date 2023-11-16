@@ -2,7 +2,7 @@
 using Grasshopper.Kernel;
 using System;
 using System.Collections.Generic;
-
+using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component
 {
@@ -78,8 +78,8 @@ namespace DraftHorse.Component
                 //Check that Keys and Values have same length
                 if (textKeys.Count == textVals.Count)
                 {
-                    Rhino.Display.RhinoPageView page = Layout.GetPage(index);
-                    results = Layout.ReplaceText(textKeys, textVals, page);
+                    Rhino.Display.RhinoPageView page =  GetPage(index);
+                    results =   ReplaceText(textKeys, textVals, page);
                 }
                 else
                 {

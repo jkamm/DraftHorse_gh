@@ -1,6 +1,7 @@
 ﻿using DraftHorse.Helper;
 using Grasshopper.Kernel;
 using System;
+using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component.UserText
 {
@@ -46,7 +47,7 @@ namespace DraftHorse.Component.UserText
             string iKey = string.Empty;
             DA.GetData("Keys", ref iKey);
 
-            Rhino.Display.RhinoPageView pageView = Layout.GetPage(index);
+            Rhino.Display.RhinoPageView pageView = GetPage(index);
 
             if (pageView != null)
             {

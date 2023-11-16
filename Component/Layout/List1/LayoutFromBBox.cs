@@ -4,6 +4,7 @@ using Rhino.DocObjects;
 using Rhino.Geometry;
 using System;
 using System.Windows.Forms;
+using static DraftHorse.Helper.Layout;
 
 
 namespace DraftHorse.Component
@@ -97,7 +98,7 @@ namespace DraftHorse.Component
                 scale = modelToPage;
                 
 
-                Rhino.Commands.Result result = Layout.AddLayout(pageName, detailName, width, height, detailRec, scale, out layout[0]);
+                Rhino.Commands.Result result = AddLayout(pageName, detailName, width, height, detailRec, scale, out layout[0]);
                 if (result == Rhino.Commands.Result.Success)
                 {
                     layoutName = layout[0].PageName;

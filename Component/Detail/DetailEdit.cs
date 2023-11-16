@@ -7,6 +7,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component.Detail
 {
@@ -176,7 +177,7 @@ namespace DraftHorse.Component.Detail
                 //view = new Make2DViewInfoGoo(new Rhino.DocObjects.ViewportInfo(detail.Viewport));
                 //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, target, scale, projection, displayMode);
                 //Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, targetBox.Center, scale, projection, displayMode);
-                Rhino.Commands.Result detailResult = Layout.ReviseDetail(detail, targetBBox, scale, projection, displayMode, view.Value);
+                Rhino.Commands.Result detailResult = ReviseDetail(detail, targetBBox, scale, projection, displayMode, view.Value);
                               
                 DA.SetData("Result", detailResult);
             }

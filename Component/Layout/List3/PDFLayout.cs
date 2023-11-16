@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static DraftHorse.Helper.ValList;
+using static DraftHorse.Helper.Layout;
 
 
 namespace DraftHorse.Component
@@ -144,19 +145,19 @@ namespace DraftHorse.Component
                 {
                     pages = new RhinoPageView[indexList.Count];
                     for (int i = 0; i < indexList.Count; i++)
-                        pages[i] = Layout.GetPage(indexList[i]);
+                        pages[i] = GetPage(indexList[i]);
                 }
                 else
                 {
                     pages = page_views;
-                    Layout.SortPagesByPageNumber(pages);
+                    SortPagesByPageNumber(pages);
                 }
 
                 foreach (RhinoPageView page in pages)
                 {
                     double modelToPage = Rhino.RhinoMath.UnitScale(rhDoc.PageUnitSystem, Rhino.UnitSystem.Inches);
                     double relativeDPI = ((double)dpi*modelToPage);
-                    System.Drawing.Size size = Layout.SetSize(page, relativeDPI);
+                    System.Drawing.Size size = SetSize(page, relativeDPI);
                     //Rhino.RhinoApp.WriteLine("Size is w{1}, h{0}, relativeDPI is {2}", size.Height, size.Width, relativeDPI);
                     settings = new ViewCaptureSettings(page, size, dpi);
                     settings.OutputColor = color;
@@ -212,7 +213,7 @@ namespace DraftHorse.Component
         private void Menu_DoClick(object sender, EventArgs e)
         {
             var pageViews = RhinoDoc.ActiveDoc.Views.GetPageViews();
-            Layout.SortPagesByPageNumber(pageViews);
+            SortPagesByPageNumber(pageViews);
             List<string> pageNums = pageViews.Select(p => p.PageNumber.ToString()).ToList();
             List<string> pageNames = pageViews.Select(p => p.PageName.ToString()).ToList();
                         

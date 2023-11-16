@@ -3,6 +3,7 @@ using Grasshopper.Kernel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component.Obsolete
 {
@@ -60,7 +61,7 @@ namespace DraftHorse.Component.Obsolete
             if (!DA.GetData("Run", ref run)) run = false;
 
 
-            Rhino.Display.RhinoPageView pageView = Layout.GetPage(index);
+            Rhino.Display.RhinoPageView pageView = GetPage(index);
 
             if (run || Execute)
             {

@@ -60,7 +60,7 @@ namespace DraftHorse.Component
             int templateIndex = new int();
             if (!DA.GetData("LayoutIndex", ref templateIndex)) return;
 
-            Rhino.Display.RhinoPageView target = Layout.GetPage(templateIndex);
+            Rhino.Display.RhinoPageView target = GetPage(templateIndex);
 
             string name = target.PageName;
             int pageNumber = target.PageNumber;
@@ -150,7 +150,7 @@ namespace DraftHorse.Component
         private void Menu_DoClick(object sender, EventArgs e)
         {
             var pageViews = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews();
-            Layout.SortPagesByPageNumber(pageViews);
+            SortPagesByPageNumber(pageViews);
             List<string> pageNums = pageViews.Select(p => p.PageNumber.ToString()).ToList();
             List<string> pageNames = pageViews.Select(p => p.PageName.ToString()).ToList();
 

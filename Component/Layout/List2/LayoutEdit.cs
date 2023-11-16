@@ -64,7 +64,7 @@ namespace DraftHorse.Component
             int index = new int();
             if (!DA.GetData("Index", ref index)) return;
 
-            Rhino.Display.RhinoPageView target = Layout.GetPage(index);
+            Rhino.Display.RhinoPageView target = GetPage(index);
 
             if (target != null)
             {
@@ -200,7 +200,7 @@ namespace DraftHorse.Component
         private void Menu_DoClick(object sender, EventArgs e)
         {
             var pageViews = Rhino.RhinoDoc.ActiveDoc.Views.GetPageViews();
-            Layout.SortPagesByPageNumber(pageViews);
+            SortPagesByPageNumber(pageViews);
             List<string> pageNums = pageViews.Select(p => p.PageNumber.ToString()).ToList();
             List<string> pageNames = pageViews.Select(p => p.PageName.ToString()).ToList();
 

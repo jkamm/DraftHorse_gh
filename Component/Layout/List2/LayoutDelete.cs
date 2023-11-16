@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using static DraftHorse.Helper.ValList;
+using static DraftHorse.Helper.Layout;
 
 namespace DraftHorse.Component
 {
@@ -106,7 +107,7 @@ namespace DraftHorse.Component
                     
                     for (int j = 0; j < indexSet.Count; j++)
                     {
-                        Rhino.Display.RhinoPageView pageView = Layout.GetPage(uniqIndexList[j]);
+                        Rhino.Display.RhinoPageView pageView = GetPage(uniqIndexList[j]);
                         pageView.Close();
                     }
                    
